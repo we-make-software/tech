@@ -1,8 +1,7 @@
 # We-make-software tech
 
-It's the world whit the new tech or not?
+Is this the world with new tech or not? Let's find out!
 
-Lets find out
-Before i can begin i need to connect this to github so its public its open source
+Before I begin, I need to connect this to GitHub so it's public and open source.
 
-Basic what i did was adding a command in makefile in the root. so i can call make github then it will automatik upload any update i made..
+Basically, what I did was add a command to the Makefile in the root directory. This way, when I call make github, it will automatically upload any updates I've made.
