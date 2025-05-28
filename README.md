@@ -72,3 +72,9 @@ I will not focus on this area, as I'm unsure if an ISP can send multicast, or if
 The U/L (Universal/Local) bit is the second least significant bit of the first byte of a MAC address. This bit plays a big role: if it's 1, that means it's a locally administered address. When I'm focusing on global network packets, if this bit is 1, I'll just tell Linux it's not a packet for me and return 0.
 
 There are basically two MAC addresses in an Ethernet frame: one is the source MAC address from the network card that sent the packet, and the other is the destination MAC address of the next hop (which could be another device on the local network or the router if the packet is going outside the local network).
+
+There isn't a single standard name for this specific area of code; however, we might informally refer to it in relation to IEEE 802.3. For my project, I call this the Media Access Control (MAC) project, because it fundamentally deals with the information found at that layer.
+
+Within the MAC header, there's an extra field called EtherType. If the EtherType is 2048, it indicates an RFC 791 (IPv4) packet. If it's 34527, it indicates an RFC 8200 (IPv6) packet. This is why you can see two extra include files in the header – they're for these specific protocols.
+
+Don't worry, the system has two ways to jump, depending on the EtherType, it will jump to the correct location. It will then jump back to the MediaAccessControl project, from where it will proceed in the correct manner.
