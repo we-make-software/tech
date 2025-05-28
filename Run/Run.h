@@ -5,7 +5,7 @@
 #include <linux/init.h>
 #include <linux/slab.h>
 
-#define Setup(description) \
+#define RunSetup(description) \
     MODULE_DESCRIPTION(#description); \
     MODULE_LICENSE("GPL"); \
     MODULE_AUTHOR("We-Make-Software.Com"); \
@@ -14,7 +14,7 @@
         return 0; \
     } \
     static void __exit RunExit(void) { \
-        RunExit(); \
+        RunEnd(); \
     } \
     module_init(RunInit); \
     module_exit(RunExit);

@@ -21,10 +21,13 @@ If we take a look at the `.h` file in `Run`, the macro named `Setup` basically h
 
 Macros are powerful tools in C and with GCC. (Just so you know, I work in GCC.)
 
-# Root/Makefile
+The implementation of this is pretty easy: we include the `RunSetup` header in the C file. As you can see, I use `extern`, which basically links to the `System` project.
 
-The root makefile play a crusien role it build the other project.
-Oka we under stand Run need to be the last System need to be the first.
-I design this to make it easy for me not you maybe you can make it easyer then tell me.
+What you'll notice if you check the .h file is the #description. This hashtag makes it a string.
 
-but 
+The Makefile plays a crucial role; it builds the other projects. It basically has `make start` and `make stop`, and we need to focus on this Makefile. It's unique and will be the same, but not in the `System` folder.
+
+# System
+
+Why wee didnt include System.h inside System.c becasue as i say before h file its a helper therefor it only have include Run.h
+If you check the c file then you can see wee use EXPORT_SYMBOL to link the diffrent task from System. and the makefile its not the same to.
