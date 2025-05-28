@@ -29,5 +29,4 @@ The Makefile plays a crucial role; it builds the other projects. It basically ha
 
 # System
 
-Why wee didnt include System.h inside System.c becasue as i say before h file its a helper therefor it only have include Run.h
-If you check the c file then you can see wee use EXPORT_SYMBOL to link the diffrent task from System. and the makefile its not the same to.
+We don't include `System.h` inside `System.c` because, as I've mentioned, the `.h` file serves as a helper that only includes `Run.h`. If you examine the `.c` file, you'll see we use `EXPORT_SYMBOL` to link the different tasks from System. Also, the Makefile isn't set up the same way. Essentially, this system is a placeholder for all future projects, so we won't need to think about `EXPORT_SYMBOL` anymore. This design will incorporate `SystemSetup` and `GetSystemLibrary` as new macros, making the System project always the starting point.
