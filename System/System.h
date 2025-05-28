@@ -2,7 +2,19 @@
 #define System_h
 #include "../Run/Run.h"
 
-extern void*GetSystemLibrary(unsigned char*SystemName);
+#define SystemLibrary(description)\
+    struct ApplicationProgrammingInterface_##description;\
+    typedef struct ApplicationProgrammingInterface_##description API_##description;\
+    struct ApplicationProgrammingInterface_##description
+
+ extern void*GetSystemLibrary(unsigned char*SystemName);
+
+#define InitSystemLibrary(description)\
+    static API_##description*InitSystemLibrary##description(void){\
+        return (API_##description*)GetSystemLibrary(#description);\
+    }
+
+
 
 #define SystemSetup(description,CallbackSystemStart,CallbackSystemEnd)\
     struct Application{\

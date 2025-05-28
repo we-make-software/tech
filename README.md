@@ -29,4 +29,9 @@ The Makefile plays a crucial role; it builds the other projects. It basically ha
 
 # System
 
-We don't include `System.h` inside `System.c` because, as I've mentioned, the `.h` file serves as a helper that only includes `Run.h`. If you examine the `.c` file, you'll see we use `EXPORT_SYMBOL` to link the different tasks from System. Also, the Makefile isn't set up the same way. Essentially, this system is a placeholder for all future projects, so we won't need to think about `EXPORT_SYMBOL` anymore. This design will incorporate `SystemSetup` and `GetSystemLibrary` as new macros, making the System project always the starting point.
+We don't include `System.h` inside `System.c` because, as I've mentioned, the `.h` file serves as a helper that only includes `Run.h`. If you examine the `.c` file, you'll see we use `EXPORT_SYMBOL` to link the different tasks from System. Also, the Makefile isn't set up the same way. Essentially, this system is a placeholder for all future projects, so we won't need to think about `EXPORT_SYMBOL` anymore. This design will incorporate `SystemSetup` and `GetSystemLibrary` as new macros, making the System project always the starting point. 
+
+
+`SystemLibrary` is a **macro** that can be used in other header files. Its purpose is to simplify the creation of **structs** for the ongoing project, making the naming easier to manage. You can look at the `NetworkAdapter` header file to see an example of its use.
+
+Additionally, `InitSystemLibrary` is used in a C file, not typically in a header file.

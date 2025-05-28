@@ -20,7 +20,6 @@ EXPORT_SYMBOL(GetSystemLibrary);
 void SystemAdd(struct Application*application);
 void SystemAdd(struct Application*application){
     list_add(&application->SystemList, &SystemList);
-    printk(KERN_INFO "System %s added.\n", application->SystemName);
 }
 EXPORT_SYMBOL(SystemAdd);
 void SystemStart(void);
