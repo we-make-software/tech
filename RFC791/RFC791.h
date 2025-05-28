@@ -3,7 +3,7 @@
 #include "../MediaAccessControl/MediaAccessControl.h"
 
 SystemLibrary(RFC791){
-    bool(*Receiver)(u8*,u8**,u8**);
+    bool(*Receiver)(u8*,u8**,u8**,u16**,u16**,u8**);
 };
 
 #define UseRFC791Library\
