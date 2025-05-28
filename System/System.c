@@ -1,8 +1,8 @@
 #include "../Run/Run.h"
 struct Application{
     unsigned char*SystemName;
-    void*(*SystemStart)(void);
-    void*(*SystemEnd)(void);
+    void(*SystemStart)(void);
+    void(*SystemEnd)(void);
     void*SystemLibrary;
     struct list_head SystemList;
 };
@@ -19,7 +19,7 @@ void*GetSystemLibrary(unsigned char*SystemName){
 EXPORT_SYMBOL(GetSystemLibrary);
 void SystemAdd(struct Application*application);
 void SystemAdd(struct Application*application){
-    list_add(&application->SystemList, &SystemList);
+    list_add_tail(&application->SystemList, &SystemList);
 }
 EXPORT_SYMBOL(SystemAdd);
 void SystemStart(void);

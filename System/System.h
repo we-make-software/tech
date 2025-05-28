@@ -7,20 +7,30 @@
     typedef struct ApplicationProgrammingInterface_##description API_##description;\
     struct ApplicationProgrammingInterface_##description
 
- extern void*GetSystemLibrary(unsigned char*SystemName);
+extern void*GetSystemLibrary(unsigned char*SystemName);
 
 #define InitSystemLibrary(description)\
-    static API_##description*InitSystemLibrary##description(void){\
-        return (API_##description*)GetSystemLibrary(#description);\
+    static API_##description* Get##description(void){\
+        static API_##description*(*getSystemLibrary_ptr)(const char*)=NULL;\
+        if(!getSystemLibrary_ptr)\
+             getSystemLibrary_ptr=(API_##description*)GetSystemLibrary(#description);\
+        return getSystemLibrary_ptr;\
     }
 
+#define Start\
+    static void ProjectStart(void)
 
+#define End\
+    static void ProjectEnd(void)
+
+#define BindStart &ProjectStart
+#define BindEnd &ProjectEnd    
 
 #define SystemSetup(description,CallbackSystemStart,CallbackSystemEnd)\
     struct Application{\
         unsigned char*SystemName;\
-        void*(*SystemStart)(void);\
-        void*(*SystemEnd)(void);\
+        void(*SystemStart)(void);\
+        void(*SystemEnd)(void);\
         void*SystemLibrary;\
         struct list_head SystemList;\
     };\
