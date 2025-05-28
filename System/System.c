@@ -42,4 +42,4 @@ void SystemEnd(void){
 EXPORT_SYMBOL(SystemEnd);
 static void RunStart(void){}
 static void RunEnd(void){}
-RunSetup(System)
+RunSetup(System);

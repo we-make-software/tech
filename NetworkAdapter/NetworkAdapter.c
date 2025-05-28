@@ -5,8 +5,8 @@ struct Adapter{
   struct list_head list;
 };
 static LIST_HEAD(Adapters);
-static int Receiver(struct sk_buff*skb,struct net_device*dev,struct packet_type*pt, struct net_device*orig_dev){
-    return GetMediaAccessControl()->Receiver(skb, dev);
+static int Receiver(struct sk_buff*skb,struct net_device*dev,struct packet_type*pt,struct net_device*orig_dev){
+    return GetMediaAccessControl()->Receiver(skb,dev);
 }
 Start{
     struct net_device*dev;
@@ -39,7 +39,4 @@ End{
     }
     synchronize_net();
 }
-SystemSetup(NetworkAdapter,BindStart,BindEnd){
-
-    return NULL;
-}
+SystemSetup(NetworkAdapter,BindStart,BindEnd)

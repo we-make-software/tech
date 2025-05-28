@@ -1,12 +1,14 @@
 
 all:
 	$(MAKE) -C System start
+	$(MAKE) -C MediaAccessControl start
 	$(MAKE) -C NetworkAdapter start
 	$(MAKE) -C Run start
 
 stop:
 	$(MAKE) -C Run stop
 	$(MAKE) -C NetworkAdapter stop
+	$(MAKE) -C MediaAccessControl stop
 	$(MAKE) -C System stop
 
 log:

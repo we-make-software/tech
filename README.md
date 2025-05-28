@@ -47,8 +47,7 @@ I also created `Start` and `End` macros to reduce repetitive code – call it la
 * **make stop**: This command stops the running project.
 
 
-
-# Media Access Control
+# MediaAccessControl
 
 Previously, I discussed this topic before introducing the NetworkAdapter. Essentially, we can consider the NetworkAdapter as a simplified version.
 
@@ -58,6 +57,18 @@ This project represents the default configuration for obtaining a complete netwo
 
 Now, let's return to the main topic.
 
-# Media Access Control
+# MediaAccessControl
 
 
+| Bit Position | 7 | 6 | 5 | 4 | 3 | 2 | 1 (U/L) | 0 (I/G) |
+| :----------- | :- | :- | :- | :- | :- | :- | :-------- | :-------- |
+| Bit Value    | 0 | 0 | 0 | 0 | 0 | 0 | 0         | 0         |
+
+
+
+The I/G (Individual/Group) bit indicates whether a MAC address targets a single device (Unicast) or a group of devices (Multicast/Broadcast).
+I will not focus on this area, as I'm unsure if an ISP can send multicast, or if we ever need to consider that.
+
+The U/L (Universal/Local) bit is the second least significant bit of the first byte of a MAC address. This bit plays a big role: if it's 1, that means it's a locally administered address. When I'm focusing on global network packets, if this bit is 1, I'll just tell Linux it's not a packet for me and return 0.
+
+There are basically two MAC addresses in an Ethernet frame: one is the source MAC address from the network card that sent the packet, and the other is the destination MAC address of the next hop (which could be another device on the local network or the router if the packet is going outside the local network).

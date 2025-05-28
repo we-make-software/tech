@@ -17,6 +17,6 @@
         RunEnd(); \
     } \
     module_init(RunInit); \
-    module_exit(RunExit);
+    module_exit(RunExit)
  
 #endif    

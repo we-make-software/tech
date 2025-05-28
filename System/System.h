@@ -3,18 +3,16 @@
 #include "../Run/Run.h"
 
 #define SystemLibrary(description)\
-    struct ApplicationProgrammingInterface_##description;\
-    typedef struct ApplicationProgrammingInterface_##description API_##description;\
     struct ApplicationProgrammingInterface_##description
 
 extern void*GetSystemLibrary(unsigned char*SystemName);
 
 #define InitSystemLibrary(description)\
-    static API_##description* Get##description(void){\
-        static API_##description*(*getSystemLibrary_ptr)(const char*)=NULL;\
-        if(!getSystemLibrary_ptr)\
-             getSystemLibrary_ptr=(API_##description*)GetSystemLibrary(#description);\
-        return getSystemLibrary_ptr;\
+    static struct ApplicationProgrammingInterface_##description*Get##description(void){\
+        static struct ApplicationProgrammingInterface_##description*ApplicationProgrammingInterfaceLibrary=NULL;\
+        if(!ApplicationProgrammingInterfaceLibrary)\
+            ApplicationProgrammingInterfaceLibrary=GetSystemLibrary(#description);\
+        return ApplicationProgrammingInterfaceLibrary;\
     }
 
 #define Start\
@@ -24,9 +22,12 @@ extern void*GetSystemLibrary(unsigned char*SystemName);
     static void ProjectEnd(void)
 
 #define BindStart &ProjectStart
+
 #define BindEnd &ProjectEnd    
 
-#define SystemSetup(description,CallbackSystemStart,CallbackSystemEnd)\
+#define Bind(name) .name=name
+
+#define SystemSetup(description,CallbackSystemStart,CallbackSystemEnd,...)\
     struct Application{\
         unsigned char*SystemName;\
         void(*SystemStart)(void);\
@@ -35,7 +36,12 @@ extern void*GetSystemLibrary(unsigned char*SystemName);
         struct list_head SystemList;\
     };\
     struct Application application;\
-    static struct ApplicationProgrammingInterface_##description*InitApplicationProgrammingInterface(void);\
+    static struct ApplicationProgrammingInterface_##description*InitApplicationProgrammingInterface(void){\
+        static struct ApplicationProgrammingInterface_##description library={\
+            __VA_ARGS__\
+        };\
+        return &library;\
+    }\
     extern void SystemAdd(struct Application*);\
     static void RunStart(void){\
         application.SystemName=kstrdup(#description, GFP_KERNEL);\
@@ -49,8 +55,7 @@ extern void*GetSystemLibrary(unsigned char*SystemName);
         list_del(&application.SystemList);\
         kfree(application.SystemName);\
     }\
-    RunSetup(description)\
-    static struct ApplicationProgrammingInterface_##description*InitApplicationProgrammingInterface(void)
+    RunSetup(description)
 
      
 #endif
