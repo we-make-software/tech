@@ -31,7 +31,7 @@ static void Unhook(struct Router*router){
         kfree(router);
     }
 }
-static struct Router*Register(struct net_device*dev,u8*router,u16*nextheader,u16*destinationPort){
+static struct Router*Register(struct net_device*dev,u8*router,u16*nextheader,u16*destinationPort,bool**IsRFC9293){
     struct Router*existingRouter=Find(router);
     if(existingRouter)
       return existingRouter;

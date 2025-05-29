@@ -26,7 +26,7 @@ struct Router;
 
 SystemLibrary(MediaAccessControl){
     int(*Receiver)(struct sk_buff*,struct net_device*);
-    struct Router*(*Register)(struct net_device*,u8*,u16*,u16*);
+    struct Router*(*Register)(struct net_device*,u8*,u16*,u16*,bool**);
     struct Router*(*Find)(u8*);
     void(*Hookup)(struct Router*);
     void(*Unhook)(struct Router*);
