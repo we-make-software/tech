@@ -4,6 +4,7 @@
  
 SystemLibrary(RFC8200){
     bool(*Receiver)(u8*,u8**,u8**,u16**,u16**,u8**);
+        void(*Continue)(struct work_struct*);
 };
 
 #define UseRFC8200Library\

@@ -77,4 +77,4 @@ There isn't a single standard name for this specific area of code; however, we m
 
 Within the MAC header, there's an extra field called EtherType. If the EtherType is 2048, it indicates an RFC 791 (IPv4) packet. If it's 34527, it indicates an RFC 8200 (IPv6) packet. This is why you can see two extra include files in the header – they're for these specific protocols.
 
-Don't worry, the system has two ways to jump, depending on the EtherType, it will jump to the correct location. It will then jump back to the MediaAccessControl project, from where it will proceed in the correct manner.
+Don't worry, the system has two or more ways to jump, depending on the EtherType, it will jump to the correct location. It will then jump back to the MediaAccessControl project, from where it will proceed in the correct manner.
