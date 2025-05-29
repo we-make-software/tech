@@ -3,9 +3,9 @@
 struct Router{
     u8 address[6];
     struct net_device*dev;
-    u16 Used;
+    u16 used;
     struct list_head list;
-}
+};
 static LIST_HEAD(routers);
 static DEFINE_MUTEX(lock);
 static struct Router*Find(u8*address){
@@ -19,18 +19,19 @@ static struct Router*Find(u8*address){
 }
 static void Hookup(struct Router*router){
     if(router)
-        router->Used++;
+        router->used++;
 }
 static void Unhook(struct Router*router){
-    if(!router||!router->Used)
-        router->Used--;
-    if(!router->Used){
-        dev_put(router->dev);
+    if(!router)return;
+    if(!router->used)
+        router->used--;
+    if(!router->used){
         list_del(&router->list);
+        dev_put(router->dev);
         kfree(router);
     }
 }
-static struct Router*Register(struct net_device*dev,u8*router){
+static struct Router*Register(struct net_device*dev,u8*router,u16*nextheader,u16*destinationPort){
     struct Router*existingRouter=Find(router);
     if(existingRouter)
       return existingRouter;

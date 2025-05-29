@@ -78,3 +78,18 @@ There isn't a single standard name for this specific area of code; however, we m
 Within the MAC header, there's an extra field called EtherType. If the EtherType is 2048, it indicates an RFC 791 (IPv4) packet. If it's 34527, it indicates an RFC 8200 (IPv6) packet. This is why you can see two extra include files in the header – they're for these specific protocols.
 
 Don't worry, the system has two or more ways to jump, depending on the EtherType, it will jump to the correct location. It will then jump back to the MediaAccessControl project, from where it will proceed in the correct manner.
+
+It's also a placeholder for the router or device that's connected; I just call it "router." It's pretty simple.
+
+After all, this API, which provides calls like `Hookup`, `Unhook`, `Register`, and `Send`, is basically only used in Project RFC791 and RFC8200.
+
+
+# RFC791 /)! & RFC8200 ("==) and MediaAccessControl->Register
+
+Ever tried to make a mistake, like pressing Shift and the numbers simultaneously?
+
+Well, these two network layers have some common stuff. Both **RFC 791 (IPv4)** and **RFC 8200 (IPv6)** work with the TCP and UDP layers above them.
+
+`MediaAccessControl->Register` gets called, but here, we just include the common information from whichever it is: **RFC 9293 (TCP)** or **RFC 8304 (UDP)**. The naming convention isn't exactly the same in these two versions, but I've performed some naming magic and settled on `nextheader`. It's a perfect name!
+
+Therefore, it looks like this: `MediaAccessControl->Register` includes `nextheader` and `destinationPort`. You can check the code to see how it calls these two projects (RFC 9293 and RFC 8304); basically, it checks if the port is allowed before returning the Router.

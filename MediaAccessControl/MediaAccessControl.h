@@ -18,13 +18,15 @@
         u16*destinationPort;
         struct work_struct work;
     };
+#else 
+    struct ReceiverPacket;
 #endif
 
 struct Router;
 
 SystemLibrary(MediaAccessControl){
     int(*Receiver)(struct sk_buff*,struct net_device*);
-    struct Router*(*Register)(struct net_device*,u8*);
+    struct Router*(*Register)(struct net_device*,u8*,u16*,u16*);
     struct Router*(*Find)(u8*);
     void(*Hookup)(struct Router*);
     void(*Unhook)(struct Router*);
