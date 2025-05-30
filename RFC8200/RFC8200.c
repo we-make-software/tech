@@ -1,13 +1,13 @@
-#define UseReceiverPacket
+#define UseReceiver
 #include "RFC8200.h"
 UseMediaAccessControlLibrary
 static void Continue(struct work_struct *work){
     struct ReceiverPacket*packet=container_of(work,struct ReceiverPacket,work);
-    bool IsRFC9293;
-    GetMediaAccessControl()->Register(packet->dev,packet->router,*((u16*)packet->networkLayer+6),packet->destinationPort,&IsRFC9293);
-    printk(KERN_INFO "RFC8200: Received packet from %pI6 to %pI6, source port %u, destination port %u\n",
-           packet->sourceAddress, packet->destinationAddress,
-           ntohs(*packet->sourcePort), ntohs(*packet->destinationPort));
+    struct ReceiverNetworkLayer*receiverNetworkLayer;
+    struct Router*router=GetMediaAccessControl()->Register(packet->dev,packet->router,packet->networkLayer+6,packet->destinationPort,&receiverNetworkLayer);
+    if(router){
+    
+    }
     kfree_skb(packet->skb);
     kfree(packet);
 }
@@ -25,6 +25,6 @@ static bool Receiver(u8*networkLayer,u8**sourceAddress,u8**destinationAddress,u1
     *transportLayer=networkLayer+40;
     *sourcePort=(u16*)(*transportLayer);
     *destinationPort=(u16*)(*transportLayer+2);
-    return !(ntohs(*destinationPort)==22); 
+    return !(ntohs(**destinationPort)==22); 
 }
 SystemSetup(RFC791, NULL, NULL, Bind(Receiver),Bind(Continue));

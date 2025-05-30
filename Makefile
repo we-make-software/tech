@@ -2,6 +2,8 @@
 all:
 	$(MAKE) -C System start
 	$(MAKE) -C MediaAccessControl start
+	$(MAKE) -C RFC9293 start
+	$(MAKE) -C RFC8304 start
 	$(MAKE) -C RFC791 start
 	$(MAKE) -C RFC8200 start
 	$(MAKE) -C NetworkAdapter start
@@ -10,6 +12,8 @@ all:
 stop:
 	$(MAKE) -C Run stop
 	$(MAKE) -C NetworkAdapter stop
+	$(MAKE) -C RFC9293 stop
+	$(MAKE) -C RFC8304 stop
 	$(MAKE) -C RFC8200 stop
 	$(MAKE) -C RFC791 stop
 	$(MAKE) -C MediaAccessControl stop

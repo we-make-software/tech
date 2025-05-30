@@ -1,4 +1,4 @@
-#define UseReceiverPacket
+#define UseReceiver
 #include "MediaAccessControl.h"
 struct Router{
     u8 address[6];
@@ -31,7 +31,11 @@ static void Unhook(struct Router*router){
         kfree(router);
     }
 }
-static struct Router*Register(struct net_device*dev,u8*router,u16*nextheader,u16*destinationPort,bool**IsRFC9293){
+UseRFC8304Library
+UseRFC9293Library
+static struct Router*Register(struct net_device*dev,u8*router,u8*nextheader,u16*destinationPort,struct ReceiverNetworkLayer**receiverNetworkLayer){
+    if(!(*nextheader==6?GetRFC9293()->Permission(destinationPort,receiverNetworkLayer):GetRFC8304()->Permission(destinationPort,receiverNetworkLayer)))
+        return NULL;
     struct Router*existingRouter=Find(router);
     if(existingRouter)
       return existingRouter;
