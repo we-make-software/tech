@@ -1,23 +1,23 @@
 
 all:
 	$(MAKE) -C System start
-	$(MAKE) -C MediaAccessControl start
-	$(MAKE) -C RFC9293 start
-	$(MAKE) -C RFC8304 start
-	$(MAKE) -C RFC791 start
-	$(MAKE) -C RFC8200 start
+	$(MAKE) -C ServiceListener start
+	$(MAKE) -C Router start
+	$(MAKE) -C TransportLayer start
+	$(MAKE) -C NetworkLayer start
+	$(MAKE) -C EthernetFrame start
 	$(MAKE) -C NetworkAdapter start
 	$(MAKE) -C Run start
 
 stop:
-	$(MAKE) -C Run stop
-	$(MAKE) -C NetworkAdapter stop
-	$(MAKE) -C RFC9293 stop
-	$(MAKE) -C RFC8304 stop
-	$(MAKE) -C RFC8200 stop
-	$(MAKE) -C RFC791 stop
-	$(MAKE) -C MediaAccessControl stop
-	$(MAKE) -C System stop
+	$(MAKE) -C Run stop || $(MAKE) -C Run clean || true
+	$(MAKE) -C TransportLayer stop || $(MAKE) -C TransportLayer clean || true
+	$(MAKE) -C NetworkLayer stop || $(MAKE) -C NetworkLayer clean || true
+	$(MAKE) -C NetworkAdapter stop || $(MAKE) -C NetworkAdapter clean || true
+	$(MAKE) -C EthernetFrame stop || $(MAKE) -C EthernetFrame clean || true
+	$(MAKE) -C Router stop || $(MAKE) -C Router clean || true
+	$(MAKE) -C ServiceListener stop || $(MAKE) -C ServiceListener clean || true
+	$(MAKE) -C System stop || $(MAKE) -C System clean || true
 
 log:
 	sudo dmesg -w

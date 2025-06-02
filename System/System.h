@@ -15,19 +15,17 @@ extern void*GetSystemLibrary(unsigned char*SystemName);
         return ApplicationProgrammingInterfaceLibrary;\
     }
 
-#define Start\
-    static void ProjectStart(void)
+
 
 #define End\
     static void ProjectEnd(void)
 
-#define BindStart &ProjectStart
 
-#define BindEnd &ProjectEnd    
 
 #define Bind(name) .name=name
 
-#define SystemSetup(description,CallbackSystemStart,CallbackSystemEnd,...)\
+#define Start(description,...)\
+    static void ProjectStart(void);\
     struct Application{\
         unsigned char*SystemName;\
         void(*SystemStart)(void);\
@@ -45,8 +43,8 @@ extern void*GetSystemLibrary(unsigned char*SystemName);
     extern void SystemAdd(struct Application*);\
     static void RunStart(void){\
         application.SystemName=kstrdup(#description, GFP_KERNEL);\
-        application.SystemStart=CallbackSystemStart;\
-        application.SystemEnd=CallbackSystemEnd;\
+        application.SystemStart=&ProjectStart;\
+        application.SystemEnd=&ProjectEnd;\
         application.SystemLibrary=(void*)InitApplicationProgrammingInterface();\
         INIT_LIST_HEAD(&application.SystemList);\
         SystemAdd(&application);\
@@ -55,7 +53,8 @@ extern void*GetSystemLibrary(unsigned char*SystemName);
         list_del(&application.SystemList);\
         kfree(application.SystemName);\
     }\
-    RunSetup(description)
+    RunSetup(description);\
+    static void ProjectStart(void)
 
      
 #endif
