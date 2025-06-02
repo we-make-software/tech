@@ -15,19 +15,19 @@ static DEFINE_MUTEX(RouterMutex);
 static struct RouterHeader*Get(struct Packet*packet) {
     struct IEEE8023Header*dataLinkLayer=GetEthernetFrame()->DataLinkLayer(packet);
     struct RouterHeader*routerHeader = NULL;
-    list_for_each_entry(struct RouterHeader,routerHeader,&RouterList,List) {
-        if(memcmp(routerHeader->Address, dataLinkLayer->DestinationAddress,6)==0) {
+    list_for_each_entry(routerHeader, &RouterList, List) {
+        if(memcmp(routerHeader->Address, dataLinkLayer->DestinationAddress, 6) == 0) {
             return routerHeader;
         }
     }
     mutex_lock(&RouterMutex);
-    list_for_each_entry(struct RouterHeader, routerHeader, &RouterList, List) {
+    list_for_each_entry(routerHeader, &RouterList, List){
         if(memcmp(routerHeader->Address, dataLinkLayer->DestinationAddress,6)==0) {
             mutex_unlock(&RouterMutex);
             return routerHeader;
         }
     }
-    routerHeader=kmalloc(sizeof(*newRouterHeader),GFP_KERNEL);
+    routerHeader=kmalloc(sizeof(*routerHeader),GFP_KERNEL);
     if(!routerHeader) {
         mutex_unlock(&RouterMutex);
         return NULL;

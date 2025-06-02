@@ -2,6 +2,7 @@
 InitNetworkAdapter
 InitRouter
 InitServiceListener
+InitNetworkLayer
 
 struct Packet{
     struct sk_buff*skb;
@@ -19,11 +20,11 @@ static bool IsGlobel(struct IEEE8023Header*header) {
     return!header?false:!(header->DestinationAddress[0]&4);
 }
 static void Receiver(struct Packet*packet){
-    if(!GetServiceListener()->Get(packet))return;
-
+    struct ServiceListenerHeader*serviceListenerHeader=GetServiceListener()->Get(packet);
+    if(!serviceListenerHeader)return;
     struct RouterHeader*routerHeader=GetRouter()->Get(packet);
     if(!routerHeader)return;
-  
+    GetNetworkLayer()->Receiver(serviceListenerHeader, routerHeader, packet);
 }
 static struct IEEE8023Header*CreateVersion4(u16 size,struct net_device*dev,struct Packet**packet){
     u8*data=NULL;
@@ -31,7 +32,7 @@ static struct IEEE8023Header*CreateVersion4(u16 size,struct net_device*dev,struc
     if(!*packet)return NULL;
     struct IEEE8023Header*header=(struct IEEE8023Header*)data;
     header->Type=htons(2048);
-    packet->skb->protocol=htons(ETH_P_IP);
+    (*packet)->skb->protocol=htons(ETH_P_IP);
     header->PayLoader[0]=69;
     return header;
 }
@@ -41,7 +42,7 @@ static struct IEEE8023Header*CreateVersion6(u16 size,struct net_device*dev,struc
     if(!*packet)return NULL;
     struct IEEE8023Header*header=(struct IEEE8023Header*)data;
     header->Type=htons(34525);
-    packet->skb->protocol=htons(ETH_P_IPV6);
+    (*packet)->skb->protocol=htons(ETH_P_IPV6);
     header->PayLoader[0]=96;
     return header;
 }

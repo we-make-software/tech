@@ -41,6 +41,7 @@ static void Continue(struct work_struct*work){
     kfree(packet);
 }
 static int Receiver(struct sk_buff*skb,struct net_device*dev,struct packet_type*pt,struct net_device*orig_dev){
+    if(skb->pkt_type==PACKET_OUTGOING)return 0;
     struct Packet*packet=kmalloc(sizeof(*packet),GFP_KERNEL);
     if(!packet)return 1;
     packet->skb=skb;
@@ -52,6 +53,7 @@ static int Receiver(struct sk_buff*skb,struct net_device*dev,struct packet_type*
     if(GetEthernetFrame()->IsGlobel(iEEE8023Header)){
         if(GetNetworkLayer()->NextHeader(iEEE8023Header)==NetworkLayerNextHeader_TransmissionControlProtocol){
             struct TransportLayerHeader*transportLayerHeader=GetTransportLayer()->Get(iEEE8023Header);
+
             if(ntohs(transportLayerHeader->DestinationPort)==22){
                 kfree(packet);
                 return 0;

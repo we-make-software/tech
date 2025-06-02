@@ -14,7 +14,7 @@ SystemLibrary(EthernetFrame){
     bool(*IsGlobel)(struct IEEE8023Header*);
     bool(*IsVersion4)(struct IEEE8023Header*);
     void(*Receiver)(struct Packet*);
-    struct IEE8023HeaEder*(*CreateVersion4)(u16,struct net_device*,struct Packet**);
+    struct IEEE8023Header*(*CreateVersion4)(u16,struct net_device*,struct Packet**);
     struct IEEE8023Header*(*CreateVersion6)(u16,struct net_device*,struct Packet**);
     int(*Send)(struct Packet*);
 };

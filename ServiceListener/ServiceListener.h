@@ -1,13 +1,9 @@
 #ifndef ServiceListener_h
 #define ServiceListener_h
 #include "../Router/Router.h"
-struct ServiceListenerHeader{
-    u16 Port;
-    void(*Function)(struct Packet*);
-};
 
 SystemLibrary(ServiceListener){
-    
+    struct ServiceListenerHeader*(*Get)(struct Packet*);
 };
 
 #define InitServiceListener\
