@@ -59,4 +59,4 @@ End{
         kfree(routerHeader);
     }
 }
-Start(Router, Bind(Get)){}
+Start(Router, Bind(Get),Bind(CreateVersion4),Bind(CreateVersion6)){}

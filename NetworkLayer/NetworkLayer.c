@@ -1,21 +1,16 @@
 #include "../ServiceListener/ServiceListener.h"
 InitEthernetFrame
-struct NetworkAddress{
-    u8 value;
-    u8 index;
-    struct list_head data;
-    struct delayed_work work;
-    struct mutex lock;
-};
-struct RouterBindServer{
-    u16 ID;
-    struct RouterHeader*routerInfomation;
-    struct NetworkAddress*networkAddress;
-    struct list_head data,version;
-};
+InitRouter
+
+
 static LIST_HEAD(Version4);
 static LIST_HEAD(Version6);
-
+static struct list_head*GetServerVersion4(void){
+    return &Version4;
+}
+static struct list_head*GetServerVersion6(void){
+    return &Version6;
+}
 struct Pointer8{
     u8 value;
     u8 index;
@@ -47,16 +42,36 @@ static DEFINE_MUTEX(Pointer16_even_mutex);
 static void DeletePointer8(struct Pointer8*pointer8){
     if(!pointer8||!list_empty(&pointer8->odd_list)||!list_empty(&pointer8->even_list)||!list_empty(&pointer8->data))return;
     list_del(&pointer8->list);
-    struct Pointer8*tmp_pointer8=pointer8->prev;
+    DeletePointer8(pointer8->prev);
     kfree(pointer8);
-    DeletePointer8(tmp_pointer8);
 }
 static void DeletePointer16(struct Pointer16*pointer16){
     if(!pointer16||!list_empty(&pointer16->odd_list)||!list_empty(&pointer16->even_list)||!list_empty(&pointer16->data))return;
     list_del(&pointer16->list);
-    struct Pointer16*tmp_pointer16=pointer16->prev;
+    DeletePointer16(pointer16->prev);
     kfree(pointer16);
-    DeletePointer16(tmp_pointer16);
+}
+
+static void AutomatikDeleteNetworkAddress(struct work_struct *work){
+    struct NetworkAddress*networkAddress=container_of(work,struct NetworkAddress,work.work);
+    struct NetworkDataHeader*networkDataHeader=NULL,*tmp_networkDataHeader=NULL;
+    list_for_each_entry_safe(networkDataHeader, tmp_networkDataHeader, &networkAddress->data, data) {
+        if(networkDataHeader->Destroy){
+            networkDataHeader->Destroy(networkAddress,networkDataHeader->ID);
+        }
+        list_del(&networkDataHeader->data);
+        kfree(networkDataHeader);
+    }
+    if(networkAddress->index==3){
+        struct Pointer8*pointer8=(struct Pointer8*)networkAddress;
+        DeletePointer8(pointer8);
+    }else{
+        struct Pointer16*pointer16=(struct Pointer16*)networkAddress;
+        DeletePointer16(pointer16);
+    }
+}
+static void SetExpiryNetworkAddress(struct NetworkAddress*networkAddress){
+    schedule_delayed_work(&networkAddress->work, msecs_to_jiffies(600000));
 }
 static struct Pointer8*FindPointer8(u8 value,struct list_head*odd_list,struct list_head*even_list){
     struct Pointer8*pointer8=NULL,*tmp_pointer8=NULL;
@@ -115,6 +130,7 @@ static struct Pointer8*CreatePointer8(struct Pointer8* prev,u8 value,struct list
     mutex_init(&pointer8->work.lock);
     mutex_init(&pointer8->odd_mutex);
     mutex_init(&pointer8->even_mutex);
+    INIT_DELAYED_WORK(&pointer8->work, AutomaticDeleteNetworkAddress);
     if(list_empty(value&1?odd_list:even_list))
         list_add(&pointer8->list, value&1?odd_list:even_list);
     else{
@@ -157,6 +173,7 @@ static struct Pointer16*CreatePointer16(struct Pointer16* prev,u16 value,struct 
     INIT_LIST_HEAD(&pointer16->data);
     mutex_init(&pointer16->odd_mutex);
     mutex_init(&pointer16->even_mutex);
+    INIT_DELAYED_WORK(&pointer16->work,AutomaticDeleteNetworkAddress);
     if(list_empty(value&1?odd_list:even_list))
         list_add(&pointer16->list, value&1?odd_list:even_list);
     else{
@@ -357,7 +374,6 @@ static bool RegisterRouter(struct NetworkAddress*networkAddressServer,struct Rou
     mutex_unlock(&networkAddressServer->lock);
     return true;
 }
-
 struct ServiceListenerHeader{
     void(*Function)(struct NetworkAddress*,struct NetworkAddress*,struct Packet*);
 };
@@ -385,13 +401,77 @@ static void Receiver(struct ServiceListenerHeader*serviceListener,struct RouterH
 
     }
     if(!NetworkAddressServer||!RegisterRouter(NetworkAddressServer,routerHeader)||!NetworkAddressClient)return;
-    
-    //print the pointer  and this
-    printk(KERN_INFO "NetworkLayer: Server Address: %p, Client Address: %p\n", 
-        NetworkAddressServer, NetworkAddressClient);
-
+    SetExpiryNetworkAddress(NetworkAddressClient);
     serviceListener->Function(NetworkAddressServer, NetworkAddressClient, packet);
+    SetExpiryNetworkAddress(NetworkAddressClient);
 }
+static bool WriteVersion4(u8*pos,struct NetworkAddress*networkAddress){
+    if(!networkAddress||!pos)return false;
+    struct Pointer8*pointer8=(struct Pointer8*)networkAddress;
+    for(int i=0;i<4;i++){
+        pos[pointer8->index]=pointer8->value;
+        pointer8=pointer8->prev;
+    }
+    return true;
+}
+static bool WriteVersion6(u16*pos,struct NetworkAddress*networkAddress){
+    if(!networkAddress||!pos)return false;
+    struct Pointer16*pointer16=(struct Pointer16*)networkAddress;
+    for(int i=0;i<8;i++){
+        pos[pointer16->index]=htons(pointer16->Value);
+        pointer16=pointer16->prev;
+    }
+    return true;
+}
+
+
+
+static struct IEEE8023Header*Create(struct NetworkAddress*networkAddresServer,u16 size,struct Packet**packet){
+    if(!networkAddresServer||!packet)return NULL;
+    struct NetworkDataHeader*networkDataHeader=GetNetworkDataHeader(networkAddresServer, 0);
+    if(!networkDataHeader)return NULL;
+    struct RouterBindServer*routerBindServer=(struct RouterBindServer*)networkDataHeader;
+    if(networkAddresServer->index==3){
+        struct IEEE8023Header*iEEE8023Header=GetRouter()->CreateVersion4(size,routerBindServer->routerInfomation, packet);
+        if(!iEEE8023Header)return NULL;
+        u8*networkLayer=iEEE8023Header->PayLoader;
+        u8*Source=networkLayer+12;
+        if(!WriteVersion4(Source, networkAddresServer)){
+            kfree(*packet);
+            return NULL;
+        }
+        return iEEE8023Header;
+    }
+    struct IEEE8023Header*iEEE8023Header=GetRouter()->CreateVersion6(size,routerBindServer->routerInfomation, packet);
+    if(!iEEE8023Header)return NULL;
+    u8*networkLayer=iEEE8023Header->PayLoader;
+    u16*Source=(u16*)(networkLayer+8);
+    if(!WriteVersion6(Source, networkAddresServer)){
+        kfree(*packet);
+        return NULL;
+    }
+    return iEEE8023Header;
+}
+static int Send(struct NetworkAddress*networkAddresClient,struct Packet*packet){
+    if(!networkAddresClient||!packet)return -1;
+    struct IEEE8023Header*dataLinkLayer=GetEthernetFrame()->DataLinkLayer(packet);
+    u8*networkLayer=dataLinkLayer->PayLoader;
+    if(GetEthernetFrame()->IsVersion4(dataLinkLayer)){
+        u8*Destination=networkLayer+16;
+        if(!WriteVersion4(Destination, networkAddresClient))
+            return -1;
+    }else{
+        u16*Destination=(u16*)(networkLayer+24);
+        if(!WriteVersion6(Destination, networkAddresClient))
+            return -1;
+    }
+    SetExpiryNetworkAddress(networkAddresClient);
+    int ret=GetEthernetFrame()->Send(packet);
+    SetExpiryNetworkAddress(networkAddresClient);
+    return ret;
+}
+
+
 End{}
-Start(NetworkLayer,Bind(NextHeader),Bind(IsPublic),Bind(Receiver)){}
+Start(NetworkLayer,Bind(NextHeader),Bind(IsPublic),Bind(Receiver),Bind(Create),Bind(WriteVersion4),Bind(WriteVersion6),Bind(GetVersion4Address),Bind(GetVersion6Address)){}
 
