@@ -49,9 +49,15 @@ static struct IEEE8023Header*CreateVersion6(u16 size,struct net_device*dev,struc
 static int Send(struct Packet*packet) {
     struct IEEE8023Header*dataLinkLayer=DataLinkLayer(packet);
     if(IsVersion4(dataLinkLayer)){
-        //depend of UDP or TCP then we can set the other field like length, checksum.
-    }else{
-        //depend of UDP or TCP then we can set the other field like length.
+        u16*header=(u16*)(dataLinkLayer->PayLoader);
+        header[5]=0; 
+        u32 sum=0;
+        for(u8 i=0;i<10;i++) 
+           sum+=ntohs(header[i]);
+        sum=(sum>>16)+(sum&65535);
+        sum+=(sum>>16);
+        sum=~sum;
+        header[5]=htons((u16)sum);
     }
     return GetNetworkAdapter()->Send(packet);
 }

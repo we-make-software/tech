@@ -2,7 +2,7 @@
 #define InternetControlMessageProtocolVersion6_h
 #include "../InternetControlMessageProtocolVersion4/InternetControlMessageProtocolVersion4.h"
 SystemLibrary(InternetControlMessageProtocolVersion6) {
-    void(*Receiver)(struct Packet*);
+    void(*Receiver)(struct NetworkAddress*,struct NetworkAddress*,struct Packet*);
 };
 
 #define InitInternetControlMessageProtocolVersion6 \

@@ -8,12 +8,16 @@ enum NetworkLayerNextHeader{
     NetworkLayerNextHeader_InternetControlMessageProtocolVersion6 = 58,
     NetworkLayerNextHeader_Unknown
 };
+struct NetworkDataHeader{
+    u16 ID;
+};
 struct ServiceListenerHeader;
 struct RouterHeader;
 SystemLibrary(NetworkLayer){
     enum NetworkLayerNextHeader(*NextHeader)(struct IEEE8023Header*);
     bool(*IsPublic)(struct IEEE8023Header*);
     void(*Receiver)(struct ServiceListenerHeader*, struct RouterHeader*, struct Packet*);
+    struct NetworkDataHeader*(*GetNetworkDataHeader)(struct NetworkAddress*,u16);
 };
 
 #define InitNetworkLayer\

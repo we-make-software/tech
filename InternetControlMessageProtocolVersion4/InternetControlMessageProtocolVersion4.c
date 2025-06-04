@@ -1,7 +1,7 @@
 #include "InternetControlMessageProtocolVersion4.h"
 
-static void Receiver(struct Packet*packet) {
-
+static void Receiver(struct NetworkAddress*networkAddressServer,struct NetworkAddress*networkAddressClient,struct Packet*packet) {
+    
 }
 
 End{}

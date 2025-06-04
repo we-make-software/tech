@@ -1,14 +1,13 @@
-#include "InternetControlMessageProtocolVersion6.h"
+#include "../InternetControlMessageProtocolVersion6/InternetControlMessageProtocolVersion6.h"
 InitEthernetFrame
 InitNetworkLayer
 InitTransportLayer
 InitInternetControlMessageProtocolVersion4
 InitInternetControlMessageProtocolVersion6
-
 static LIST_HEAD(TransmissionControlProtocol_List);
 static LIST_HEAD(UserDatagramProtocol_List);
 struct ServiceListenerHeader{
-    void(*Function)(struct Packet*);
+    void(*Function)(struct NetworkAddress*,struct NetworkAddress*,struct Packet*);
     u16 Port;
     struct list_head list;
 };
