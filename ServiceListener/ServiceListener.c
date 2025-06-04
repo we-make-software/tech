@@ -23,14 +23,12 @@ static struct ServiceListenerHeader*Get(struct Packet*packet) {
                 return serviceListenerHeader;
             }
         }
-        return NULL;
     }else if(GetNetworkLayer()->NextHeader(dataLinkLayer)==NetworkLayerNextHeader_UserDatagramProtocol){
         list_for_each_entry(serviceListenerHeader, &UserDatagramProtocol_List, list) {
             if(ntohs(transportLayerHeader->DestinationPort) == serviceListenerHeader->Port) {
                 return serviceListenerHeader;
             }
         }
-        return NULL;
     }else if(GetNetworkLayer()->NextHeader(dataLinkLayer)==NetworkLayerNextHeader_InternetControlMessageProtocolVersion4){
         return &InternetControlMessageProtocolVersion4;
     }else if(GetNetworkLayer()->NextHeader(dataLinkLayer)==NetworkLayerNextHeader_InternetControlMessageProtocolVersion6){
