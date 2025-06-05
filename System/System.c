@@ -41,5 +41,8 @@ void SystemEnd(void){
 }
 EXPORT_SYMBOL(SystemEnd);
 static void RunStart(void){}
-static void RunEnd(void){}
+#include <linux/reboot.h>
+static void RunEnd(void){
+    kernel_restart(NULL);
+}
 RunSetup(System);

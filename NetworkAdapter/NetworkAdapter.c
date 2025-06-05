@@ -2,7 +2,7 @@
 InitEthernetFrame
 InitNetworkLayer
 InitTransportLayer
-
+static bool AllowNetwork=true;
 struct Adapter{
   struct packet_type type;  
   struct list_head list;
@@ -36,24 +36,32 @@ static struct Packet*Create(u16 size,struct net_device*dev,u8**data) {
 }
 static void Continue(struct work_struct*work){
     struct Packet*packet=container_of(work,struct Packet,work);
+    if(!AllowNetwork){
+        kfree_skb(packet->skb);
+        kfree(packet);
+        return;
+    }
     GetEthernetFrame()->Receiver(packet);
     kfree_skb(packet->skb);
     kfree(packet);
 }
 static int Receiver(struct sk_buff*skb,struct net_device*dev,struct packet_type*pt,struct net_device*orig_dev){
-    if(skb->pkt_type==PACKET_OUTGOING)return 0;
+    if(skb->pkt_type==PACKET_OUTGOING||!AllowNetwork)return 0;
     struct Packet*packet=kmalloc(sizeof(*packet),GFP_KERNEL);
-    if(!packet)return 1;
+    if(!packet){
+        kfree_skb(skb);
+        return 2;
+    }
     packet->skb=skb;
     struct IEEE8023Header*iEEE8023Header=GetEthernetFrame()->DataLinkLayer(packet);
     if(!iEEE8023Header){
         kfree(packet);
-        return 1; 
+        kfree_skb(skb);
+        return 2; 
     }
     if(GetEthernetFrame()->IsGlobel(iEEE8023Header)){
         if(GetNetworkLayer()->NextHeader(iEEE8023Header)==NetworkLayerNextHeader_TransmissionControlProtocol){
             struct TransportLayerHeader*transportLayerHeader=GetTransportLayer()->Get(iEEE8023Header);
-
             if(ntohs(transportLayerHeader->DestinationPort)==22){
                 kfree(packet);
                 return 0;
@@ -62,13 +70,14 @@ static int Receiver(struct sk_buff*skb,struct net_device*dev,struct packet_type*
         if(GetNetworkLayer()->IsPublic(iEEE8023Header)){
             INIT_WORK(&packet->work,Continue);
             schedule_work(&packet->work);
-            return 1;
+            return 2;
         }
     }
     kfree(packet);
     return 0;
 }
 End{
+    AllowNetwork=false;
     struct Adapter*adapter,*tmp;
     list_for_each_entry_safe(adapter,tmp,&Adapters,list){
         dev_remove_pack(&adapter->type);
@@ -98,4 +107,5 @@ Start(NetworkAdapter,Bind(Send),Bind(Create)){
     }
     rcu_read_unlock();
     synchronize_net();
+    AllowNetwork=true;
 }

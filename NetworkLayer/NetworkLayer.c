@@ -60,8 +60,6 @@ static void DeletePointer16(struct Pointer16*pointer16){
     DeletePointer16(pointer16->prev);
     kfree(pointer16);
 }
-
-
 static void AutomaticDeleteNetworkAddress(struct work_struct *work){
     struct NetworkAddress*networkAddress=container_of(work,struct NetworkAddress,work.work);
     struct NetworkDataHeader*networkDataHeader=NULL,*tmp_networkDataHeader=NULL;
@@ -79,6 +77,7 @@ static void AutomaticDeleteNetworkAddress(struct work_struct *work){
         struct Pointer16*pointer16=(struct Pointer16*)networkAddress;
         DeletePointer16(pointer16);
     }
+    printk(KERN_INFO "NetworkAddress with index %d has been deleted due to inactivity.\n", networkAddress->index);
 }
 static void SetExpiryNetworkAddress(struct NetworkAddress*networkAddress){
     schedule_delayed_work(&networkAddress->work, msecs_to_jiffies(600000));
@@ -293,6 +292,9 @@ static struct NetworkAddress*GetVersion6Address(u16*value){
 static enum NetworkLayerNextHeader NextHeader(struct IEEE8023Header*header){
     return !header?0:header->PayLoader[GetEthernetFrame()->IsVersion4(header)?9:6];
 }
+static void SetNextHeader(struct IEEE8023Header*header,enum NetworkLayerNextHeader nextHeader){
+    header->PayLoader[GetEthernetFrame()->IsVersion4(header)?9:6]=nextHeader;
+}
 static bool IsPublic(struct IEEE8023Header*header){
     if(!header)return false;
     if(GetEthernetFrame()->IsVersion4(header)){
@@ -475,52 +477,5 @@ static int Send(struct NetworkAddress*networkAddresClient,struct Packet*packet){
     SetExpiryNetworkAddress(networkAddresClient);
     return ret;
 }
-static void EndDeleteVersion4(struct list_head*list){
-    struct Pointer8*pointer8=NULL,*tmp_pointer8=NULL;
-    list_for_each_entry_safe(pointer8, tmp_pointer8, list, list) {
-        if(!list_empty(&pointer8->odd_list)){
-            EndDeleteVersion4(&pointer8->odd_list);
-        }
-        if(!list_empty(&pointer8->even_list)){
-            EndDeleteVersion4(&pointer8->even_list);
-        }
-    }
-    struct NetworkDataHeader*networkDataHeader=NULL,*tmp_networkDataHeader=NULL;
-    list_for_each_entry_safe(networkDataHeader, tmp_networkDataHeader, &pointer8->data, data) {
-        if(networkDataHeader->Destroy){
-            networkDataHeader->Destroy((struct NetworkAddress*)pointer8,networkDataHeader->ID);
-        }
-        list_del(&networkDataHeader->data);
-        kfree(networkDataHeader);
-    }
-    list_del(&pointer8->list);
-    kfree(pointer8);
-}
-static void EndDeleteVersion6(struct list_head*list){
-    struct Pointer16*pointer16=NULL,*tmp_pointer16=NULL;
-    list_for_each_entry_safe(pointer16, tmp_pointer16, list, list) {
-        if(!list_empty(&pointer16->odd_list)){
-            EndDeleteVersion6(&pointer16->odd_list);
-        }
-        if(!list_empty(&pointer16->even_list)){
-            EndDeleteVersion6(&pointer16->even_list);
-        }
-    }
-    struct NetworkDataHeader*networkDataHeader=NULL,*tmp_networkDataHeader=NULL;
-    list_for_each_entry_safe(networkDataHeader, tmp_networkDataHeader, &pointer16->data, data) {
-        if(networkDataHeader->Destroy){
-            networkDataHeader->Destroy((struct NetworkAddress*)pointer16,networkDataHeader->ID);
-        }
-        list_del(&networkDataHeader->data);
-        kfree(networkDataHeader);
-    }
-    list_del(&pointer16->list);
-    kfree(pointer16);
-}   
-End{
-    EndDeleteVersion4(&Pointer8_odd_list);
-    EndDeleteVersion4(&Pointer8_even_list);
-    EndDeleteVersion6(&Pointer16_odd_list);
-    EndDeleteVersion6(&Pointer16_even_list);
-}
+End{}
 Start(NetworkLayer,Bind(NextHeader),Bind(IsPublic),Bind(Receiver),Bind(Create),Bind(WriteVersion4),Bind(WriteVersion6),Bind(Send),Bind(GetConnectionVersion4),Bind(GetConnectionVersion6)){}
