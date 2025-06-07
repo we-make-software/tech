@@ -11,6 +11,12 @@ enum NetworkLayerNextHeader{
     NetworkLayerNextHeader_InternetControlMessageProtocolVersion6 = 58,
     NetworkLayerNextHeader_Unknown
 };
+enum NetworkLayerDifferentiatedServicesCodePoint{
+    NetworkLayerDifferentiatedServicesCodePoint_Default = 0,
+};
+enum  NetworkLayerExplicitCongestionNotification{
+    NetworkLayerExplicitCongestionNotification_NotECT = 0,
+};
 struct NetworkAddress{
     u8 index;
     struct list_head data;
@@ -38,6 +44,10 @@ SystemLibrary(NetworkLayer){
     int(*Send)(struct NetworkAddress*, struct Packet*);
     struct NetworkAddress*(*GetConnectionVersion4)(u8*);
     struct NetworkAddress*(*GetConnectionVersion6)(u16*);
+    u16(*PayloadLength)(struct IEEE8023Header*header);
+    void(*SetPayloadLength)(struct IEEE8023Header*header,u16 length);
+    void(*SetDifferentiatedServicesCodePoint)(struct IEEE8023Header*, enum NetworkLayerDifferentiatedServicesCodePoint);
+    void(*SetExplicitCongestionNotification)(struct IEEE8023Header*, enum NetworkLayerExplicitCongestionNotification);
 };
 
 #define InitNetworkLayer\

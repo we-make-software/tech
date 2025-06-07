@@ -49,17 +49,32 @@ static DEFINE_MUTEX(Pointer8_even_mutex);
 static DEFINE_MUTEX(Pointer16_odd_mutex);
 static DEFINE_MUTEX(Pointer16_even_mutex);
 static void DeletePointer8(struct Pointer8*pointer8){
-    if(!pointer8||!list_empty(&pointer8->odd_list)||!list_empty(&pointer8->even_list)||!list_empty(&pointer8->data))return;
-    list_del(&pointer8->list);
-    DeletePointer8(pointer8->prev);
-    kfree(pointer8);
+    struct Pointer8*tmp;
+    while(pointer8) {
+        if(!list_empty(&pointer8->odd_list)||
+           !list_empty(&pointer8->even_list)||
+           !list_empty(&pointer8->data))
+           break;
+        tmp=pointer8->prev;
+        list_del(&pointer8->list);
+        kfree(pointer8);
+        pointer8=tmp;
+    }
 }
-static void DeletePointer16(struct Pointer16*pointer16){
-    if(!pointer16||!list_empty(&pointer16->odd_list)||!list_empty(&pointer16->even_list)||!list_empty(&pointer16->data))return;
-    list_del(&pointer16->list);
-    DeletePointer16(pointer16->prev);
-    kfree(pointer16);
+static void DeletePointer16(struct Pointer16 *pointer16) {
+    struct Pointer16*tmp;
+    while(pointer16){
+        if(!list_empty(&pointer16->odd_list)||
+           !list_empty(&pointer16->even_list)||
+           !list_empty(&pointer16->data))
+           break;
+        tmp=pointer16->prev;
+        list_del(&pointer16->list);
+        kfree(pointer16);
+        pointer16=tmp;
+    }
 }
+
 static void AutomaticDeleteNetworkAddress(struct work_struct *work){
     struct NetworkAddress*networkAddress=container_of(work,struct NetworkAddress,work.work);
     struct NetworkDataHeader*networkDataHeader=NULL,*tmp_networkDataHeader=NULL;
@@ -78,6 +93,37 @@ static void AutomaticDeleteNetworkAddress(struct work_struct *work){
         DeletePointer16(pointer16);
     }
     printk(KERN_INFO "NetworkAddress with index %d has been deleted due to inactivity.\n", networkAddress->index);
+}
+static u16 PayloadLength(struct IEEE8023Header*header){
+    if(!header)return 0;
+    if(GetEthernetFrame()->IsVersion4(header))
+      return ntohs(*(u16*)(header->PayLoader+2))-20;
+    return ntohs(*(u16*)(header->PayLoader+4));
+}
+static void SetPayloadLength(struct IEEE8023Header*header,u16 length){
+    if(!header)return;
+    if(GetEthernetFrame()->IsVersion4(header)){
+        *(u16*)(header->PayLoader+2)=htons(length+20);
+    }else{
+        *(u16*)(header->PayLoader+4)=htons(length);
+    }
+}
+static void SetHopLimit(struct IEEE8023Header*header,u8 hopLimit){
+    if(!header)return;
+    header->PayLoader[GetEthernetFrame()->IsVersion4(header)?8:7]=hopLimit;
+}
+static void SetDifferentiatedServicesCodePoint(struct IEEE8023Header* header, enum NetworkLayerDifferentiatedServicesCodePoint codePoint) {
+    if(!header) return;
+    if(GetEthernetFrame()->IsVersion4(header)) {
+        header->PayLoader[1]=(codePoint<<2)|(header->PayLoader[1]&3);
+    }else{
+        header->PayLoader[0]=(header->PayLoader[0]&240)|((codePoint>>2)&15);
+        header->PayLoader[1]=((codePoint&3)<<6)|(header->PayLoader[1]&63);
+    }
+}
+static void SetExplicitCongestionNotification(struct IEEE8023Header* header, enum NetworkLayerExplicitCongestionNotification notification) {
+    if(!header)return;
+    header->PayLoader[1]=GetEthernetFrame()->IsVersion4(header)?(header->PayLoader[1]&252)|(notification&3):(header->PayLoader[1]&63)|((notification&3)<<6);
 }
 static void SetExpiryNetworkAddress(struct NetworkAddress*networkAddress){
     schedule_delayed_work(&networkAddress->work, msecs_to_jiffies(600000));
@@ -478,4 +524,4 @@ static int Send(struct NetworkAddress*networkAddresClient,struct Packet*packet){
     return ret;
 }
 End{}
-Start(NetworkLayer,Bind(NextHeader),Bind(IsPublic),Bind(Receiver),Bind(Create),Bind(WriteVersion4),Bind(WriteVersion6),Bind(Send),Bind(GetConnectionVersion4),Bind(GetConnectionVersion6)){}
+Start(NetworkLayer,Bind(NextHeader),Bind(IsPublic),Bind(Receiver),Bind(Create),Bind(WriteVersion4),Bind(WriteVersion6),Bind(Send),Bind(GetConnectionVersion4),Bind(GetConnectionVersion6),Bind(PayloadLength),Bind(SetPayloadLength),Bind(SetDifferentiatedServicesCodePoint),Bind(SetExplicitCongestionNotification)){}
