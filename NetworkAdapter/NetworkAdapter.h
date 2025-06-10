@@ -11,6 +11,8 @@ struct Packet;
 SystemLibrary(NetworkAdapter){
     struct Packet*(*Create)(u16 size,struct net_device*dev,u8**data) ;
     int(*Send)(struct Packet*);
+    void(*Show)(struct Packet*);
+    void(*Free)(struct Packet*);
 };
 
 #define InitNetworkAdapter\

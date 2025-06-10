@@ -1,7 +1,5 @@
-#include "../TransportLayer/TransportLayer.h"
-InitEthernetFrame
-InitNetworkLayer
-InitTransportLayer
+#include "NetworkAdapter.h"
+
 static bool AllowNetwork=true;
 struct Adapter{
   struct packet_type type;  
@@ -11,6 +9,22 @@ struct Packet{
     struct sk_buff*skb;
     struct work_struct work;
 };
+static void Free(struct Packet* packet) {
+    if (!packet) return;
+    if (packet->skb) {
+        kfree_skb(packet->skb);
+    }
+    kfree(packet);
+}
+void Show(struct Packet* packet) {
+    if(!packet||!packet->skb) return;
+    u8*data=packet->skb->data;
+    unsigned int len = packet->skb->len;
+    printk(KERN_CONT"[start] ");
+    for(unsigned int i=0;i<len;i++)
+        printk(KERN_CONT"%u ",data[i]);
+    printk(KERN_CONT " [end]\n");
+}
 static LIST_HEAD(Adapters);
 static int Send(struct Packet*packet){
     int ret=dev_queue_xmit(packet->skb);
@@ -41,38 +55,14 @@ static void Continue(struct work_struct*work){
         kfree(packet);
         return;
     }
-    GetEthernetFrame()->Receiver(packet);
+    //    GetEthernetFrame()->Receiver(packet);
     kfree_skb(packet->skb);
     kfree(packet);
 }
 static int Receiver(struct sk_buff*skb,struct net_device*dev,struct packet_type*pt,struct net_device*orig_dev){
     if(skb->pkt_type==PACKET_OUTGOING||!AllowNetwork)return 0;
     struct Packet*packet=kmalloc(sizeof(*packet),GFP_KERNEL);
-    if(!packet){
-        kfree_skb(skb);
-        return 2;
-    }
-    packet->skb=skb;
-    struct IEEE8023Header*iEEE8023Header=GetEthernetFrame()->DataLinkLayer(packet);
-    if(!iEEE8023Header){
-        kfree(packet);
-        kfree_skb(skb);
-        return 2; 
-    }
-    if(GetEthernetFrame()->IsGlobel(iEEE8023Header)){
-        if(GetNetworkLayer()->NextHeader(iEEE8023Header)==NetworkLayerNextHeader_TransmissionControlProtocol){
-            struct TransportLayerHeader*transportLayerHeader=GetTransportLayer()->Get(iEEE8023Header);
-            if(ntohs(transportLayerHeader->DestinationPort)==22){
-                kfree(packet);
-                return 0;
-            }
-        }
-        if(GetNetworkLayer()->IsPublic(iEEE8023Header)){
-            INIT_WORK(&packet->work,Continue);
-            schedule_work(&packet->work);
-            return 2;
-        }
-    }
+
     kfree(packet);
     return 0;
 }
@@ -86,7 +76,7 @@ End{
     }
     synchronize_net();
 }
-Start(NetworkAdapter,Bind(Send),Bind(Create)){
+Start(NetworkAdapter,Bind(Send),Bind(Create),Bind(Show),Bind(Free)){
     struct net_device*dev;
     struct ethtool_link_ksettings link_settings;
     rcu_read_lock();
