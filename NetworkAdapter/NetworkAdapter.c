@@ -1,5 +1,4 @@
 #include "NetworkAdapter.h"
-
 static bool AllowNetwork=true;
 struct Adapter{
   struct packet_type type;  
@@ -10,10 +9,9 @@ struct Packet{
     struct work_struct work;
 };
 static void Free(struct Packet* packet) {
-    if (!packet) return;
-    if (packet->skb) {
+    if(!packet)return;
+    if(packet->skb)
         kfree_skb(packet->skb);
-    }
     kfree(packet);
 }
 void Show(struct Packet* packet) {
@@ -55,14 +53,14 @@ static void Continue(struct work_struct*work){
         kfree(packet);
         return;
     }
-    //    GetEthernetFrame()->Receiver(packet);
+    //Start kid starter here out of IRQ
     kfree_skb(packet->skb);
     kfree(packet);
 }
 static int Receiver(struct sk_buff*skb,struct net_device*dev,struct packet_type*pt,struct net_device*orig_dev){
     if(skb->pkt_type==PACKET_OUTGOING||!AllowNetwork)return 0;
     struct Packet*packet=kmalloc(sizeof(*packet),GFP_KERNEL);
-
+    //Start kid starter here
     kfree(packet);
     return 0;
 }
