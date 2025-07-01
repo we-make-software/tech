@@ -1,48 +1,45 @@
 #include "../Run/Run.h"
-struct Application{
-    unsigned char*SystemName;
-    void(*SystemStart)(void);
-    void(*SystemEnd)(void);
-    void*SystemLibrary;
-    struct list_head SystemList;
+struct WeMakeSoftware{
+    unsigned char*name;
+    void(*start)(void);
+    void(*end)(void);
+    void*library;
+    struct list_head list;
 };
-static LIST_HEAD(SystemList);
-void*GetSystemLibrary(unsigned char*SystemName);
-void*GetSystemLibrary(unsigned char*SystemName){
-    struct Application* application;
-    list_for_each_entry(application,&SystemList,SystemList){
-        if (strcmp(application->SystemName, SystemName)==0) 
-            return application->SystemLibrary;
+static LIST_HEAD(list);
+void*WeMakeSoftwareGet(unsigned char*);
+void*WeMakeSoftwareGet(unsigned char*name){
+    struct WeMakeSoftware* wms;
+    list_for_each_entry(wms,&list,list){
+        if (strcmp(wms->name, name)==0) 
+            return wms->library;
     }
     return NULL;
 }
-EXPORT_SYMBOL(GetSystemLibrary);
-void SystemAdd(struct Application*application);
-void SystemAdd(struct Application*application){
-    list_add_tail(&application->SystemList, &SystemList);
+EXPORT_SYMBOL(WeMakeSoftwareGet);
+void WeMakeSoftwareAdd(struct WeMakeSoftware*);
+void WeMakeSoftwareAdd(struct WeMakeSoftware*wms){
+    list_add_tail(&wms->list,&list);
 }
-EXPORT_SYMBOL(SystemAdd);
-void SystemStart(void);
-void SystemStart(void){
-    struct Application*application;
-    list_for_each_entry(application,&SystemList,SystemList){
-        if(application->SystemStart)
-           application->SystemStart();
+EXPORT_SYMBOL(WeMakeSoftwareAdd);
+void WeMakeSoftwareStart(void);
+void WeMakeSoftwareStart(void){
+    struct WeMakeSoftware*wms;
+    list_for_each_entry(wms,&list,list){
+        if(wms->start)
+            wms->start();
     }
 }
-EXPORT_SYMBOL(SystemStart);
-void SystemEnd(void);
-void SystemEnd(void){
-    struct Application*application;
-    list_for_each_entry_reverse(application,&SystemList,SystemList){
-        if(application->SystemEnd)
-            application->SystemEnd();
+EXPORT_SYMBOL(WeMakeSoftwareStart);
+void WeMakeSoftwareEnd(void);
+void WeMakeSoftwareEnd(void){
+    struct WeMakeSoftware*wms;
+    list_for_each_entry_reverse(wms,&list,list){
+        if(wms->end)
+            wms->end();
     }
 }
-EXPORT_SYMBOL(SystemEnd);
-static void RunStart(void){}
-#include <linux/reboot.h>
-static void RunEnd(void){
-   // kernel_restart(NULL);
-}
-RunSetup(System);
+EXPORT_SYMBOL(WeMakeSoftwareEnd);
+static void DefaultStart(void){}
+static void DefaultEnd(void){}
+Run(System);

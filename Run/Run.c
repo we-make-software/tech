@@ -1,10 +1,10 @@
 #include "Run.h"
-extern void SystemStart(void);
-extern void SystemEnd(void);
-static void RunStart(void){
-    SystemStart();
+extern void WeMakeSoftwareStart(void);
+extern void WeMakeSoftwareEnd(void);
+static void DefaultStart(void){
+    WeMakeSoftwareStart();
 }
-static void RunEnd(void){
-    SystemEnd();
+static void DefaultEnd(void){
+    WeMakeSoftwareEnd();
 }
-RunSetup(Run)
+Run(WeMakeSoftware)

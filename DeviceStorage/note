@@ -1,0 +1,13 @@
+fallocate -l 3556580084736 /0.wms
+
+dd if=/dev/zero of=/0.wms bs=1024 count=3474739152 status=progress
+
+
+basic this how i made wms. file.. the max size of the file its 
+
+its great to make sector 512 bytes dont make it more..
+
+max files that can size its u64 max size.
+
+
+max files its 0 and to 255 thast basic local files that can be created.
