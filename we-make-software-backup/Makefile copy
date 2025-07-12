@@ -1,0 +1,43 @@
+
+all:
+	$(MAKE) -C System start
+	$(MAKE) -C Network start
+	$(MAKE) -C RFC4443 start
+	$(MAKE) -C RFC768 start
+	$(MAKE) -C RFC9293 start
+	$(MAKE) -C RFC792 start
+	$(MAKE) -C RFC1122 start
+	$(MAKE) -C RFC791 start
+	$(MAKE) -C RFC8200 start	
+	$(MAKE) -C IEEE802_3 start
+	$(MAKE) -C NetworkAdapter start
+	$(MAKE) -C Run start
+
+stop:
+	$(MAKE) -C Run stop || $(MAKE) -C Run clean || true
+	$(MAKE) -C NetworkAdapter stop || $(MAKE) -C NetworkAdapter clean || true
+	$(MAKE) -C IEEE802_3 stop || $(MAKE) -C IEEE802_3 clean || true
+	$(MAKE) -C RFC8200 stop || $(MAKE) -C RFC8200 clean || true
+	$(MAKE) -C RFC791 stop || $(MAKE) -C RFC791 clean || true
+	$(MAKE) -C RFC1122 stop || $(MAKE) -C RFC1122 clean || true
+	$(MAKE) -C RFC793 stop || $(MAKE) -C RFC793 clean || true
+	$(MAKE) -C RFC768 stop || $(MAKE) -C RFC768 clean || true
+	$(MAKE) -C RFC4443 stop || $(MAKE) -C RFC4443 clean || true
+	$(MAKE) -C RFC9293 stop || $(MAKE) -C RFC9293 clean || true
+	$(MAKE) -C Network stop || $(MAKE) -C Network clean || true
+	$(MAKE) -C System stop || $(MAKE) -C System clean || true
+
+log:
+	sudo dmesg -w
+
+clean:
+	sudo dmesg -C
+
+test:
+	make all
+	make log
+	
+github:
+	git add .
+	git commit -m "Auto-commit $(shell date '+%Y-%m-%d %H:%M:%S')"
+	git push origin main

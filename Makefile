@@ -1,11 +1,13 @@
 
 all:
 	$(MAKE) -C System start
+	$(MAKE) -C DeviceStorageManagerSystem start
 	$(MAKE) -C DeviceStorageManagerFile start
 	$(MAKE) -C Run start
 
 stop:
 	$(MAKE) -C Run stop || $(MAKE) -C Run clean || true
+	$(MAKE) -C DeviceStorageManagerSystem stop || $(MAKE) -C DeviceStorageManagerSystem clean || true
 	$(MAKE) -C DeviceStorageManagerFile stop || $(MAKE) -C DeviceStorageManagerFile clean || true
 	$(MAKE) -C System stop || $(MAKE) -C System clean || true
 
