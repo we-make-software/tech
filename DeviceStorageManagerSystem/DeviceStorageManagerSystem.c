@@ -47,8 +47,8 @@ CreateActionWithArgs(Init,void*file,u64 Sectors){
     if(dsms->NextSection)
         dsms->Space-=(dsms->NextSection-1);
     else{
-        dsms->NextSection=1;
-        dsms->Space-=1;
+        dsms->NextSection=dsms->id==0?83886081:1;
+        dsms->Space-= dsms->NextSection;
         GetDeviceStorageManagerFile()->Update(dsms->id);
     }
     dsms->Space+=dsms->FreeCount?dsms->FreeCount:0;

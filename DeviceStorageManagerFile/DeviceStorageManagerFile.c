@@ -62,10 +62,16 @@ CreateFunctionWithArgs(bool,Write,void*ptr){
     return len==512&&res==0;
 }
 CreateFunctionWithArgs(bool,Update,u16 ID){
-    struct DSMF*file=Get(ID);
-    if(!file)return false;
-    return Write(file->Data, ID, 0);
+    struct DSMF* file = Get(ID);
+    if (!file) return false;
+    loff_t offset=0; 
+    mutex_lock(&file->lock);
+    ssize_t len = kernel_write(file->connection, file->Data, 512, &offset);
+    int res = vfs_fsync(file->connection, 0);
+    mutex_unlock(&file->lock);
+    return len==512&&res==0;
 }
+
 CreateAction(End){
     struct DSMF*file,*tmp;
     list_for_each_entry_safe(file,tmp,&dSMF,list){

@@ -1,8 +1,18 @@
 fallocate -l 3556580084736 /0.wms
 
-dd if=/dev/zero of=/0.wms bs=1024 count=3474739152 status=progress
+or 
+
+dd if=/dev/zero of=/0.wms bs=512 count=6946055633 status=progress
 
 
+count its sector
+
+
+move it
+
+mv /0.wms ~/We-Make-Software/
+
+ls
 basic this how i made wms. file.. the max size of the file its 
 
 its great to make sector 512 bytes dont make it more..
