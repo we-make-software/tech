@@ -32,7 +32,8 @@ Not everything needs to be remembered, but like Linux, they have a standard way 
  
 But remember we need to use headers a lot, so let’s learn about headers.
 When we include a header, we can use the language macros for the compiler so we don’t add the same code all the time.
-By using # we enter the macro description. It’s pretty good to know because it can make future code easier to write.
+By using # we enter the macro code. It’s pretty good to know because it can make future code easier to write.
+Macro code is only for the compiler.
 
 
 When we talk about avoiding using the same header, that part is hard to control. But if we follow some simple header rules, then it is no longer hard to understand.
