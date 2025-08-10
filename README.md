@@ -50,4 +50,4 @@ So basically, if we write:
 What it does is it will only run all the code inside once, as you can see in the comment. It will only be used one time and not double.
 
 
- 
+Now you understand why we use this wrapper in each header. Bravo! Next step.
