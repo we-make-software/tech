@@ -35,13 +35,19 @@ When we include a header, we can use the language macros for the compiler so we 
 By using # we enter the macro description. It’s pretty good to know because it can make future code easier to write.
 
 
- 
+When we talk about avoiding using the same header, that part is hard to control. But if we follow some simple header rules, then it is no longer hard to understand.
 
- 
- 
- 
- 
- 
- 
- 
+How well can we use `ifndef` and what can it do? It means if we did not define it, then it will run the code, but if it is defined, then it will not run.
+
+So basically, if we write:
+ ```c 
+#ifndef Run_h
+#define Run_h
+// any code we can have for the header
+#endif
+ ```
+
+What it does is it will only run all the code inside once, as you can see in the comment. It will only be used one time and not double.
+
+
  
