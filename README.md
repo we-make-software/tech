@@ -151,9 +151,8 @@ What I like to do is create my own list system where I have full control.
 
 Think about this: in binary, we can use bits to indicate access methods, call related functions in order, or something else a developer might need. What I need is speed, so I want my list system to be more flexible. Even if it costs some extra bytes in RAM, I prefer speed. Maybe you have your own view, but I like to have a wrapper around the list or main information.
 
-typedef Struct ListFunction{
+typedef struct  ListFunction{
   	struct work_struct Work;
-	void(*Func)(struct work_struct*);
  	void*Data;
 }ListFunction;
 
