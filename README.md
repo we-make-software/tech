@@ -57,6 +57,9 @@ Wait a minute, did you see a new word like `define`? This is where we can define
 ```c
 #ifndef Run_h
 #define Run_h
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
 
 #define Run(description)\
  MODULE_DESCRIPTION(#description);\
