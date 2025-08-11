@@ -151,15 +151,25 @@ What I like to do is create my own list system where I have full control.
 
 Think about this: in binary, we can use bits to indicate access methods, call related functions in order, or something else a developer might need. What I need is speed, so I want my list system to be more flexible. Even if it costs some extra bytes in RAM, I prefer speed. Maybe you have your own view, but I like to have a wrapper around the list or main information.
 
+```list
+struct ListInfomation{
+	u8 x8:1,x16:1,x32:1,x64:1,Lock:4;
+	u8 Count[]	
+};
+struct ListInfomationX8{
+	u8 x8:1,x16:1,x32:1,x64:1,Lock:4;
+	u8 Count;	
+};
+```
+
+
 If we think about it, the maximum size of a list is 18446744073709551615ULL. We will never use that because it’s too large for RAM. We need to control the list by removing data when it’s not needed. But again, a list can also be x8, x16, x32, or x64 max size. So the wrapper for this list needs to be flexible.
 
 
 
-struct SystemListFunction{
-	void*Event;
-};
+
 struct ListInfomation{
-	u8 x8:1,x16:1,x31:1,x64:1,Lock:4;
+	u8 x8:1,x16:1,x32:1,x64:1,Lock:4;
 	u8 Count[]	
 };
 
