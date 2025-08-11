@@ -162,16 +162,15 @@ stop:
 	make clean
 ```
 
-this is the system makefile as you can see it does not have EXTRA_CFLAGS or KBUILD_EXTRA_SYMBOLS becasue this its the first start this include code can change so i can explain almost all in the code but its up to you to read. the code.
+This is the system Makefile. As you can see, it does not have `EXTRA_CFLAGS` or `KBUILD_EXTRA_SYMBOLS` because this is the initial start. This includes code that can change, so I can explain almost all of it in the code, but it’s up to you to read it.
 
-in the root wee also have a makefile
+In the root, we also have a Makefile.
 
 
 ```makefile
 all:
 	$(MAKE) -C System start
-	$(MAKE) -C DeviceStorageManagerSystem start
-	$(MAKE) -C DeviceStorageManagerFile start
+
 	$(MAKE) -C Run start
 
 stop:
