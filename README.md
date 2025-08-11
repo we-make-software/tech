@@ -50,5 +50,6 @@ So basically, if we write:
 
 What it does is it will only run all the code inside once, as you can see in the comment. It will only be used one time and not double.
 
-
 Now you understand why we use this wrapper in each header. Bravo! Next step.
+
+wait a minuttes did you see new word like `define` this is where wee can define some code as we can use for the c code and marco code. we can define some name
