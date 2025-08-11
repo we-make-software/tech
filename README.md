@@ -122,8 +122,24 @@ The next thing is extern. This connects with EXPORT_SYMBOL, which I will explain
 
 Then we have the Run macro. As you see, I don’t need to use quotes to write WeMakeSoftware because we use stringification. Again, it just replaces the code with the define. Nothing magical, right?
 
-
-
-
+Makefile its powerfull when it become to build whit gcc 
+```makefile
+KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+PWD := $(shell pwd)
+EXTRA_CFLAGS += -I../System
+KBUILD_EXTRA_SYMBOLS := ../System/Module.symvers
+Project := $(notdir $(shell pwd))
+obj-m := $(Project).o
+all:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+clean:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+start:
+	make all
+	sudo insmod $(Project).ko
+stop:
+	sudo rmmod $(Project).ko
+	make clean
+```
 
 
