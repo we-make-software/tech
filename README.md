@@ -97,7 +97,10 @@ In Linux, we need to tell where Init and Exit are. We use module_init and module
 
 I have two functions called inside RunInit and RunExit, I will explain later. In RunInit, there is a parameter void. In C, functions need a parameter type. If no value is sent, we still write void. The function returns 0. This means success to Linux. You can return other numbers for errors, but here I return 0.
 
-We got to make some code in c a small program not big one 
+We need to write some code in C, a small program, not a big one. This is C. You can see it in the parentheses of many functions or voids. If someone shows code without this, then it is not C, maybe C++. But that will never be at the kernel level; that is for user level. By the way, we are strong, so we work in the kernel, not in the noob area of user space.
+
+The file needs the extension c to work, so each builder knows it is C. We will get to that area.
+
 
 ```c
 #include "Run.h"
