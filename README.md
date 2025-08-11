@@ -83,4 +83,10 @@ Wait a minute, did you see a new word like `define`? This is where we can define
 If you look closely, you’ll see that #ifndef and #define have a name that’s a short identifier we use as developers.
 But some symbols are not allowed in names, like spaces and special characters.
 
-Then you can see we have #include. There is one more type of include which I will explain later. But here you see I use angle brackets. That is the basic way to include system headers in Linux. I have three includes: module, kernel, and init. They are used for the macro Run. As you see in the macro Run, I have parentheses. That is a parameter where I can send text. I will show you that later. I just want to show you that we can send a parameter to a define. In this case, we use MODULE_DESCRIPTION. I do this by writing description with a hash in front, which converts it to a string. This is called stringification.
+
+Then you can see we use `#include`. There is another way to include files, which I will explain later. Here, I use angle brackets. This is how we include system headers in Linux.
+I include three files: module, kernel, and init. These are used by the macro Run.
+In the macro Run, I have parentheses. This lets me send text as a parameter. I will show you how later.
+I just want to show that we can send a parameter to a `#define`. In this case, we use `MODULE_DESCRIPTION`. I do this by writing `#description`, which turns the text into a string. This is called stringification.
+
+
