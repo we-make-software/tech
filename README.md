@@ -144,3 +144,24 @@ stop:
 ```
 
 This is a Makefile that can be simple for each project, but it will not be the same as the one in the System folder. I will explain Makefile functions later, but this is just to give you an overview.
+
+If we look at a system, then we need to make order. That is the best approach to take in server programming or general programming. A list is the best structure to use. You can use the default list system in Linux, but for me, it limits a lot of developer options. It does not give full control.
+
+What I like to do is create my own list system where I have full control.
+
+Think about this: in binary, we can use bits to indicate access methods, call related functions in order, or something else a developer might need. What I need is speed, so I want my list system to be more flexible. Even if it costs some extra bytes in RAM, I prefer speed. Maybe you have your own view, but I like to have a wrapper around the list or main information.
+
+If we think about it, the maximum size of a list is 18446744073709551615ULL. We will never use that because it’s too large for RAM. We need to control the list by removing data when it’s not needed. But again, a list can also be x8, x16, x32, or x64 max size. So the wrapper for this list needs to be flexible.
+
+struct SystemListFunction{
+	void*Event;
+};
+struct ListInfomation{
+   u8 x8:1,x16:1,x31:1,x64:5;
+
+};
+
+[Prev][Next]
+
+
+
