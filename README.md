@@ -61,8 +61,6 @@ Wait a minute, did you see a new word like `define`? This is where we can define
 #include <linux/kernel.h>
 #include <linux/init.h>
 
-#define Void static void
-
 #define Run(description)\
  MODULE_DESCRIPTION(#description);\
  MODULE_LICENSE("GPL");\
@@ -76,6 +74,8 @@ Wait a minute, did you see a new word like `define`? This is where we can define
  }\
  module_init(RunInit);\
  module_exit(RunExit)
+
+#define Void static void
 
 #endif
 ```
