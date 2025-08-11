@@ -91,15 +91,7 @@ I just want to show that we can send a parameter to a `#define`. In this case, w
 
 To make it short about define, I made two versions: Run and Void. As you see, Void is one line, and Run uses backslashes for macro newlines. But remember, there is not a big difference. It is just about reading. Which way is the fastest to read?
 
-The naming its importen why i didnt name Void whit lowcase its becasue its used by c. void means “nothing” or “no value.”
-
-A function with return type void doesn’t return anything.
-
-A function with void in parameters means it takes no arguments.
-
-void* is a pointer to any type (generic pointer).
-
-In this code, Void is just a shortcut for static void.
+The naming is important. I didn’t name Void with lowercase because it is used by C. void means “nothing” or “no value.” A function with return type void doesn’t return anything. A function with void in parameters means it takes no arguments. void pointer is a pointer to any type, a generic pointer. In this code, Void is just a shortcut for static void.
 
 
 
