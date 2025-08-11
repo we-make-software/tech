@@ -170,9 +170,14 @@ In the root, we also have a Makefile.
 ```makefile
 MODULES := System Run
 
-REVERSE_MODULES := $(reverse $(MODULES))
+REVERSE = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1))) $(firstword $(1)))
 
-reverse = $(foreach v,$(1),$(lastword $(v)) $(call reverse,$(wordlist 1,$(words $(v)),$(v))))
+REVERSE_MODULES := $(call REVERSE,$(MODULES))
+
+all:
+	@for m in $(MODULES); do \
+		$(MAKE) -C $$m start || true; \
+	done
 
 stop:
 	@for m in $(REVERSE_MODULES); do \
@@ -188,10 +193,12 @@ clean:
 test:
 	make all
 	make log
-	
+
 github:
 	git add .
 	git commit -m "Auto-commit $(shell date '+%Y-%m-%d %H:%M:%S')"
 	git push origin main
+
+
 ```
 
