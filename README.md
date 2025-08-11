@@ -168,16 +168,17 @@ In the root, we also have a Makefile.
 
 
 ```makefile
-all:
-	$(MAKE) -C System start
+MODULES := System Run
 
-	$(MAKE) -C Run start
+all:
+	for m in $(MODULES); do \
+		$(MAKE) -C $$m start; \
+	done
 
 stop:
-	$(MAKE) -C Run stop || $(MAKE) -C Run clean || true
-	$(MAKE) -C DeviceStorageManagerSystem stop || $(MAKE) -C DeviceStorageManagerSystem clean || true
-	$(MAKE) -C DeviceStorageManagerFile stop || $(MAKE) -C DeviceStorageManagerFile clean || true
-	$(MAKE) -C System stop || $(MAKE) -C System clean || true
+	for m in $(MODULES); do \
+		$(MAKE) -C $$m stop || $(MAKE) -C $$m clean || true; \
+	done
 
 log:
 	sudo dmesg -w
