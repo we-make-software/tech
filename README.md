@@ -170,13 +170,12 @@ In the root, we also have a Makefile.
 ```makefile
 MODULES := System Run
 
-all:
-	for m in $(MODULES); do \
-		$(MAKE) -C $$m start; \
-	done
+REVERSE_MODULES := $(reverse $(MODULES))
+
+reverse = $(foreach v,$(1),$(lastword $(v)) $(call reverse,$(wordlist 1,$(words $(v)),$(v))))
 
 stop:
-	for m in $(MODULES); do \
+	@for m in $(REVERSE_MODULES); do \
 		$(MAKE) -C $$m stop || $(MAKE) -C $$m clean || true; \
 	done
 
