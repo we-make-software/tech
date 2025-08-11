@@ -26,7 +26,7 @@ Let’s begin by making a project called System and Run.
 
 Let’s start with the run. The more you read, the more you will forget about the run. It happens to everyone. 
 Let’s make the system remember the run or more like let the system remember Run.h 
-What is this .h? It’s a header file, a helper. 
+What is this .h? It’s a header file, a helper. But we can name the extension anything, though by default developers call it .h. Simple, right?
 Not everything needs to be remembered, but like Linux, they have a standard way to start. They need MODULE_DESCRIPTION, MODULE_LICENSE, MODULE_AUTHOR, __init, __exit, module_init, and module_exit. 
  
  
@@ -97,3 +97,17 @@ In Linux, we need to tell where Init and Exit are. We use module_init and module
 
 I have two functions called inside RunInit and RunExit, I will explain later. In RunInit, there is a parameter void. In C, functions need a parameter type. If no value is sent, we still write void. The function returns 0. This means success to Linux. You can return other numbers for errors, but here I return 0.
 
+We got to make some code in c a small program not big one 
+
+```c
+#include "Run.h"
+extern void WeMakeSoftwareStart(void);
+extern void WeMakeSoftwareEnd(void);
+Void DefaultStart(void){
+    WeMakeSoftwareStart();
+}
+Void DefaultEnd(void){
+    WeMakeSoftwareEnd();
+}
+Run(WeMakeSoftware)
+```
