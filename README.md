@@ -80,5 +80,7 @@ Wait a minute, did you see a new word like `define`? This is where we can define
 #endif
 ```
 
+If you look closely, you’ll see that #ifndef and #define have a name that’s a short identifier we use as developers.
+But some symbols are not allowed in names, like spaces and special characters.
 
 
