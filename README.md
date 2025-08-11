@@ -143,4 +143,4 @@ stop:
 	make clean
 ```
 
-
+This is a Makefile that can be simple for each project, but it will not be the same as the one in the System folder. I will explain Makefile functions later, but this is just to give you an overview.
