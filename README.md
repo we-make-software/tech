@@ -52,4 +52,28 @@ What it does is it will only run all the code inside once, as you can see in the
 
 Now you understand why we use this wrapper in each header. Bravo! Next step.
 
-wait a minuttes did you see new word like `define` this is where wee can define some code as we can use for the c code and marco code. we can define some name
+Wait a minute, did you see a new word like `define`? This is where we can define some code that we can use for the C code and macro code. We can define a name. A define in a macro does not need a value all the time. We just define it, but we can also place a value. Then the code can look something like this:
+
+```c
+#ifndef Run_h
+#define Run_h
+
+#define Run(description)\
+ MODULE_DESCRIPTION(#description);\
+ MODULE_LICENSE("GPL");\
+ MODULE_AUTHOR("We-Make-Software.Com");\
+ static int __init RunInit(void){\
+  DefaultStart();\
+  return 0;\
+ }\
+ static void __exit RunExit(void){\
+  DefaultEnd();\
+ }\
+ module_init(RunInit);\
+ module_exit(RunExit)
+
+#endif
+```
+
+
+
