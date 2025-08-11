@@ -89,4 +89,8 @@ I include three files: module, kernel, and init. These are used by the macro Run
 In the macro Run, I have parentheses. This lets me send text as a parameter. I will show you how later.
 I just want to show that we can send a parameter to a `#define`. In this case, we use `MODULE_DESCRIPTION`. I do this by writing `#description`, which turns the text into a string. This is called stringification.
 
+To make it short about define, I made two versions: Run and Void. As you see, Void is one line, and Run uses backslashes for macro newlines. But remember, there is not a big difference. It is just about reading. Which way is the fastest to read?
+
+
+
 
