@@ -145,6 +145,54 @@ stop:
 
 This is a Makefile that can be simple for each project, but it will not be the same as the one in the System folder. I will explain Makefile functions later, but this is just to give you an overview.
 
+```makefile
+KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+PWD := $(shell pwd)
+Project := $(notdir $(shell pwd))
+obj-m := $(Project).o
+all:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+clean:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+start:
+	make all
+	sudo insmod $(Project).ko
+stop:
+	sudo rmmod $(Project).ko
+	make clean
+```
+
+this is the system makefile as you can see it does not have EXTRA_CFLAGS or KBUILD_EXTRA_SYMBOLS becasue this its the first start this include code can change so i can explain almost all in the code but its up to you to read. the code.
+
+in the root wee also have a makefile
 
 
+```makefile
+all:
+	$(MAKE) -C System start
+	$(MAKE) -C DeviceStorageManagerSystem start
+	$(MAKE) -C DeviceStorageManagerFile start
+	$(MAKE) -C Run start
+
+stop:
+	$(MAKE) -C Run stop || $(MAKE) -C Run clean || true
+	$(MAKE) -C DeviceStorageManagerSystem stop || $(MAKE) -C DeviceStorageManagerSystem clean || true
+	$(MAKE) -C DeviceStorageManagerFile stop || $(MAKE) -C DeviceStorageManagerFile clean || true
+	$(MAKE) -C System stop || $(MAKE) -C System clean || true
+
+log:
+	sudo dmesg -w
+
+clean:
+	sudo dmesg -C
+
+test:
+	make all
+	make log
+	
+github:
+	git add .
+	git commit -m "Auto-commit $(shell date '+%Y-%m-%d %H:%M:%S')"
+	git push origin main
+```
 
