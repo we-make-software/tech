@@ -231,5 +231,41 @@ struct SystemLibrary {
 
 We can always change the design and think about it. We just need to know the basic information and understand how a computer works. I also think this SystemLibrary needs to be built into each ko file, which is a kernel object, and this is what we build. If we include this SystemLibrary inside each ko file that we make between System and Run, then we don’t need to allocate extra space for it. So, we need to keep that in mind when building.
 
+You probably forgot about `#ifndef`. If you did, please start reading from the top. Because in the System folder, we are going to add a header file `.h`.
 
+It will look like this:
+
+```c
+#ifndef System_h
+#define System_h
+#include "../Run/Run.h"
+#endif
+```
+
+
+
+As you see, we include `Run.h` and have full control over what we do and what we include. Let’s say I want to add the minimal code needed to make the Run project work with System.
+
+Then the code will look like this:
+
+```c
+#include "../Run/Run.h"
+
+void WeMakeSoftwareStart(void);
+void WeMakeSoftwareStart(void) {
+}
+
+EXPORT_SYMBOL(WeMakeSoftwareStart);
+
+void WeMakeSoftwareEnd(void);
+void WeMakeSoftwareEnd(void) {
+}
+
+EXPORT_SYMBOL(WeMakeSoftwareEnd);
+
+Void DefaultStart(void) {}
+Void DefaultEnd(void) {}
+
+Run(System);
+```
 
