@@ -1,10 +1,10 @@
 #include "Run.h"
 extern void WeMakeSoftwareStart(void);
 extern void WeMakeSoftwareEnd(void);
-static void DefaultStart(void){
+Void DefaultStart(void){
     WeMakeSoftwareStart();
 }
-static void DefaultEnd(void){
+Void DefaultEnd(void){
     WeMakeSoftwareEnd();
 }
 Run(WeMakeSoftware)
