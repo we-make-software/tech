@@ -222,11 +222,14 @@ But C is smart: when we make a struct design for this, we can simply say "\[stru
 
 ```c
 struct SystemLibrary {
-	struct SystemLibrary* Next;
+	struct SystemLibrary*next;
 	u8 size;
-	u8* name;
-	void* Connection;
+	u8*name;
+	void*connection;
 };
 ```
+
+We can always change the design and think about it. We just need to know the basic information and understand how a computer works. I also think this SystemLibrary needs to be built into each ko file, which is a kernel object, and this is what we build. If we include this SystemLibrary inside each ko file that we make between System and Run, then we don’t need to allocate extra space for it. So, we need to keep that in mind when building.
+
 
 
