@@ -204,6 +204,12 @@ github:
 
 A Makefile does not have an extension, so name the file `Makefile`. There are a few commands in this Makefile, but I will explain them later when the time comes.
 
+We need to talk about CPU that is the central processing unit. In a server or computer we can have many CPUs maybe they are called cores I don't know. Everyone in this world thinks the CPU is the brain but I would say it is not. It is more about the loop and the RAM and the next step what we developers make. That is the brain and tactic. The problem here is what happens if different CPUs read data and need to change it add something or modify that data. Then what happens is maybe a crash or multiple same data being added. This is something we need to understand as developers.
+
+Sometimes we can ignore adding a task if it only needs to add data. Or maybe we need to add and remove a task. As developers, we think about splitting microseconds every second counts. We need to have full control over each task.
+
+But as first layer of connection it’s okay to be slow after each struct function is connected then we have the speed.
+
 
 
 
