@@ -273,3 +273,11 @@ We are using `EXPORT_SYMBOL` in `System.c`. We need to declare the function; thi
 
 Remember you can use `EXPORT_SYMBOL` in your project however you like, but just a reminder: code runs from top to bottom, so you can’t jump around in the code. With my setup, we can jump.
 
+If you also remember, the Makefile for other projects had some code like:
+
+```makefile
+EXTRA_CFLAGS += -I../System
+KBUILD_EXTRA_SYMBOLS := ../System/Module.symvers
+```
+
+That’s because now we have a link to it. When we build, we create a Module.symvers file that basically links to the System.
