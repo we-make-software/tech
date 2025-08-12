@@ -202,8 +202,8 @@ github:
 
 ```
 
+A Makefile does not have an extension, so name the file `Makefile`. There are a few commands in this Makefile, but I will explain them later when the time comes.
 
-A Makefile does not have any extension, so name the file `Makefile`.
 
 
 
