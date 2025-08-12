@@ -249,7 +249,7 @@ As you see, we include `Run.h` and have full control over what we do and what we
 Then the code will look like this:
 
 ```c
-#include "../Run/Run.h"
+#include "System.h"
 
 void WeMakeSoftwareStart(void);
 void WeMakeSoftwareStart(void) {
