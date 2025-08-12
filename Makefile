@@ -1,15 +1,18 @@
+MODULES := System Run
+
+REVERSE = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1))) $(firstword $(1)))
+
+REVERSE_MODULES := $(call REVERSE,$(MODULES))
 
 all:
-	$(MAKE) -C System start
-	$(MAKE) -C DeviceStorageManagerSystem start
-	$(MAKE) -C DeviceStorageManagerFile start
-	$(MAKE) -C Run start
+	@for m in $(MODULES); do \
+		$(MAKE) -C $$m start || true; \
+	done
 
 stop:
-	$(MAKE) -C Run stop || $(MAKE) -C Run clean || true
-	$(MAKE) -C DeviceStorageManagerSystem stop || $(MAKE) -C DeviceStorageManagerSystem clean || true
-	$(MAKE) -C DeviceStorageManagerFile stop || $(MAKE) -C DeviceStorageManagerFile clean || true
-	$(MAKE) -C System stop || $(MAKE) -C System clean || true
+	@for m in $(REVERSE_MODULES); do \
+		$(MAKE) -C $$m stop || $(MAKE) -C $$m clean || true; \
+	done
 
 log:
 	sudo dmesg -w
@@ -20,8 +23,9 @@ clean:
 test:
 	make all
 	make log
-	
+
 github:
 	git add .
 	git commit -m "Auto-commit $(shell date '+%Y-%m-%d %H:%M:%S')"
 	git push origin main
+
