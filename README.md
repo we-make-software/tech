@@ -211,5 +211,22 @@ Sometimes we can ignore adding a task if it only needs to add data. Or maybe we 
 But as first layer of connection it’s okay to be slow after each struct function is connected then we have the speed.
 
 
+The system needs to hold references to all other projects, but it also needs to have start and stop signals. That’s why the Run project is the last, and the System project is the first.
+
+What is the best way to hold references? It’s simply a list that shows what’s next. If we add a simple Linux list, we basically waste a lot of bytes.
+
+Because what I think is we only need next, name, and a pointer to the struct of that function, like an API if you know what that is.
+The design needs to be \[next]\[name size]\[name]\[pointer to the struct]. Okay, the next is a pointer to the next value.
+Because we don’t know what version we work on, let’s say if x86 then the pointer can be different size, if x64 then it’s another size.
+But C is smart: when we make a struct design for this, we can simply say "\[struct name]\*next" and the compiler will automatically find the correct size.
+
+```c
+struct SystemLibrary {
+	struct SystemLibrary* Next;
+	u8 size;
+	u8* name;
+	void* Connection;
+};
+```
 
 
