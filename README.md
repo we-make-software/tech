@@ -269,3 +269,5 @@ Void DefaultEnd(void) {}
 Run(System);
 ```
 
+We are using `EXPORT_SYMBOL` in `System.c`. We need to declare the function; this cannot be `static`. It is a simple `void` function. We also need to declare it; that is a rule in C. We can ignore declaring it, but then we will get a warning. As you can see, we have these two functions `WeMakeSoftwareStart` and `WeMakeSoftwareEnd` that are used to run the project. We export them, and these two functions are only needed for that run project. This is the area where the signal goes in.
+
