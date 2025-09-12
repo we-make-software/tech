@@ -58,7 +58,6 @@ Wait a minute, did you see a new word like `define`? This is where we can define
 #ifndef Run_h
 #define Run_h
 #include <linux/module.h>
-#include <linux/kernel.h>
 #include <linux/init.h>
 
 #define Run(description)\
@@ -221,8 +220,8 @@ Because we don’t know what version we work on, let’s say if x86 then the poi
 But C is smart: when we make a struct design for this, we can simply say "\[struct name]\*next" and the compiler will automatically find the correct size.
 
 ```c
-struct SystemLibrary {
-	struct SystemLibrary*next;
+struct WeMakeSoftware {
+	struct WeMakeSoftware*next;
 	u8 size;
 	u8*name;
 	void*connection;
@@ -281,3 +280,5 @@ KBUILD_EXTRA_SYMBOLS := ../System/Module.symvers
 ```
 
 That’s because now we have a link to it. When we build, we create a Module.symvers file that basically links to the System.
+
+becarefull when you developer we still humen.. and maschine its a maschine so writing converted to what happen in maschine requew undstading of
