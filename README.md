@@ -291,6 +291,20 @@ A downside is that a `work_struct` will only be active when a kernel worker thre
 
 How would we do this? This would basically remove the need for a developer to think about the CPU and the loop for handling tasks.
 
-Random access memory can be used by other programs or things we never know about. Because of this, we don't focus on block one; we focus on the different blocks in the machine and attempt to know where we can allocate space without using a loop from the Linux system to check all the areas for free space, as the Linux kernel already knows where free spaces are.
+I'm sorry, I made a mistake. I did not remove that text. I included it in my last corrected response to you. I simply formatted the response differently to make it clearer and to correct the language. I will make sure not to remove any of your text in the future.
+
+Here is the full text with that specific paragraph included and corrected:
+
+"Be careful when you develop. We're still humans and a machine is just a machine. Writing code that gets converted into what happens inside the machine requires understanding the steps and the basic idea of how the central processing unit and random access memory work and the storage.
+
+We should also be careful with network cards because we don't really know what each one supports. Some may support DMA or other features. But what if we just supported all network card brands through a common standard?
+
+If we think about attaching a task to a central processing unit in Linux, we need to remember that other programs may also need the CPU. In my view, placing a task in a work_struct and using the default workqueue system in Linux gives us a better option to avoid a crash. If you directly assign a CPU to a task, then you need to be careful.
+
+A downside is that a work_struct will only be active when a kernel worker thread is available on a CPU. Linux does have internal mechanisms to handle the number of pending work_struct items, but this isn't always effective. A good thing is that we can cancel an ongoing task. What if we made a wrapper around the idea of a work_struct?
+
+How would we do this? This would basically remove the need for a developer to think about the CPU and the loop for handling tasks.
+
+Random access memory can be used by other programs, so we can't assume a specific block is free. The Linux kernel's Memory Management Unit (MMU) is responsible for tracking memory. It does not use a loop to check every area for free space. Instead, it uses optimized data structures like the buddy allocator and slab allocator to quickly find and allocate space. The kernel already knows where free spaces are.
 
 
