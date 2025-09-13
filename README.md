@@ -281,4 +281,16 @@ KBUILD_EXTRA_SYMBOLS := ../System/Module.symvers
 
 That’s because now we have a link to it. When we build, we create a Module.symvers file that basically links to the System.
 
-becarefull when you developer we still humen.. and maschine its a maschine so writing converted to what happen in maschine requew undstading of
+Be careful when you develop. We're still humans and a machine is just a machine. Writing code that gets converted into what happens inside the machine requires understanding the steps and the basic idea of how the central processing unit and random access memory work and the storage.
+
+We should also be careful with network cards because we don't really know what each one supports. Some may support DMA or other features. But what if we just supported all network card brands through a common standard?
+
+If we think about attaching a task to a central processing unit in Linux, we need to remember that other programs may also need the CPU. In my view, placing a task in a `work_struct` and using the default workqueue system in Linux gives us a better option to avoid a crash. If you directly assign a CPU to a task, then you need to be careful.
+
+A downside is that a `work_struct` will only be active when a kernel worker thread is available on a CPU. Linux does have internal mechanisms to handle the number of pending `work_struct` items, but this isn't always effective. A good thing is that we can cancel an ongoing task. What if we made a wrapper around the idea of a `work_struct`?
+
+How would we do this? This would basically remove the need for a developer to think about the CPU and the loop for handling tasks.
+
+Random access memory can be used by other programs or things we never know about. Because of this, we don't focus on block one; we focus on the different blocks in the machine and attempt to know where we can allocate space without using a loop from the Linux system to check all the areas for free space, as the Linux kernel already knows where free spaces are.
+
+
