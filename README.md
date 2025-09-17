@@ -305,9 +305,9 @@ A downside is that a work_struct will only be active when a kernel worker thread
 
 How would we do this? This would basically remove the need for a developer to think about the CPU and the loop for handling tasks.
 
-
-
-
 Random access memory can be used by other programs, so we can't assume a specific block is free. The Linux kernel's Memory Management Unit (MMU) is responsible for tracking memory. It does not use a loop to check every area for free space. Instead, it uses optimized data structures like the buddy allocator and slab allocator to quickly find and allocate space. The kernel already knows where free spaces are.
+
+If we think about disks and storage, designing a solution for each disk or storage device would take a long time. I believe the simpler approach is to just use the filesystem Linux provides, like ext4 (Fourth Extended Filesystem), which supports a maximum file size of 16 TB. In this way, we don’t need to make a big drama about disk or storage formats; we can simply keep a file. The RAID system is best handled by the server, not the application, although we can connect an event handler to a disk. Essentially, the system only needs to report if a disk has an error, not individual files. So basically, it’s a matter of distinguishing between the physical disk itself and the storage it provides.
+
 
 
