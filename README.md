@@ -444,3 +444,57 @@ Run(System);
 
 If you see this code, it should be fairly easy to read. I hope you got a little bit of knowledge on how to read code now. If not, take your time and study it carefully. Understanding kernel lists, function pointers, and `EXPORT_SYMBOL` is key here.
 
+It’s okay to be lazy that’s why we make the DSL
+
+This is the DSL for it if you read this header you can understand what happens maybe or we take it from there
+
+```c
+#ifndef System_h
+#define System_h
+#include "../Run/Run.h"
+
+#define WeMakeSoftwareLibrary(description)\
+    struct Project_##description
+
+extern void* WeMakeSoftwareGet(unsigned char*SystemName);
+
+#define InitSystemLibrary(description) \
+static struct Project_##description* Get##description(void) { \
+    static struct Project_##description *project = NULL; \
+    if (!project) \
+        project = WeMakeSoftwareGet(#description); \
+    return project; \
+}
+
+#define WeMakeSoftwareRun(description, projectEnd, ...) \
+static void WeMakeSoftwareStart(void); \
+struct WeMakeSoftware{ \
+    unsigned char *name; \
+    void (*start)(void); \
+    void (*end)(void); \
+    void *library; \
+    struct list_head list; \
+}; \
+static struct WeMakeSoftware weMakeSoftware; \
+static struct Project_##description* InitProject(void){ \
+    static struct Project_##description library={__VA_ARGS__}; \
+    return &library; \
+} \
+extern void WeMakeSoftwareAdd(struct WeMakeSoftware*); \
+static void DefaultStart(void){ \
+    weMakeSoftware.name=kstrdup(#description, GFP_KERNEL); \
+    weMakeSoftware.start=&WeMakeSoftwareStart; \
+    weMakeSoftware.end=projectEnd; \
+    weMakeSoftware.library=(void*)InitProject(); \
+    INIT_LIST_HEAD(&weMakeSoftware.list); \
+    WeMakeSoftwareAdd(&weMakeSoftware); \
+} \
+static void DefaultEnd(void){ \
+    list_del(&weMakeSoftware.list); \
+    kfree(weMakeSoftware.name); \
+} \
+Run(description); \
+static void WeMakeSoftwareStart(void)
+
+#endif
+```
