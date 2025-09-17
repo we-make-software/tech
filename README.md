@@ -334,3 +334,17 @@ Do you see the difference? It looks shorter, but in reality, it has the **same s
 
 The point is, there’s no single “right” way to write it. Everyone can choose their style, but it’s worth remembering that some developers prioritize optimization and compactness, while others prioritize clarity and readability. We write in C, not assembly. Remember that. I hope you all get the point.
 
+
+There are many ways to do things. We can also change the struct like this:
+
+```c
+struct WeMakeSoftware {
+    unsigned char *name;
+    void (*startOrEnd)(void);
+    void *library;
+    struct WeMakeSoftware *prev;
+};
+```
+
+Think about this: the information needs to be **static inside each kernel object file** we build. What do you think about that idea?
+
