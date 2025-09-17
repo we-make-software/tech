@@ -298,11 +298,37 @@ If we think about storage for KVM or virtual environments, designing a custom so
 
 Confused like me? Don’t worry! Coding in your brain takes time.
 
-The difference between C and assembly is that C is human-readable, while assembly is almost not human-readable. C operates at the kernel level, can provide high speed, but requires a step-by-step understanding of how the code executes.
+The difference between C and assembly is that C is human-readable, while assembly is almost not human-readable. C operates at the kernel level, can provide high speed, but requires a step-by-step understanding of how the code executes. However, the more we develop in C, the more we forget about the basics. We create functions and tasks that handle different things, like I showed earlier about connecting kernel object files. But let’s forget about that for now. What I mean is, let’s step away from the details and just write so we don’t have to think about it and can make it standard. What I am thinking is to create a domain-specific language on top of what we have already built.
 
-However, the more we develop in C, the more we forget about the basics. We create functions and tasks that handle different things, like I showed earlier about connecting kernel object files.
 
-But let’s forget about that for now. What I mean is, let’s step away from the details and just write so we don’t have to think about it and can make it standard.
 
-What I am thinking is to create a domain-specific language on top of what we have already built.
+If we go back to `System.c`, we need a get function that basically returns the library. So the new struct would look like this:
+
+```c
+struct WeMakeSoftware {
+    unsigned char *name;
+    void (*start)(void);
+    void (*end)(void);
+    void *library;
+    struct WeMakeSoftware *prev;
+};
+```
+
+We have a name as an unsigned char pointer, which is fine. We have `start`, `end`, then the library pointer, and `prev`.
+
+Thinking smart: when we need to start, we have all this information. Do we need all of it during runtime? After calling `start`, we probably don’t need the `start` pointer anymore. To save RAM, we can separate the structs: `WeMakeSoftwareStartup` has all the information needed to initialize, and `WeMakeSoftwareApplicationInterface` has only the information needed at runtime, like `name`, `end`, and `prev`, but no `start` pointer.
+
+This respects memory usage while keeping the information organized.
+
+But what I want you to focus on is optimization:
+
+```c
+struct WeMakeSoftwareStartup {
+    unsigned char *name;
+    void (*start)(void), (*end)(void), *library;
+    struct WeMakeSoftware *prev;
+};
+```
+
+Do you see the difference? It looks shorter, but in reality, it has the **same size**.
 
