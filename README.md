@@ -381,3 +381,8 @@ if (my_dynamic) {
 For a domain language system you might want **static structs** for things that are always there, like the core definition of the module or its interface. They don’t change and don’t need to be freed. But for objects that come and go, like tasks, packets, or connections, it is better to use **kmalloc**, because you can allocate and free them dynamically as the system runs.
 
 A static struct still uses RAM. It lives in the data or bss section of the module and is always present while the module is loaded. Kmalloс allocates memory dynamically from the kernel heap and can free it when it’s no longer needed. Static is fixed and always occupies RAM, kmalloc is flexible but only exists when you allocate it.
+
+`kstrdup` is a kernel function that makes a copy of a string in RAM. It takes the original string, allocates space in the kernel heap, and stores the copy there. You can use the copy safely in your module, and when the module ends, you free the memory with `kfree`. This allows each instance to have its own string, instead of sharing a static pointer. Use it whenever you need a dynamic string in kernel code.
+
+
+
