@@ -384,5 +384,6 @@ A static struct still uses RAM. It lives in the data or bss section of the modul
 
 `kstrdup` is a kernel function that makes a copy of a string in RAM. It takes the original string, allocates space in the kernel heap, and stores the copy there. You can use the copy safely in your module, and when the module ends, you free the memory with `kfree`. This allows each instance to have its own string, instead of sharing a static pointer. Use it whenever you need a dynamic string in kernel code.
 
+Sometimes Linux provides useful headers or systems we can use. I like `list_head`; it’s perfect in many ways for what I’m doing right now. Maybe later it won’t be ideal, but for my current purpose, it works perfectly. That’s why I added it to the struct.
 
 
