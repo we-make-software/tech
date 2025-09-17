@@ -1,10 +1,9 @@
 #include "../Run/Run.h"
-struct WeMakeSoftware{
-    unsigned char*name;
-    void(*start)(void);
-    void(*end)(void);
-    void*library;
-    struct list_head list;
+struct WeMakeSoftware {
+    unsigned char *name;
+    void (*startOrEnd)(void);
+    void *library;
+    struct WeMakeSoftware *prev;
 };
 static LIST_HEAD(list);
 void*WeMakeSoftwareGet(unsigned char*);
