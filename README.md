@@ -310,7 +310,7 @@ struct WeMakeSoftware {
     void (*start)(void);
     void (*end)(void);
     void *library;
-	struct list_head list;
+	struct WeMakeSoftware *prev;
 };
 ```
 
@@ -343,7 +343,7 @@ struct WeMakeSoftware {
     void (*start)(void);
     void (*end)(void);
     void *library;
-    struct WeMakeSoftware *prev;
+	struct list_head list;
 };
 ```
 
