@@ -2,7 +2,6 @@
 #define System_h
 #include "../Run/Run.h"
 
-
 #define WeMakeSoftwareLibrary(description)\
     struct Project_##description
 
