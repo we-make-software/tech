@@ -340,7 +340,8 @@ There are many ways to do things. We can also change the struct like this:
 ```c
 struct WeMakeSoftware {
     unsigned char *name;
-    void (*startOrEnd)(void);
+    void (*start)(void);
+    void (*end)(void);
     void *library;
     struct WeMakeSoftware *prev;
 };
