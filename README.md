@@ -386,4 +386,61 @@ A static struct still uses RAM. It lives in the data or bss section of the modul
 
 Sometimes Linux provides useful headers or systems we can use. I like `list_head`; it’s perfect in many ways for what I’m doing right now. Maybe later it won’t be ideal, but for my current purpose, it works perfectly. That’s why I added it to the struct.
 
+```c
+#include "../Run/Run.h"
+
+struct WeMakeSoftware {
+    unsigned char *name;
+    void (*start)(void);
+    void (*end)(void);
+    void *library;
+    struct WeMakeSoftware *prev;
+};
+
+static LIST_HEAD(list);
+
+void* WeMakeSoftwareGet(unsigned char*);
+void* WeMakeSoftwareGet(unsigned char* name){
+    struct WeMakeSoftware* wms;
+    list_for_each_entry(wms, &list, list){
+        if (strcmp(wms->name, name) == 0)
+            return wms->library;
+    }
+    return NULL;
+}
+EXPORT_SYMBOL(WeMakeSoftwareGet);
+
+void WeMakeSoftwareAdd(struct WeMakeSoftware*);
+void WeMakeSoftwareAdd(struct WeMakeSoftware* wms){
+    list_add_tail(&wms->list, &list);
+}
+EXPORT_SYMBOL(WeMakeSoftwareAdd);
+
+void WeMakeSoftwareStart(void);
+void WeMakeSoftwareStart(void){
+    struct WeMakeSoftware* wms;
+    list_for_each_entry(wms, &list, list){
+        if (wms->start)
+            wms->start();
+    }
+}
+EXPORT_SYMBOL(WeMakeSoftwareStart);
+
+void WeMakeSoftwareEnd(void);
+void WeMakeSoftwareEnd(void){
+    struct WeMakeSoftware* wms;
+    list_for_each_entry_reverse(wms, &list, list){
+        if (wms->end)
+            wms->end();
+    }
+}
+EXPORT_SYMBOL(WeMakeSoftwareEnd);
+
+static void DefaultStart(void){}
+static void DefaultEnd(void){}
+
+Run(System);
+```
+
+If you see this code, it should be fairly easy to read. I hope you got a little bit of knowledge on how to read code now. If not, take your time and study it carefully. Understanding kernel lists, function pointers, and `EXPORT_SYMBOL` is key here.
 
