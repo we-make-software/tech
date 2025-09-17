@@ -349,3 +349,6 @@ struct WeMakeSoftware {
 
 Think about this: the information needs to be **static inside each kernel object file** we build. What do you think about that idea?
 
+When we talk about allocations up to 4096 bytes, kmalloc is actually very fast. The Linux kernel uses slab or slub allocators that keep caches of objects in powers-of-two sizes (32, 64, 128, 256, 512, 1024, 2048, 4096, …). So if we request 4096 bytes, the allocator just takes an entry from the 4096-byte cache, which usually maps exactly to a single page. This means allocation is basically just popping a pointer from a freelist, an O(1) operation. We only hit the buddy allocator when we go above one page (for example, 8192 bytes). So for allocations of 4 KB or less, kmalloc is very efficient.
+
+
