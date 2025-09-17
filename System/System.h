@@ -8,13 +8,14 @@
 
 extern void*WeMakeSoftwareGet(unsigned char*SystemName);
 
-#define InitSystemLibrary(description)\
-    static struct Project_##description*Get##description(void){\
-        static struct Project_##description*project=NULL;\
-        if(!project)\
-            project=WeMakeSoftwareGet(#description);\
-        return project;\
-    }
+#define InitSystemLibrary(description) \
+static struct Project_##description* Get##description(void) { \
+    static struct Project_##description *project = NULL; \
+    if (!project) \
+        project = WeMakeSoftwareGet(#description); \
+    return project; \
+}
+
 
 #define WeMakeSoftwareRun(description, projectEnd, ...) \
 static void WeMakeSoftwareStart(void); \
