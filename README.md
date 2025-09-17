@@ -332,5 +332,5 @@ struct WeMakeSoftwareStartup {
 
 Do you see the difference? It looks shorter, but in reality, it has the **same size**.
 
-The point is: there’s no single “right” way to write it. Everyone can choose their style, but it’s worth remembering that some developers prioritize optimization or compactness, while others prioritize clarity and readability.
+The point is, there’s no single “right” way to write it. Everyone can choose their style, but it’s worth remembering that some developers prioritize optimization and compactness, while others prioritize clarity and readability. We write in C, not assembly. Remember that. I hope you all get the point.
 
