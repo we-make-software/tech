@@ -296,6 +296,8 @@ Random access memory can be used by other programs, so we can't assume a specifi
 If we think about storage for KVM or virtual environments, designing a custom solution for each virtual disk or device would take a long time. A simpler approach is to use an LVM logical volume as a raw block device and build our own storage format on top of it. This way, we don’t need to deal with standard filesystems like ext4; we can manage the storage blocks ourselves. The underlying RAID or disk management is best handled by the host server, although we can attach event handlers to monitor the LV. Essentially, the system only needs to report if a block or LV encounters an error, not individual files. So, it’s important to distinguish between the logical volume itself and the storage it resides on. The maximum size we can address is u64 = 18,446,744,073,709,551,615 bytes, which is 16,384 PB it would be hard to reach that, but okay, we got it.
 
 
+Confused like me? Don’t worry! Coding in your brain takes time.
+
 
 
 
