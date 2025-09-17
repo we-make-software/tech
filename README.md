@@ -351,4 +351,35 @@ Think about this: the information needs to be **static inside each kernel object
 
 When we talk about allocations up to 4096 bytes, kmalloc is actually very fast. The Linux kernel uses slab or slub allocators that keep caches of objects in powers-of-two sizes (32, 64, 128, 256, 512, 1024, 2048, 4096, …). So if we request 4096 bytes, the allocator just takes an entry from the 4096-byte cache, which usually maps exactly to a single page. This means allocation is basically just popping a pointer from a freelist, an O(1) operation. We only hit the buddy allocator when we go above one page (for example, 8192 bytes). So for allocations of 4 KB or less, kmalloc is very efficient.
 
+If we place a struct as static in a file it will not use kmalloc but instead be stored inside the data or bss section of the kernel module. That means the struct is always there for the full lifetime of the module. If we use kmalloc then the struct is allocated from the kernel heap at runtime and we can free it again when we don’t need it. Static is fixed and always present, kmalloc is dynamic and flexible.
 
+Example:
+
+```c
+// Static storage (always exists while module is loaded)
+static struct WeMakeSoftware my_static = {
+    .name = "static-example",
+    .start = NULL,
+    .end = NULL,
+    .library = NULL,
+    .prev = NULL,
+};
+
+// Dynamic storage (allocated and freed at runtime)
+struct WeMakeSoftware *my_dynamic;
+
+my_dynamic = kmalloc(sizeof(*my_dynamic), GFP_KERNEL);
+if (my_dynamic) {
+    my_dynamic->name = "dynamic-example";
+    my_dynamic->start = NULL;
+    my_dynamic->end = NULL;
+    my_dynamic->library = NULL;
+    my_dynamic->prev = NULL;
+    // ...
+    kfree(my_dynamic);
+}
+```
+
+For a domain language system you might want **static structs** for things that are always there, like the core definition of the module or its interface. They don’t change and don’t need to be freed. But for objects that come and go, like tasks, packets, or connections, it is better to use **kmalloc**, because you can allocate and free them dynamically as the system runs.
+
+A static struct still uses RAM. It lives in the data or bss section of the module and is always present while the module is loaded. Kmalloс allocates memory dynamically from the kernel heap and can free it when it’s no longer needed. Static is fixed and always occupies RAM, kmalloc is flexible but only exists when you allocate it.
