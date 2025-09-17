@@ -298,6 +298,11 @@ If we think about storage for KVM or virtual environments, designing a custom so
 
 Confused like me? Don’t worry! Coding in your brain takes time.
 
+The difference between C and assembly is that C is human-readable, while assembly is almost not human-readable. C operates at the kernel level, can provide high speed, but requires a step-by-step understanding of how the code executes.
 
+However, the more we develop in C, the more we forget about the basics. We create functions and tasks that handle different things, like I showed earlier about connecting kernel object files.
 
+But let’s forget about that for now. What I mean is, let’s step away from the details and just write so we don’t have to think about it and can make it standard.
+
+What I am thinking is to create a domain-specific language on top of what we have already built.
 
