@@ -293,7 +293,9 @@ How would we do this? This would basically remove the need for a developer to th
 
 Random access memory can be used by other programs, so we can't assume a specific block is free. The Linux kernel's Memory Management Unit (MMU) is responsible for tracking memory. It does not use a loop to check every area for free space. Instead, it uses optimized data structures like the buddy allocator and slab allocator to quickly find and allocate space. The kernel already knows where free spaces are.
 
-If we think about disks and storage, designing a solution for each disk or storage device would take a long time. I believe the simpler approach is to just use the filesystem Linux provides, like ext4 (Fourth Extended Filesystem), which supports a maximum file size of 16 TB. In this way, we don’t need to make a big drama about disk or storage formats; we can simply keep a file. The RAID system is best handled by the server, not the application, although we can connect an event handler to a disk. Essentially, the system only needs to report if a disk has an error, not individual files. So basically, it’s a matter of distinguishing between the physical disk itself and the storage it provides.
+If we think about storage for KVM or virtual environments, designing a custom solution for each virtual disk or device would take a long time. A simpler approach is to use an LVM logical volume as a raw block device and build our own storage format on top of it. This way, we don’t need to deal with standard filesystems like ext4; we can manage the storage blocks ourselves. The underlying RAID or disk management is best handled by the host server, although we can attach event handlers to monitor the LV. Essentially, the system only needs to report if a block or LV encounters an error, not individual files. So, it’s important to distinguish between the logical volume itself and the storage it resides on. The maximum size we can address is u64 = 18,446,744,073,709,551,615 bytes, which is 16,384 PB it would be hard to reach that, but okay, we got it.
+
+
 
 
 
