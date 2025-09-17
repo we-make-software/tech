@@ -2,37 +2,6 @@
 #define System_h
 #include "../Run/Run.h"
 
-#define GlobelList(name) static LIST_HEAD(name)
-
-#define GlobelMutex(name) static DEFINE_MUTEX(name)
-
-#define U16MaxOverflow  65536 
-
-#define u16Max 65535
-
-#define u32Max 4294967295
-
-#define u64Max 18446744073709551615ULL 
-
-#define Struct struct __attribute__((packed))
-
-#define ActionWithArgs(name,...)void(*name)(__VA_ARGS__)
-
-#define CreateActionWithArgs(name,...)static void name(__VA_ARGS__)
-
-#define Action(name)ActionWithArgs(name,void)
-
-#define CreateAction(name)CreateActionWithArgs(name,void)
-
-#define FunctionWithArgs(object,name,...)object(*name)(__VA_ARGS__)
-
-#define CreateFunctionWithArgs(object,name,...)static object name(__VA_ARGS__)
-
-#define Function(object,name)FunctionWithArgs(object,name,void)
-
-#define CreateFunction(object,name)CreateFunctionWithArgs(object,name,void)
-
-#define Bind(name).name=name
 
 #define WeMakeSoftwareLibrary(description)\
     struct Project_##description
