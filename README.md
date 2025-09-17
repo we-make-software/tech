@@ -362,7 +362,6 @@ static struct WeMakeSoftware my_static = {
     .start = NULL,
     .end = NULL,
     .library = NULL,
-    .prev = NULL,
 };
 
 // Dynamic storage (allocated and freed at runtime)
@@ -374,7 +373,6 @@ if (my_dynamic) {
     my_dynamic->start = NULL;
     my_dynamic->end = NULL;
     my_dynamic->library = NULL;
-    my_dynamic->prev = NULL;
     // ...
     kfree(my_dynamic);
 }
