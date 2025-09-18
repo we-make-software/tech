@@ -1,4 +1,7 @@
-MODULES := System $(shell tr '\n' ' ' < Init.Setup.mk) Run
+MODULES_FROM_INIT_SETUP := $(shell tr '\n' ' ' < Init.Setup.mk)
+
+# Put System first and Run last
+MODULES := System $(MODULES_FROM_INIT_SETUP) Run
 
 REVERSE = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1))) $(firstword $(1)))
 
