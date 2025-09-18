@@ -498,3 +498,5 @@ static void WeMakeSoftwareStart(void)
 
 #endif
 ```
+
+As I said before System.c is the only file that has the EXPORT_SYMBOL. From now on we are not going to use EXPORT_SYMBOL anymore. System.h is the new DSL, we can call this System-DSL. This is just a sketch, a start we can build on. Not everything needs to be built in one go, but this is so you remember.
