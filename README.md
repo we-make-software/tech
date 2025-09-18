@@ -394,7 +394,7 @@ struct WeMakeSoftware {
     void (*start)(void);
     void (*end)(void);
     void *library;
-    struct WeMakeSoftware *prev;
+	struct list_head list;
 };
 
 static LIST_HEAD(list);
