@@ -1,6 +1,5 @@
-MODULES_FROM_INIT_SETUP := $(shell tr '\n' ' ' < Init.Setup.mk)
+MODULES_FROM_INIT_SETUP := $(shell grep -v '^\s*$$' Init.Setup | tr '\n' ' ')
 
-# Put System first and Run last
 MODULES := System $(MODULES_FROM_INIT_SETUP) Run
 
 REVERSE = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1))) $(firstword $(1)))
