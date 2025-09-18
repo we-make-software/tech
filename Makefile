@@ -1,4 +1,4 @@
-MODULES := $(shell tr '\n' ' ' < Init.Setup)
+MODULES := System $(shell tr '\n' ' ' < Init.Setup.mk) Run
 
 REVERSE = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1))) $(firstword $(1)))
 
