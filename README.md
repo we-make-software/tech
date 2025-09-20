@@ -501,3 +501,11 @@ static void WeMakeSoftwareStart(void)
 ```
 
 As I said before System.c is the only file that has the EXPORT_SYMBOL. From now on we are not going to use EXPORT_SYMBOL anymore. System.h is the new DSL, we can call this System-DSL. This is just a sketch, a start we can build on. Not everything needs to be built in one go, but this is so you remember.
+
+so what the idea is we need some kind of application library interface. by default i call it `static struct Project_##description`, the description is the project name. the rules are it can’t have spaces or any symbols, it needs to be ascii.
+
+the `InitSystemLibrary` needs to be used to configure the project. when we go deeper you will understand. so every time i come with the title `System-DSL` then it’s about this.
+
+
+
+
