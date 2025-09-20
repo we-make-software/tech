@@ -509,9 +509,12 @@ The `InitSystemLibrary` needs to be used to configure the project. When we go de
 
 I believe the network layer is important when it comes to servers, which is why I start with the network layer. I will add other projects as I go. For this reason, I have another file in the *System* folder called **Directory.h**, which will serve as the main entry point for all headers that will be connected.
 
-When we developer wee need to make time to make everything easy.
-Well i used sometimes and love to corret my main Makefile
+Here is a shorter, cleaner version that reads like a small tutorial or explanation for developers:
 
+
+As developers we want to save time and keep things simple. I like to improve my main `Makefile` to make project setup easier:
+
+```make
 MODULES_FROM_DIRECTORY := $(shell grep '^#include "' System/Directory.h | \
                            sed -e 's/#include "//' -e 's/\\\.h"//')
 
@@ -520,31 +523,17 @@ MODULES := System $(MODULES_FROM_DIRECTORY) Run
 REVERSE = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1))) $(firstword $(1)))
 
 REVERSE_MODULES := $(call REVERSE,$(MODULES))
+```
 
-all:
-	@for m in $(MODULES); do \
-		$(MAKE) -C $$m start || true; \
-	done
+In the `System` folder there is a `Directory.h` file where all project header folders are listed. Each project only needs three files: `.c`, `.h`, and `Makefile`.
 
-stop:
-	@for m in $(REVERSE_MODULES); do \
-		$(MAKE) -C $$m stop || $(MAKE) -C $$m clean || true; \
-	done
+This lets you focus on creating the project rather than managing file names. Extra build features can be added later.
 
-log:
-	sudo dmesg -w
+The `Makefile` reads `Directory.h` and generates a module list. `System` and `Run` are always included as standard modules.
 
-clean:
-	sudo dmesg -C
 
-test:
-	make all
-	make log
 
-github:
-	git add .
-	git commit -m "Auto-commit $(shell date '+%Y-%m-%d %H:%M:%S')"
-	git push origin main
 
-thats the code.. well what change well in System folder i have this Directory.h this where i can list all my project header folder. i think each project only need to have 3 files. .c .h Makefile.
-So i can focus on create project. and not the file names.. i think build not the add we will do that later. but ere you see it go in and take the file Directory.h and make a lust of how to run there 2 project that its ot include as need to be standard System and run
+
+
+
