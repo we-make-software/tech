@@ -527,7 +527,7 @@ REVERSE_MODULES := $(call REVERSE,$(MODULES))
 
 In the `System` folder there is a `Directory.h` file where all project header folders are listed. Each project only needs three files: `.c`, `.h`, and `Makefile`.
 
-This lets you focus on creating the project rather than managing file names. Extra build features can be added later.
+This lets me focus on creating the project rather than managing file names. Extra build features can be added later.
 
 The `Makefile` reads `Directory.h` and generates a module list. `System` and `Run` are always included as standard modules.
 
