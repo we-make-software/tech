@@ -510,7 +510,7 @@ The `InitSystemLibrary` needs to be used to configure the project. When we go de
 I believe the network layer is important when it comes to servers, which is why I start with the network layer. I will add other projects as I go. For this reason, I have another file in the *System* folder called **Directory.h**, which will serve as the main entry point for all headers that will be connected.
 
 
-As developers wee want to save time and keep things simple. I like to improve my main `Makefile` to make project setup easier:
+As developers we want to save time and keep things simple. I like to improve my main `Makefile` to make project setup easier:
 
 ```make
 MODULES_FROM_DIRECTORY := $(shell grep '^#include "' System/Directory.h | \
