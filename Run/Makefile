@@ -1,11 +1,10 @@
-
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
 EXTRA_CFLAGS += -I../System
 KBUILD_EXTRA_SYMBOLS := ../System/Module.symvers
 
 Project := $(notdir $(shell pwd))
-SRC := $(wildcard *.c)
+SRC := .c
 OBJ := $(SRC:.c=.o)
 
 obj-m := $(Project).o
