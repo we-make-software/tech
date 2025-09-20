@@ -507,5 +507,6 @@ So what the idea is: we need some kind of application library interface. By defa
 The `InitSystemLibrary` needs to be used to configure the project. When we go deeper you will understand. So every time I come with the title `System-DSL`, then it’s about this.
 
 
+I believe the network layer is important when it comes to servers, which is why I start with the network layer. I will add other projects as I go. For this reason, I have another file in the *System* folder called **Directory.h**, which will serve as the main entry point for all headers that will be connected.
 
 
