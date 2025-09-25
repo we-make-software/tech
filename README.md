@@ -513,11 +513,11 @@ I believe the network layer is important when it comes to servers, which is why 
 As developers we want to save time and keep things simple. I like to improve my main `Makefile` to make project setup easier:
 
 ```make
-MODULES_FROM_DIRECTORY := $(shell grep '^#include "' System/Directory.h | sed -e 's/#include "..\\//' -e 's/\.h"//')
+MODULES_FROM_DIRECTORY := $(shell grep '^#include "' foldername/.h | sed -e 's/#include "//' -e 's/\/\.h"//')
 
 MODULES := System $(MODULES_FROM_DIRECTORY) Run
 
-REVERSE = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1))) $(firstword $(1)))
+REVERSE = $(if $(1),$(call REVERSE,$(wordlist 2,$(words $(1)),$(1))) $(firstword $(1)))
 
 REVERSE_MODULES := $(call REVERSE,$(MODULES))
 ```
