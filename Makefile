@@ -1,6 +1,5 @@
 MODULES_FROM_DIRECTORY := $(shell grep '^#include "' System/Directory.h | sed -e 's/#include "..\\//' -e 's/\.h"//')
 
-
 MODULES := System $(MODULES_FROM_DIRECTORY) Run
 
 REVERSE = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1))) $(firstword $(1)))
