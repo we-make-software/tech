@@ -529,6 +529,7 @@ This lets me focus on creating the project rather than managing file names. Extr
 
 The `Makefile` reads `Directory.h` and generates a module list. `System` and `Run` are always included as standard modules.
 
+In this system, the folder name is the project name. Each project lives in its own folder, and the `.h` file inside it is just a placeholder. The Makefile extracts the folder name from include lines like `#include "../foldername/.h"` and uses it as the module name. This way, the folder defines the project, not the file.
 
 
 
