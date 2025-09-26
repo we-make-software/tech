@@ -531,10 +531,17 @@ The `Makefile` reads `Directory.h` and generates a module list. `System` and `Ru
 
 In this system, the folder name is the project name. Each project lives in its own folder, and the `.h` file inside it is just a placeholder. The Makefile extracts the folder name from include lines like `#include "../foldername/.h"` and uses it as the module name. This way, the folder defines the project, not the file.
 
+Lets change topic a little bit so we don’t focus on only one thing but many. Lets go back to the CPU, the central processing unit. The CPU is limited by cores and workload.
+
+We also have the GPU, the graphics processing unit, which can have many cores. So where should we place a task, CPU or GPU?
+
+The best approach is to think of it like a sandwich. The first layer must always be the CPU. The CPU handles control and hardware tasks. Then we can send tasks to the GPU for copy, paste, write, and calculation. The GPU is very fast at these data-parallel operations.
+
+However, tasks that involve hardware interaction should always stay on the CPU. The GPU cannot handle hardware directly. It is only for reading, writing, deleting, or performing calculations.
+
+This CPU/GPU sandwich is the basic idea to keep in mind when deciding where to run tasks. CPU controls the flow, GPU accelerates the heavy work.
 
 
-Lets change topic littel bit so we dont focus on only 1 stuff but many. Lets go back to the CPU center process unit well we are limit by cores there and workload if you think about this we also got GPU grafik process unit it can have many cores. so where to place the task CPU or GPU i think we can place the task frst in GPU when we need more
 
-but we need to control how many thread we got.. total and how many thread we can work whit..
 
 
