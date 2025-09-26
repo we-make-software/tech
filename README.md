@@ -533,6 +533,8 @@ In this system, the folder name is the project name. Each project lives in its o
 
 
 
+Lets change topic littel bit so we dont focus on only 1 stuff but many. Lets go back to the CPU center process unit well we are limit by cores there and workload if you think about this we also got GPU grafik process unit it can have many cores. so where to place the task CPU or GPU i think we can place the task frst in GPU when we need more
 
+but we need to control how many thread we got.. total and how many thread we can work whit..
 
 
