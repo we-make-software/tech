@@ -537,7 +537,7 @@ We also have the GPU, the graphics processing unit, which can have many cores. S
 
 The best approach is to think of it like a sandwich. The first layer must always be the CPU. The CPU handles control and hardware tasks. Then we can send tasks to the GPU for copy, paste, write, and calculation. The GPU is very fast at these data-parallel operations.
 
-However, tasks that involve hardware interaction should always stay on the CPU. The GPU cannot handle hardware directly. It is only for reading, writing, deleting, or performing calculations.
+However, tasks that involve hardware interaction should always stay on the CPU. The GPU cannot handle hardware directly. It is only for reading, writing  or performing calculations.
 
 This CPU/GPU sandwich is the basic idea to keep in mind when deciding where to run tasks. CPU controls the flow, GPU accelerates the heavy work.
 
