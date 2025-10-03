@@ -553,3 +553,25 @@ You have two options:
 - Or, have the CPU wait for the GPU to finish before continuing.
 
 
+There are some problems. Most hardware vendors write drivers for Windows or Linux only. We must follow their rules. Windows is a closed environment that needs license after license, and sometimes even a certificate just to access hardware if you want to make your own software. Too heavy, no thanks. Linux is open and has many developers, but you still must follow the system rules, otherwise you can end up with CPU locks or random errors.
+
+As software developers we do not know what protocols the user will choose. We cannot force someone to use one email service, it is always their choice. Linux gives more freedom, but not for everything.
+
+Take work_struct as an example. It is basically a structure that lets a function run inside a kernel thread. A thread is not a CPU core task. If you have 8 cores, the scheduled thread can run on any of them when it is ready. You can check the CPU state, but you cannot know exactly how many tasks are running because there can be pending tasks. You can check pending tasks too, but even that consumes CPU.
+
+After boot, Linux itself already needs around 10 to 20 threads to run. At any moment there may be more. The scheduler can jump a task to any available CPU, which makes it very hard to follow. I have tried, and it is not easy to trace.
+
+Maybe it is better to make a wrapper around work_struct. With one central function that checks if there are tasks waiting. It can forward work or send a signal and also measure how long a task has been waiting. Then we can build a calculation system that says what is normal, what is medium, and what is high. If something is a miss, we tell the user. For example, this server was too slow, use another one.
+
+By keeping track of these functions we can learn about misses and delays. The same approach can also be used for GPU scheduling.
+
+When we talk about RAM, also called Random Access Memory, Linux has a standard way to manage it. That is why it is good to use kmalloc so we do not accidentally overwrite other data. Other software is also using memory, and while we technically can access every pointer, do you really want to track every pointer manually? We never really know when a RAM block is free, so it is better not to try to manage it ourselves. We cannot control Linux pointers directly.
+
+The same applies to GPU VRAM, Virtual Random Access Memory. GPUs create virtual RAM to access data safely. We cannot control what the user does with their GPU, so virtual RAM is necessary. It gives the GPU its own address space. It is called virtual RAM because the physical RAM addresses are managed by the CPU, not the GPU. The GPU cannot directly access CPU memory.
+
+It is confusing, but here is the point. We can send tasks to the GPU, but the GPU cannot initiate tasks on the CPU. As developers, we need some kind of loop to detect when a GPU task is finished. If we do not implement a wait function in the CPU code, we cannot know when the task completes. If we implement a wait in the CPU function, it consumes a thread.
+
+It becomes complicated. How often should we check? How fast should the check be? RAM is fast, but not infinitely fast. A function might still be running, or maybe it is time to start a new function in another thread to speed things up. It is all about making choices, when to check, when to execute, and in what order.
+
+
+
