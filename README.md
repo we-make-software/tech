@@ -541,7 +541,15 @@ However, tasks that involve hardware interaction should always stay on the CPU. 
 
 This CPU/GPU sandwich is the basic idea to keep in mind when deciding where to run tasks. CPU controls the flow, GPU accelerates the heavy work.
 
+This is how it might look:
 
+- Start with the CPU.
+- Pass the necessary information (like memory allocation with `kmalloc` or other data).
+- Send the task to the GPU.
+- Let the GPU run and process the task.
 
+You have two options:
+- Let the GPU run in the background and end the CPU task.
+- Or, have the CPU wait for the GPU to finish before continuing.
 
 
