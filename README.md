@@ -574,6 +574,13 @@ Here is the point. We can send tasks to the GPU, but the GPU cannot directly sta
 This raises questions, how often should we check, how fast should the check be. RAM is fast, but not infinitely fast. A function might still be running, or maybe it is time to start a new function in another thread to speed things up. It is all about making choices, when to check, when to execute, and in what order.
 
 
+When we talk about a network card, we don’t know what protocols the user will use, and we can’t say “you must use this software.” We need to balance flexibility so the user can choose their own setup, like turning off a mail system or using other services. It is entirely up to the user, because different people have different views on networking.
+
+My approach is to stick with the Linux network layer 2 using netfilter and `sk_buff`. Linux already provides a very good system that works from almost nothing up to 10 Gbit or higher on a network card. This way, user-space is where slow or badly written code belongs, slow areas like Python, C#, PHP, C++, and so on, while critical packet handling stays fast and reliable in c.
+
+We have TX and RX. TX stands for transmit, which is outgoing data from your system. RX stands for receive, which is incoming data to your system. Since we work at Layer 2, we can basically call it incoming and outgoing traffic.
+
+
 
 
 
