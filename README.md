@@ -565,13 +565,15 @@ Maybe it is better to make a wrapper around work_struct. With one central functi
 
 By keeping track of these functions we can learn about misses and delays. The same approach can also be used for GPU scheduling.
 
-When we talk about RAM, also called Random Access Memory, Linux has a standard way to manage it. That is why it is good to use kmalloc so we do not accidentally overwrite other data. Other software is also using memory, and while we technically can access every pointer, do you really want to track every pointer manually? We never really know when a RAM block is free, so it is better not to try to manage it ourselves. We cannot control Linux pointers directly.
 
-The same applies to GPU VRAM, Virtual Random Access Memory. GPUs create virtual RAM to access data safely. We cannot control what the user does with their GPU, so virtual RAM is necessary. It gives the GPU its own address space. It is called virtual RAM because the physical RAM addresses are managed by the CPU, not the GPU. The GPU cannot directly access CPU memory.
+When we talk about RAM (Random Access Memory), Linux has a standard way to manage it. That is why it is good to use kmalloc so we do not accidentally overwrite other data. Other software is also using memory, and while we technically could access any pointer, it is unsafe and not practical to track every pointer manually. We also cannot always know when a RAM block is free, so it is better to let Linux manage it.
 
-It is confusing, but here is the point. We can send tasks to the GPU, but the GPU cannot initiate tasks on the CPU. As developers, we need some kind of loop to detect when a GPU task is finished. If we do not implement a wait function in the CPU code, we cannot know when the task completes. If we implement a wait in the CPU function, it consumes a thread.
+The same idea applies to GPU memory (VRAM). GPUs have their own memory space, separate from the CPU. The GPU cannot directly access CPU memory, so it needs its own address space. That is why VRAM exists, it lets the GPU handle its own data safely while the CPU manages physical addresses.
 
-It becomes complicated. How often should we check? How fast should the check be? RAM is fast, but not infinitely fast. A function might still be running, or maybe it is time to start a new function in another thread to speed things up. It is all about making choices, when to check, when to execute, and in what order.
+Here is the point. We can send tasks to the GPU, but the GPU cannot directly start tasks on the CPU. As developers, we need some kind of loop or mechanism to detect when a GPU task is finished. Without a wait function on the CPU side, we cannot know when the task completes. If we add a wait inside the CPU function, it consumes a thread.
+
+This raises questions, how often should we check, how fast should the check be. RAM is fast, but not infinitely fast. A function might still be running, or maybe it is time to start a new function in another thread to speed things up. It is all about making choices, when to check, when to execute, and in what order.
+
 
 
 
