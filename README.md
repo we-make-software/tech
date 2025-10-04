@@ -580,8 +580,8 @@ My approach is to stick with the Linux network layer 2 using netfilter and `sk_b
 
 We have TX and RX. TX stands for transmit, which is outgoing data from your system. RX stands for receive, which is incoming data to your system. Since we work at Layer 2, we can basically call it incoming and outgoing traffic.
 
+When it comes to storage, there are different hardware options. SSD, NVMe, or RAID, it is up to the user what they want to use, and we cannot control that. Some users like to use RAID, which combines multiple drives for redundancy or better performance.
 
+For simplicity, we can just use a binary file and rely on the Linux standard file system to read and write data. This way, we do not interfere with the user’s choice of how to set up their server.
 
-
-
-
+It is a good idea to check what gives the fastest read and write speed. NVMe is the fastest in my view, but other technologies may become faster in the future. Technology is always growing, so we cannot predict everything.
