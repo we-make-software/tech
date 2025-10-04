@@ -576,7 +576,7 @@ This raises questions, how often should we check, how fast should the check be. 
 
 When we talk about a network card, we don’t know what protocols the user will use, and we can’t say “you must use this software.” We need to balance flexibility so the user can choose their own setup, like turning off a mail system or using other services. It is entirely up to the user, because different people have different views on networking.
 
-My approach is to stick with the Linux network layer 2 using netfilter and `sk_buff`. Linux already provides a very good system that works from almost nothing up to 10 Gbit or higher on a network card. This way, user-space is where slow or badly written code belongs, slow areas like Python, C#, PHP, C++, and so on, while critical packet handling stays fast and reliable in c.
+My approach is to stick with the Linux network layer 2 using netfilter and `sk_buff`. Linux already provides a very good system that works from almost nothing up to 10 Gbit or higher on a network card. This way, user-space is where slow or badly written code belongs, slow areas like Python, C#, PHP, C++, and so on, while critical packet handling stays fast and reliable in C.
 
 We have TX and RX. TX stands for transmit, which is outgoing data from your system. RX stands for receive, which is incoming data to your system. Since we work at Layer 2, we can basically call it incoming and outgoing traffic.
 
@@ -585,3 +585,38 @@ When it comes to storage, there are different hardware options. SSD, NVMe, or RA
 For simplicity, we can just use a binary file and rely on the Linux standard file system to read and write data. This way, we do not interfere with the user’s choice of how to set up their server.
 
 It is a good idea to check what gives the fastest read and write speed. NVMe is the fastest in my view, but other technologies may become faster in the future. Technology is always growing, so we cannot predict everything.
+
+
+You might want to use the newest C standards, but kernel development requires sticking to C89/C90 for safety and portability reasons. The simplest way to see why is with arrays and memory allocation. In user space, someone might write a variable-length array like this:
+
+```c
+int n = get_size();
+int arr[n];
+```
+
+That looks convenient, but this is dangerous in the kernel. The kernel stack is very small, typically a few kilobytes on many architectures. If `n` is large, `arr[n]` will overflow the stack. Stack overflow in kernel space can cause an immediate kernel oops or panic, or it can silently overwrite nearby kernel data and break other code in unpredictable ways. These bugs are extremely hard to trace because memory corruption shows up far from where it actually happened.
+
+Kernel code avoids that by using dynamic allocation with `kmalloc`, so the data lives in heap memory managed by the kernel. The pattern looks like this:
+
+```c
+int n = get_size();
+int *arr = kmalloc(sizeof(int) * n, GFP_KERNEL);
+if (!arr) {
+    /* handle allocation failure cleanly */
+    return -ENOMEM;
+}
+
+/* use arr safely */
+arr[0] = 10;
+arr[1] = 20;
+
+kfree(arr);
+```
+
+This moves the allocation off the limited stack and into memory the kernel controls. If allocation fails, you get a clear error path instead of undefined memory corruption. If you must allocate in atomic contexts, you would use `GFP_ATOMIC`, but that is a separate consideration and used only when sleeping is not allowed.
+
+Beyond the stack overflow problem, newer C features introduce subtle risks in kernel code. Variable-length arrays, complex initializers, or other language niceties can change how the compiler lays out data, aligns memory, or optimizes code. In kernel space, tiny differences in alignment, padding, or optimization assumptions can break low-level code, change volatile behavior, or defeat inline assembly expectations. The kernel must behave predictably across many compilers and CPU architectures, and C89/C90 is the common denominator that keeps behavior stable.
+
+That does not mean you cannot use modern C features at all. User-space programs can and often should use the newest C standards where productivity and language features matter. The kernel is different because it has to be extremely stable, portable, and predictable. For kernel code, we focus on simple, explicit C89/C90 style plus explicit dynamic allocation like `kmalloc` to avoid stack overflows and undefined behavior. This choice is not about being old-fashioned—it is about safety and reliability in a hostile, constrained environment.
+
+
