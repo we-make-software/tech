@@ -629,3 +629,5 @@ We cannot be hardware support for a user, but for a server we can inform actions
 Now you understand my point of view. I hope this gives you an idea of how the system works. If you have a better way, please tell me.
 
 In hardware development, we can issue commands that trigger specific operations or function calls directly on the hardware. It’s like turning a wheel or making objects move instantly. From a developer’s perspective, hardware is a highly deterministic and extremely fast engine that executes instructions at incredible speed. This direct control over execution is what distinguishes hardware programming from software programming.
+
+⚠️ Warning: You just upgraded your knowledge a lot! Handle it wisely. ⚠️
