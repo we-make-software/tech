@@ -558,8 +558,6 @@ The same idea applies to system memory. The CPU uses its own address space to ma
 
 Here is the point. We can send tasks between different parts of the system, but direct hardware-level communication must always be managed by the CPU. As developers, we need some kind of loop or mechanism to detect when a task is finished. Without a wait function on the CPU side, we cannot know when the task completes. If we add a wait inside the CPU function, it consumes a thread.
 
-Here is the point. We can send tasks to the GPU, but the GPU cannot directly start tasks on the CPU. As developers, we need some kind of loop or mechanism to detect when a GPU task is finished. Without a wait function on the CPU side, we cannot know when the task completes. If we add a wait inside the CPU function, it consumes a thread.
-
 This raises questions, how often should we check, how fast should the check be. RAM is fast, but not infinitely fast. A function might still be running, or maybe it is time to start a new function in another thread to speed things up. It is all about making choices, when to check, when to execute, and in what order.
 
 
