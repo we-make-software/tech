@@ -533,25 +533,16 @@ In this system, the folder name is the project name. Each project lives in its o
 
 Lets change topic a little bit so we don’t focus on only one thing but many. Lets go back to the CPU, the central processing unit. The CPU is limited by cores and workload.
 
-We also have the GPU, the graphics processing unit, which can have many cores. So where should we place a task, CPU or GPU?
+We have the CPU, the central processing unit, which is responsible for managing and controlling the system. The CPU handles control, scheduling, and all hardware interaction tasks.
 
-The best approach is to think of it like a sandwich. The first layer must always be the CPU. The CPU handles control and hardware tasks. Then we can send tasks to the GPU for copy, paste, write, and calculation. The GPU is very fast at these data-parallel operations.
+When assigning tasks, the best approach is to remember that the CPU must always be the first layer. It controls the overall flow and decides when and how work should be performed. The CPU manages memory, coordinates with devices, and ensures synchronization between different operations.
 
-However, tasks that involve hardware interaction should always stay on the CPU. The GPU cannot handle hardware directly. It is only for reading, writing  or performing calculations.
+Start with the CPU.
+Prepare or allocate memory as needed, for example using kmalloc or other methods.
+Execute the task directly on the CPU.
+Optionally, schedule background work or wait for completion before continuing.
 
-This CPU/GPU sandwich is the basic idea to keep in mind when deciding where to run tasks. CPU controls the flow, GPU accelerates the heavy work.
-
-This is how it might look:
-
-- Start with the CPU.
-- Pass the necessary information (like memory allocation with `kmalloc` or other data).
-- Send the task to the GPU.
-- Let the GPU run and process the task.
-
-You have two options:
-- Let the GPU run in the background and end the CPU task.
-- Or, have the CPU wait for the GPU to finish before continuing.
-
+Most hardware vendors write drivers for Windows or Linux only, so we must follow their rules. Windows is a closed environment that requires multiple licenses and certificates just to access hardware, which makes it too heavy and restrictive. Linux is open and has many developers, but you still must follow system rules, otherwise you can end up with CPU locks or random errors.
 
 There are some problems. Most hardware vendors write drivers for Windows or Linux only. We must follow their rules. Windows is a closed environment that needs license after license, and sometimes even a certificate just to access hardware if you want to make your own software. Too heavy, no thanks. Linux is open and has many developers, but you still must follow the system rules, otherwise you can end up with CPU locks or random errors.
 
@@ -562,8 +553,6 @@ Take work_struct as an example. It is basically a structure that lets a function
 After boot, Linux itself already needs around 10 to 20 threads to run. At any moment there may be more. The scheduler can jump a task to any available CPU, which makes it very hard to follow. I have tried, and it is not easy to trace.
 
 Maybe it is better to make a wrapper around work_struct. With one central function that checks if there are tasks waiting. It can forward work or send a signal and also measure how long a task has been waiting. Then we can build a calculation system that says what is normal, what is medium, and what is high. If something is a miss, we tell the user. For example, this server was too slow, use another one.
-
-By keeping track of these functions we can learn about misses and delays. The same approach can also be used for GPU scheduling.
 
 When we talk about RAM (Random Access Memory), Linux has a standard way to manage it. That is why it is good to use kmalloc so we do not accidentally overwrite other data. Other software is also using memory, and while we technically could access any pointer, it is unsafe and not practical to track every pointer manually. We also cannot always know when a RAM block is free, so it is better to let Linux manage it.
 
@@ -623,7 +612,7 @@ That does not mean you cannot use modern C features at all. User-space programs 
 The primary function of **user-space** is the **Presentation Layer**: handling all user interaction, such as displaying graphics, buttons, inputs, and real-time visual feedback. However, a crucial constraint in modern software architecture is **power consumption**, as network activity is highly resource-intensive and rapidly drains device batteries. Given the wide and unpredictable variation in client devices ranging from mobile (Android, iOS) to desktops and laptops, it is inefficient and risky to rely on the client's local CPU and memory for heavy computational tasks. Therefore, the optimal solution for achieving both speed and battery conservation is **Server-Side Offloading**. In this model, complex, demanding operations (like heavy data processing or analytics) are **sent to a powerful server** to handle the difficult computation. The server then formats the result into the smallest, most efficient **"display-ready" package** and sends only that minimal data back to the client. This approach allows the user-space layer on the device to remain "thin," focusing solely on quickly rendering the pre-processed data, which minimizes the time the power-hungry network radio is active and conserves the device's resources.
 
 
-We cannot be hardware support for a user, but for a server we can inform actions such as a broken disk or broken GPU. This is essentially a messaging system that notes the system status. We can provide more information about the hardware to the technical team so they can replace it when needed. As developers, we need to think about every aspect. If I miss an aspect, you are welcome to tell me and we can review it together. I do not want to be number one or you to be number one. The idea is to create a story. Each story should be as digital as possible, step by step, with minimal clicks and automatic actions. That is the idea behind kernel development: to make everything smooth and easy while still keeping it usable for the user.
+We cannot be hardware support for a user, but for a server we can inform actions such as a broken disk. This is essentially a messaging system that notes the system status. We can provide more information about the hardware to the technical team so they can replace it when needed. As developers, we need to think about every aspect. If I miss an aspect, you are welcome to tell me and we can review it together. I do not want to be number one or you to be number one. The idea is to create a story. Each story should be as digital as possible, step by step, with minimal clicks and automatic actions. That is the idea behind kernel development: to make everything smooth and easy while still keeping it usable for the user.
 
 
 Now you understand my point of view. I hope this gives you an idea of how the system works. If you have a better way, please tell me.
