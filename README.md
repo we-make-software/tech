@@ -647,36 +647,39 @@ Ah, got it! You want it **embedded directly in your text**, not as a separate ta
 
 
 
-For a project, it’s important to have a task manager to control or place a task in a wait state, or to see if there are any pending tasks. Linux does not provide that information directly, so we need to keep it ourselves in the system. Therefore, we create a wrapper called `TaskHandler`. With this, we can see how many tasks can run, whether there is a free spot, or if we need to reserve tasks for a specific project, for example, the network.
-
-If we look at network speed, for a 10 Gbit link and a packet with MTU 1500 bytes, we can calculate the time it takes to transmit one packet. First, convert the packet size to bits: 1500 bytes × 8 = 12000 bits. Then divide by the link speed: 12000 bits ÷ 10 × 10⁹ bits/second = 1.2 microseconds, which is 1200 nanoseconds. For a 1 Gbit link, the same packet takes 12000 bits ÷ 1 × 10⁹ bits/second = 12 microseconds, or 12000 nanoseconds.
-
-This calculation shows that on a 10 Gbit network, the system can potentially process one packet every 1200 nanoseconds, while on a 1 Gbit network it is one packet every 12 microseconds. Using this information, the `TaskHandler` can decide how to schedule tasks and avoid collisions, ensuring smooth handling of network packets.
 
 
-For a project, it’s important to have a task manager to control or place a task in wait or check if there’s any pending task. Linux does not provide that information, so we need to keep it ourselves. That’s why we need a wrapper called **TaskHandler**. With it, we can see how many tasks we can run, if there’s a free spot, or if we need to reserve some tasks for a project, like network.
+For a project, it is important to have a task manager to control or place a task in a wait state, or to see if there are any pending tasks. Linux does not provide this information directly, so we need to keep track of it in the system. Therefore, we create a wrapper called `TaskHandler`. With this, we can get a view of how many tasks we can run, whether there is a free spot, or if we need to reserve some tasks for a specific project, for example network handling.
 
-Looking at the network, 10 Gbit means only 1 packet per nanosecond. For 1 Gbit, it’s 12 microseconds. We also need to account for outgoing traffic, so incoming plus outgoing.
+If we look at network traffic, for a 1 Gbit link and a packet size of 1500 bytes (MTU), one packet takes about 12 microseconds. For 10 Gbit, the same packet will take roughly 1.2 microseconds, because the link is ten times faster.
 
-If we want to handle packets in small intervals, for example 0.05 seconds, we can calculate how many `work_struct` we need using this formula:
+The number of tasks needed to process all packets in a given time interval can be calculated with:
 
 ```
 number_of_tasks = time_interval / packet_interval
 ```
 
-For 1 Gbit with 1500 byte MTU packets, the packet interval is 12 µs, so:
+For example, if we want to make sure we can handle every packet in a 0.05 second window:
+
+* At 1 Gbit:
 
 ```
-number_of_tasks = 0.05 s / 12 µs
-number_of_tasks = 0.05 / 0.000012
-number_of_tasks = 4166 tasks
+number_of_tasks = 0.05 / 0.000012 ≈ 4166
 ```
 
-This calculation shows how many work items we need to schedule to process all packets in the given time window. This lets us plan the pool size and ensure tasks are ready when needed without dropping packets.
+* At 10 Gbit:
 
+```
+number_of_tasks = 0.05 / 0.0000012 ≈ 41666
+```
 
+This calculation helps us determine how many `work_struct` instances we need to schedule to handle incoming and outgoing packets efficiently, ensuring the system keeps up with high-speed network traffic.
 
+As you can see, 41,666 is higher than 4,166, so we choose 41,666 for the network. In networking, we have both RX (receive) and TX (transmit). If we split that number evenly, it becomes RX (20,833) and TX (20,833). Keeping these numbers in mind helps ensure the network remains efficient when we build the TaskHandler.
 
+There are different types of priorities when running a work_struct: low, medium, or high. High priority tasks need to run first, for example streaming video or other time-critical operations. Medium priority tasks come next, handling normal data flow. Low priority tasks can wait; they are not urgent, such as background input or non-critical updates. If no high or medium tasks are pending, low priority tasks can run freely. This ensures important data is processed first while still keeping the system active and balanced.
+
+Yes, it is a very good idea. By controlling what runs first, you make sure critical tasks are processed immediately while less important tasks wait. This gives predictability and efficiency, especially in high-speed networks or systems with many tasks at the same time. Without this control, Linux will schedule tasks based on its own priorities, which may not match your project’s needs. By pre-managing with a TaskHandler, you can align system execution with your goals, reduce latency for important operations, and make sure nothing gets delayed or starved. It is basically bringing order to chaos in multitasking environments, exactly what high-performance systems need. After all, everything happens in a snap.
 
 
 
