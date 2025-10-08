@@ -617,9 +617,15 @@ Now you understand my point of view. I hope this gives you an idea of how the sy
 
 In hardware development, we can issue commands that trigger specific operations or function calls directly on the hardware. It’s like turning a wheel or making objects move instantly. From a developer’s perspective, hardware is a highly deterministic and extremely fast engine that executes instructions at incredible speed. This direct control over execution is what distinguishes hardware programming from software programming.
 
-L1 cache sits closest to the CPU cores. It is very small but extremely fast, usually just a few dozen kilobytes. The CPU checks L1 first when it needs data. If the data isn’t there, it moves to L2. L2 cache is larger, maybe a few megabytes, but a bit slower. It acts like a middleman between the CPU and the slower RAM. L3 cache is even bigger and shared between cores on many CPUs. It’s slower than L1 and L2 but still much faster than RAM. Finally, if the data is not in any cache, the CPU has to fetch it from RAM, which takes many more cycles.
+Let’s go deeper. The CPU clock is like a metronome ticking billions of times per second. Every tick lets the CPU do a small operation like read an instruction, add numbers, or write to memory. L1 cache is super fast and sits directly on the CPU core. It stores the most frequently used data and instructions and can be accessed in just a few cycles. L2 cache is bigger but a bit slower, helping the CPU when the L1 cache doesn’t have the needed data. L3 cache is even larger and shared between cores, but slower compared to L1 and L2. It is used to reduce the need to fetch data from RAM. RAM is much slower and located outside the CPU. Accessing RAM can take hundreds of cycles compared to just a few for L1.
 
-This is why programs that access memory efficiently and keep data in L1 and L2 run much faster than those constantly fetching from RAM.
+The clock speed, measured in hertz, tells how many ticks happen per second. For example, 3 GHz means three billion ticks every second, and each tick is a chance for the CPU to move one step forward. You can have many functions running in the CPU, or multiple cores executing different instructions independently. Each core can handle its own workload simultaneously, which makes the system faster and more efficient when processing multiple tasks in parallel.
+
+When multiple tasks want to access the same data, the CPU uses mutexes to avoid conflicts. A task tries to lock a mutex before using the resource. If the mutex is already locked, the task sleeps, pausing its execution and letting other tasks run. When the mutex is free, the CPU wakes the sleeping task so it can continue safely.
+
+Sending a signal is like telling the CPU “okay, go to the next step.” The CPU handles this efficiently: running tasks may complete, sleep, or wait for a signal, while other tasks on the same or different cores proceed in parallel. Each core can run many functions simultaneously, fetching data from caches or RAM, waiting on mutexes, and waking when the signal arrives.
+
+This coordination of cores, caches, mutexes, sleep, and signals is what makes CPU multitasking extremely efficient, allowing many tasks to run fast without interfering with each other.
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
