@@ -627,6 +627,13 @@ Sending a signal is like telling the CPU “okay, go to the next step.” The CP
 
 This coordination of cores, caches, mutexes, sleep, and signals is what makes CPU multitasking extremely efficient, allowing many tasks to run fast without interfering with each other.
 
+When the CPU needs to write data to storage, such as an SSD, NVMe, or traditional HDD, it cannot access it as fast as the caches or even RAM. Storage is much slower because it is outside the CPU and RAM hierarchy. The CPU relies on the memory controller and I/O buses to communicate with the storage device.
+
+You can think of storage as the L4 level in the memory hierarchy. Data must first leave the CPU caches and RAM and travel through the system’s buses, controllers, and interfaces to reach the storage. This introduces latency, and even the fastest NVMe drives are hundreds or thousands of times slower than RAM.
+
+When writing to disk, the CPU can continue with other tasks while the storage controller handles the actual write operation. Some systems use write caches or buffers to temporarily hold data before committing it to the storage medium. This helps improve performance but does not remove the inherent slowness of storage compared to CPU caches.
+
+In short, writing to storage is slow because it involves moving data across multiple levels: from CPU registers to L1/L2/L3 caches, to RAM, and finally through the I/O path to the storage device. Understanding this helps optimize which data should stay in memory and which can be safely stored to disk.
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
