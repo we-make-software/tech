@@ -635,5 +635,10 @@ When writing to disk, the CPU can continue with other tasks while the storage co
 
 In short, writing to storage is slow because it involves moving data across multiple levels: from CPU registers to L1/L2/L3 caches, to RAM, and finally through the I/O path to the storage device. Understanding this helps optimize which data should stay in memory and which can be safely stored to disk.
 
+The problem is that not all data can stay in RAM; therefore, we need to transfer some of it to storage. Otherwise, there would be too much data in memory. There will be small gaps if we want to work fast, but we can try to optimize and keep the process efficient. The key is to understand the idea and plan the workflow first.
+
+I will attempt to go through all the steps as thoroughly as possible, but you can also review the code. I will mainly indicate which projects to look at and point out specific functions, and I may showcase code snippets here.
+
+
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
