@@ -639,6 +639,46 @@ The problem is that not all data can stay in RAM; therefore, we need to transfer
 
 I will attempt to go through all the steps as thoroughly as possible, but you can also review the code. I will mainly indicate which projects to look at and point out specific functions, and I may showcase code snippets here.
 
+Synchronous means the code waits for a task to finish before moving to the next step. Asynchronous means the code can start a task and continue without waiting for it to finish; it handles the result later, usually via callbacks, promises, or signals. Basically, synchronous operations happen inside an asynchronous flow when needed, but asynchronous does not require synchronous execution.
+
+Using work_struct is an example of asynchronous execution in the kernel. The work function itself runs synchronously on a CPU core once scheduled, so synchronous code lives inside the asynchronous work queue.
+
+Ah, got it! You want it **embedded directly in your text**, not as a separate table. Here’s how you can write it naturally in your explanation:
+
+
+
+For a project, it’s important to have a task manager to control or place a task in a wait state, or to see if there are any pending tasks. Linux does not provide that information directly, so we need to keep it ourselves in the system. Therefore, we create a wrapper called `TaskHandler`. With this, we can see how many tasks can run, whether there is a free spot, or if we need to reserve tasks for a specific project, for example, the network.
+
+If we look at network speed, for a 10 Gbit link and a packet with MTU 1500 bytes, we can calculate the time it takes to transmit one packet. First, convert the packet size to bits: 1500 bytes × 8 = 12000 bits. Then divide by the link speed: 12000 bits ÷ 10 × 10⁹ bits/second = 1.2 microseconds, which is 1200 nanoseconds. For a 1 Gbit link, the same packet takes 12000 bits ÷ 1 × 10⁹ bits/second = 12 microseconds, or 12000 nanoseconds.
+
+This calculation shows that on a 10 Gbit network, the system can potentially process one packet every 1200 nanoseconds, while on a 1 Gbit network it is one packet every 12 microseconds. Using this information, the `TaskHandler` can decide how to schedule tasks and avoid collisions, ensuring smooth handling of network packets.
+
+
+For a project, it’s important to have a task manager to control or place a task in wait or check if there’s any pending task. Linux does not provide that information, so we need to keep it ourselves. That’s why we need a wrapper called **TaskHandler**. With it, we can see how many tasks we can run, if there’s a free spot, or if we need to reserve some tasks for a project, like network.
+
+Looking at the network, 10 Gbit means only 1 packet per nanosecond. For 1 Gbit, it’s 12 microseconds. We also need to account for outgoing traffic, so incoming plus outgoing.
+
+If we want to handle packets in small intervals, for example 0.05 seconds, we can calculate how many `work_struct` we need using this formula:
+
+```
+number_of_tasks = time_interval / packet_interval
+```
+
+For 1 Gbit with 1500 byte MTU packets, the packet interval is 12 µs, so:
+
+```
+number_of_tasks = 0.05 s / 12 µs
+number_of_tasks = 0.05 / 0.000012
+number_of_tasks = 4166 tasks
+```
+
+This calculation shows how many work items we need to schedule to process all packets in the given time window. This lets us plan the pool size and ensure tasks are ready when needed without dropping packets.
+
+
+
+
+
+
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
