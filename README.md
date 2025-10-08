@@ -617,5 +617,10 @@ Now you understand my point of view. I hope this gives you an idea of how the sy
 
 In hardware development, we can issue commands that trigger specific operations or function calls directly on the hardware. It’s like turning a wheel or making objects move instantly. From a developer’s perspective, hardware is a highly deterministic and extremely fast engine that executes instructions at incredible speed. This direct control over execution is what distinguishes hardware programming from software programming.
 
+L1 cache sits closest to the CPU cores. It is very small but extremely fast, usually just a few dozen kilobytes. The CPU checks L1 first when it needs data. If the data isn’t there, it moves to L2. L2 cache is larger, maybe a few megabytes, but a bit slower. It acts like a middleman between the CPU and the slower RAM. L3 cache is even bigger and shared between cores on many CPUs. It’s slower than L1 and L2 but still much faster than RAM. Finally, if the data is not in any cache, the CPU has to fetch it from RAM, which takes many more cycles.
+
+This is why programs that access memory efficiently and keep data in L1 and L2 run much faster than those constantly fetching from RAM.
+
+
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
