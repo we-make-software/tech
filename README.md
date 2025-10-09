@@ -693,5 +693,23 @@ The basic focus is:
 As developers, we need to focus on continuous upgrades to improve the system each time. I will walk through my ideas, views, and new perspectives.
 
 
+I know I have not tested my code and a lot of changes happened in the file system, and how to do it. Maybe there was a file name that was renamed to make it easier to use later, but my idea was:
+
+### Project Structure Idea
+
+* **ProjectName** (folder defines the project)
+
+  * `Makefile`
+  * `.c` (source code; no need for a custom name)
+  * `.h` (header file; no need for a custom name)
+
+**Notes:**
+
+* No extra naming is needed for `.c` or `.h` files because the folder itself represents the project name.
+* Files can be renamed later for convenience, but the core idea is simplicity and clarity.
+* This structure keeps the project organized and developer-friendly.
+
+
+
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
