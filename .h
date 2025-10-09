@@ -1,2 +1,2 @@
-#include "../TaskHandler/.h"
-#include "../Network/.h"
+#include "TaskHandler/.h"
+#include "Network/.h"
