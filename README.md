@@ -681,7 +681,10 @@ There are different types of priorities when running a work_struct: low, medium,
 
 Yes, it is a very good idea. By controlling what runs first, you make sure critical tasks are processed immediately while less important tasks wait. This gives predictability and efficiency, especially in high-speed networks or systems with many tasks at the same time. Without this control, Linux will schedule tasks based on its own priorities, which may not match your project’s needs. By pre-managing with a TaskHandler, you can align system execution with your goals, reduce latency for important operations, and make sure nothing gets delayed or starved. It is basically bringing order to chaos in multitasking environments, exactly what high-performance systems need. After all, everything happens in a snap.
 
-
+Now we talk about what we can do and i showcase code but now its more like upgrade and make it more developer friendly. so alot code can change.
+basic focus :
+developer friendly
+DSL for 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
