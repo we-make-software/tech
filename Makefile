@@ -1,4 +1,4 @@
-MODULES_FROM_DIRECTORY := $(shell grep '^#include "' ../foldername/.h | sed -e 's/#include "..\///' -e 's/\/\.h"//'
+MODULES_FROM_DIRECTORY := $(shell grep '^#include "' root/.h | sed -e 's/^#include "..\///' -e 's/\/\.h"//')
 
 MODULES := System $(MODULES_FROM_DIRECTORY) Run
 
