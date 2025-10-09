@@ -1,7 +1,12 @@
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
+
 Project := $(notdir $(shell pwd))
+SRC := $(Project).c
+OBJ := $(SRC:.c=.o)
+
 obj-m := $(Project).o
+$(Project)-objs := $(OBJ)
 
 all:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
@@ -9,8 +14,7 @@ all:
 clean:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
 
-start:
-	make all
+start: all
 	sudo insmod $(Project).ko
 
 stop:
