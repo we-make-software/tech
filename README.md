@@ -709,6 +709,19 @@ I know I have not tested my code and a lot of changes happened in the file syste
 * This structure keeps the project organized and developer-friendly.
 
 
+Then, if we check the Run folder, the Makefile needs to be the same as Run/Makefile. Basically, for each new project, we can write the Makefile as
+
+```
+include ../Run/Makefile
+```
+
+This way, we don’t need to make a big drama about it. It will be easier if we can call a command in the terminal to create a new project, so it automatically prepares a template for us.
+
+Let’s keep in mind that the Makefile in each new project only needs to have this line, nothing more.
+
+
+
+
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
