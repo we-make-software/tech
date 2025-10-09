@@ -706,7 +706,6 @@ I know I have not tested my code and a lot of changes happened in the file syste
 **Notes:**
 
 * No extra naming is needed for `.c` or `.h` files because the folder itself represents the project name.
-* Files can be renamed later for convenience, but the core idea is simplicity and clarity.
 * This structure keeps the project organized and developer-friendly.
 
 
