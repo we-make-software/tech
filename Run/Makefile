@@ -1,10 +1,11 @@
-KERNELDIR ?= /lib/modules/$(shell uname -r)/build
-PWD := $(shell pwd)
 EXTRA_CFLAGS += -I../System
 KBUILD_EXTRA_SYMBOLS := ../System/Module.symvers
 
+KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+PWD := $(shell pwd)
+
 Project := $(notdir $(shell pwd))
-SRC := .c
+SRC := $(Project).c
 OBJ := $(SRC:.c=.o)
 
 obj-m := $(Project).o
