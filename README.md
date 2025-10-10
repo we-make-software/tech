@@ -720,6 +720,8 @@ This way, we don’t need to make a big drama about it. It will be easier if we 
 Let’s keep in mind that the Makefile in each new project only needs to have this line, nothing more.
 
 
+When we talk about include it gives me idea to upgrade both System Makefile and Run Makefile. i also think about remove the old Directory.h and just add a .h file in the root. then in each folder we only see .c file .h file and Makefile thats the only stuff we will see. i hope you take time to see in each folder how its build.
+
 
 
 
