@@ -806,5 +806,30 @@ static struct Project_MyProject {
 So now we have a **struct ready to use** in our DSL. You can define the fields with semicolons, and the macro handles the rest automatically. This is the first step before using `WMSR` to assign the functions with `WMSNAF` or `WMSF`.
 
 
+
+
+```c
+#ifndef TaskHandler_h_Upgrade
+#define TaskHandler_h_Upgrade
+#include "../Run/Run.h"
+
+#define WMSR(description, projectEnd, ...) WeMakeSoftwareRun(description, projectEnd, __VA_ARGS__)
+
+#define WMSNAF(name, function) .name = function
+
+#define WMSF(function) .##function = function
+
+#define WMSS(description, ...) static struct Project_##description { __VA_ARGS__ };
+
+#endif
+#ifdef TaskHandler_h
+
+#endif
+```
+
+`ifdef` is basically a macro that needs to be defined. It is good to use in cases like this, where we can include it only when we really need it in the C file. You will later understand how powerful `ifdef` is when we go deeper, but before that, we need to set up the TaskHandler C file.
+
+
+
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
