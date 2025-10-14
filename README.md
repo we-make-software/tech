@@ -844,5 +844,28 @@ WMSR(TaskHandler, NULL, FUNCTIONS COMING LATER) {
 It follows the same structure we made above. As you can see, I have defined `TaskHandler_h`, which will activate the area we talked about earlier. Do you get it?
 
 
+
+Now we have activated `TaskHandler_h`, then we can go back to the header file. Between the `#ifdef TaskHandler_h` and `#endif`, we write:
+
+```c
+WMSS(TaskHandler, signature of many functions will go here)
+
+#define GetTaskHandler InitSystemLibrary(TaskHandler)
+#endif
+```
+
+We need to make a helper and set up the basic `WMSS` system. As you can see, we will later go deeper into how a signature will look. But we also need to make a helper for other kernel objects that follow the same structure.
+
+Earlier I made `InitSystemLibrary` as a DSL. We can define a setup for the next kernel object so it can call the same pattern. For example every module will define something like:
+
+```c
+#define Get<ModuleName> InitSystemLibrary(<ModuleName>)
+```
+
+This way every kernel object like TaskHandler, MemoryManager, or IOHandler will expose its struct through a consistent entry point.
+
+In our case `GetTaskHandler` points to `InitSystemLibrary(TaskHandler)` which returns the struct of this TaskHandler project so every other project can use it easily and uniformly.
+
+
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
