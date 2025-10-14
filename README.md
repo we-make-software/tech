@@ -738,6 +738,41 @@ This is the basic way to build on top of a macro. Some call it an alias, it is y
 
 As you can see in the `WMSR` macro, the three dots `...` represent the arguments. We need to set up a `#define` to handle that. The idea is to have a define that includes both the name and the function, and another define that omits the name when the function name is the same. We will call the version with a name `WMSNAF`, and the version without a name `WMSF`; `WMSF` assumes the function name is the same. Both will pass their data to the original `WeMakeSoftwareRun` macro using `__VA_ARGS__`. Later we can build a struct for this, but for now let’s focus on the macro.
 
+The `WMSNAF` macro is defined as
+
+```c
+#define WMSNAF(name, function) .name = function
+```
+
+What it does is it takes the first argument as the field name in the struct and the second argument as the function pointer to assign. It is not a string, it is the actual function pointer. So if we have a struct like `struct Project_MyProject` and we use `WMSNAF(MyFunction, SomeFunction)`, it becomes `.MyFunction = SomeFunction` inside the struct. This lets us assign any function to any field with a custom name.
+
+The `WMSF` macro is defined as
+
+```c
+#define WMSF(function) .##function = function
+```
+
+This macro is for when the field name and the function name are the same. We don’t need to repeat the name twice. For example, if the struct has a field called `OtherFunction` and the function is also called `OtherFunction`, using `WMSF(OtherFunction)` expands to `.OtherFunction = OtherFunction`. This saves us from typing the same name twice and keeps the code shorter.
+
+Both macros are used inside the struct created by `InitProject()` in `WeMakeSoftwareRun`. The `InitProject()` function creates a static struct for the project with the description name and initializes it with all the fields passed via `__VA_ARGS__`. So when we write
+
+```c
+WMSR(MyProject, ProjectEnd, 
+    WMSNAF(MyFunction, SomeFunction),
+    WMSF(OtherFunction)
+) {}
+```
+
+the `WMSNAF` macro assigns `.MyFunction = SomeFunction` and `WMSF` assigns `.OtherFunction = OtherFunction` inside `struct Project_MyProject`. After macro expansion, the struct looks like
+
+```c
+static struct Project_MyProject library = {
+    .MyFunction = SomeFunction,
+    .OtherFunction = OtherFunction
+};
+```
+
+This shows clearly where the macros go and what they do. They fill the struct fields automatically so we don’t need to manually assign each function.
 
 
 
