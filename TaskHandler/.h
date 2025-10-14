@@ -1,5 +1,5 @@
-#ifndef TaskHandler_h_
-#define TaskHandler_h_
+#ifndef TaskHandler_h_Upgrade
+#define TaskHandler_h_Upgrade
 #include "../Run/Run.h"
 
 #define WMSR(description, projectEnd, ...) WeMakeSoftwareRun(description, projectEnd, __VA_ARGS__)
