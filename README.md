@@ -780,7 +780,7 @@ If you see, we still need to make a signature system. It is important. You need 
 We can make a macro called `WMSS` like this:
 
 ```c
-#define WMSS(description, ...) static struct Project_##description { __VA_ARGS__ };
+#define WMSS(description, ...) struct Project_##description { __VA_ARGS__ };
 ```
 
 What this does is it creates a **static struct** with the name `Project_` followed by the description you give. The `__VA_ARGS__` is where you put all the fields for the struct, and here you can use **semicolons** for each new field.
