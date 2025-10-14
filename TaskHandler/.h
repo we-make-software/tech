@@ -8,4 +8,6 @@
 
 #define WMSF(function) .##function = function
 
+#define WMSS(description, ...) static struct Project_##description { __VA_ARGS__ };
+
 #endif
