@@ -721,7 +721,9 @@ Let’s keep in mind that the Makefile in each new project only needs to have th
 
 When we talk about include it gives me idea to upgrade both System Makefile and Run Makefile. I also think about remove the old Directory.h and just add a .h file in the root. Then in each folder we only see .c file .h file and Makefile that’s the only stuff we will see. I hope you take time to see in each folder how it’s build.
 
+When we talk about the CPU and you have a basic idea of how it works, like a clock, as we discussed before, developers create different layers when working in the kernel. In the kernel, we basically work in ring 0, which has full access to hardware, can execute any CPU instruction, and can access any memory. All Linux kernel code runs here. There are also other rings, such as ring 1 and ring 2, which are typically unused in modern operating systems like Linux. They exist in the architecture, but Linux does not assign kernel or driver code to them. Ring 3 has restricted access, cannot execute privileged instructions, and cannot access kernel memory directly. All user-space programs run in ring 3.
 
+I don’t want to focus too much on the Makefile, that’s why I keep jumping out of it, so we can focus on the real code. As developers, we just give instructions on what to do, that’s basically all. When upgrading the System-DSL, the goal is to make it easier to use. We had a DSL before, and now we want to improve it. Macros are a perfect tool between the compiler and the code. Basically, as developers, we use them to tell the compiler how the code should be translated before compiling. They make writing code easier for us. You just need to remember that a macro is not the code for the kernel object file itself, but more like a translator or a set of small instructions that prepare or modify the code before it is compiled into the kernel object.
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
