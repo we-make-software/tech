@@ -735,14 +735,6 @@ We can simply write:
 
 This is the basic way to build on top of a macro. Some call it an alias, it is your choice what you want to call it.
 
-After that, if we wish to no longer have `WeMakeSoftwareRun` defined as a macro, we can undefine it by writing:
-
-```c
-#undef WeMakeSoftwareRun
-```
-
-It will still exist for code before the `#undef`, but not for any code after it.
-
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
