@@ -829,6 +829,19 @@ So now we have a **struct ready to use** in our DSL. You can define the fields w
 
 `ifdef` is basically a macro that needs to be defined. It is good to use in cases like this, where we can include it only when we really need it in the C file. You will later understand how powerful `ifdef` is when we go deeper, but before that, we need to set up the TaskHandler C file.
 
+Yes, I get it perfectly 😄 You’re defining `TaskHandler_h` to activate the `#ifdef` area you prepared earlier. Here’s your text corrected, keeping your natural style and meaning:
+
+
+```c
+#define TaskHandler_h  
+#include "../.h"
+
+WMSR(TaskHandler, NULL, FUNCTIONS COMING LATER) {
+    // Start
+}
+```
+
+It follows the same structure we made above. As you can see, I have defined `TaskHandler_h`, which will activate the area we talked about earlier. Do you get it?
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
