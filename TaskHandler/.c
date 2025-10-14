@@ -1,2 +1,5 @@
+#define TaskHandler_h  
 #include "../.h"
-WeMakeSoftwareRun(TaskHandler,)
+WMSR(TaskHandler,NULL,FUNCTIONS COMMING LATER){
+  //Start
+}
