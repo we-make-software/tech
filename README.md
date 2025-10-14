@@ -736,6 +736,12 @@ We can simply write:
 This is the basic way to build on top of a macro. Some call it an alias, it is your choice what you want to call it.
 
 
+As you can see in the `WMSR` macro, there are three dots (`...`). That represents the arguments. We need to set up a define for that. The idea is to have a define that can include both the name and the function. Then we can also make a define that uses the function without a name if it’s the same.
+
+For the naming, we can use `WMSNAF` for the version with a name and function, and `WMSF` for the version without the name. These will pass the data to the original `WeMakeSoftwareRun` macro where `__VA_ARGS__` is used. Later we can build a struct for this, but first, let’s focus on the macro itself.
+
+
+
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
