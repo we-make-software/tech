@@ -725,5 +725,19 @@ When we talk about the CPU and you have a basic idea of how it works, like a clo
 
 I don’t want to focus too much on the Makefile, that’s why I keep jumping out of it, so we can focus on the real code. As developers, we just give instructions on what to do, that’s basically all. When upgrading the System-DSL, the goal is to make it easier to use. We had a DSL before, and now we want to improve it. Macros are a perfect tool between the compiler and the code. Basically, as developers, we use them to tell the compiler how the code should be translated before compiling. They make writing code easier for us. You just need to remember that a macro is not the code for the kernel object file itself, but more like a translator or a set of small instructions that prepare or modify the code before it is compiled into the kernel object.
 
+Sometimes developers like short names or want to change the DSL name. We have this DSL “WeMakeSoftwareRun,” and we can make it shorter by calling it “WMSR” We don’t need to change the first define for this to work.
+
+We can simply write:
+
+```c
+#define WMSR(description, projectEnd, ...) WeMakeSoftwareRun(description, projectEnd, __VA_ARGS__)
+```
+
+This is the basic way to build on top of a macro. Some call it an alias, it is your choice what you want to call it.
+
+
+
+
+
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
