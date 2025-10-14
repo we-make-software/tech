@@ -776,9 +776,6 @@ This shows clearly where the macros go and what they do. They fill the struct fi
 
 If you see, we still need to make a signature system. It is important. You need to know that we are going to use a semicolon `;` and not a comma `,`. In `WMSR` we use commas, but in this signature system we are going to use semicolons. The semicolon is an important note, and you need to understand it. In the struct, there is no comma, only a semicolon when it is a new line.
 
-Perfect 😄 Here’s a way to explain it in your style, keeping it simple and clear:
-
----
 
 We can make a macro called `WMSS` like this:
 
