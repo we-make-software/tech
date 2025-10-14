@@ -11,3 +11,6 @@
 #define WMSS(description, ...) static struct Project_##description { __VA_ARGS__ };
 
 #endif
+#ifdef TaskHandler_h
+
+#endif
