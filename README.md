@@ -886,5 +886,10 @@ Everything in .text is executable, and that’s why it’s separate from section
 
 
 
+
+
+
+
+
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
