@@ -867,5 +867,24 @@ This way every kernel object like TaskHandler, MemoryManager, or IOHandler will 
 In our case `GetTaskHandler` points to `InitSystemLibrary(TaskHandler)` which returns the struct of this TaskHandler project so every other project can use it easily and uniformly.
 
 
+When a function is compiled it goes into the .text section of the object or kernel module. This is true for both static and non-static functions. The code exists in memory once the kernel or module is loaded. The CPU does not execute it until the function is called.
+
+A static function is private to the file which allows the compiler to optimize it. For example it can inline small functions or remove unused ones. The function still sits in the .text section and is ready to run but it does not run automatically. When you call it directly or through a pointer the CPU jumps to the address in .text and executes the code.
+
+Non-static functions are global and behave the same in memory. They also live in .text and only run when called. The difference is that other files can call them directly because they are visible globally.
+
+Using static keeps control and avoids name conflicts while still existing in memory like any other function. Passing a pointer to a static function does not create a new copy, it just gives access to the same code in .text.
+
+The .text section contains **machine code**, which is basically what assembly (ASM) compiles down to. When you write C code and compile it, the compiler translates it into assembly instructions, and then the assembler and linker turn that into **binary instructions** that live in the .text section.
+
+So the CPU doesn’t see your C code or even the assembly text you wrote. It sees the **binary opcodes** in .text and executes them directly when a function is called.
+
+You can think of .text as the **final machine-level version of all your code**, ready for the CPU to run.
+
+Everything in .text is executable, and that’s why it’s separate from sections that store variables or uninitialized memory.
+
+
+
+
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
