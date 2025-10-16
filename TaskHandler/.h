@@ -13,4 +13,8 @@
 #endif
 #ifdef TaskHandler_h
 
+WMSS(TaskHandler, signature of many functions will go here)
+
+#define GetTaskHandler InitSystemLibrary(TaskHandler)
+
 #endif
