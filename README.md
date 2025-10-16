@@ -887,7 +887,7 @@ Everything in .text is executable, and that’s why it’s separate from section
 It can be fun if we, as a team, begin to write and probably learn from each other, see different perspectives, and improve. When I write, I jump around a lot; I don’t write in sections. It’s like, oh, this just came to mind, so I write about it, or I write about the moment when I write code. My name is Pirasath Luxchumykanthan. I hope you can join so we can mix this document with different items or topics. There are many different ways to learn and improve. Jumping around like this might make it harder to follow, but it also lets the reader experience the train of thought and connect ideas themselves instead of just passively reading a rigid structure.
 
 
-
+If statements for setup; optimized structures for runtime.(I will explain later what I mean by this.)
 
 
 
