@@ -922,6 +922,13 @@ When we talk about task and that’s what we mainly going to do now it’s good 
 
 Many developers don’t think like this but it’s a big problem and can make software slower. The minus side of this is we make a lot of pointers to different functions and a lot of functions, but the good side is we save a lot of CPU cycles. What we need to respect is the CPU not the code.
 
+Today developers make a function and call it directly. This is a big problem because there is no step. For low-level developers like me, I see it as wrong coding. Maybe it can be right, I can’t make the choice for you. In my world, I see step functions, helper functions, and next step functions.
+
+What I see from this text I just made is that a helper function is basically a helper to a step function. If this step function fails, then don’t go to the next step or go to another step. It needs to point to the right step and skip some steps. Not everything needs to be done. Important steps need to be done, like expiry time. If we say expiry time 10 seconds but we already add a buffer of 2 seconds, now it is 11 seconds at the moment. Why call the function that updates the time for that 10 second expiry?
+
+It is like a step can say what the next step is. In Linux, I don’t see any kind of structure that does that, but we can make it. I have tested this way and I will say this is the most effective way to handle tasks. It also needs to allow running multiple steps on the go. It sounds like a really messed up world, but if we just make a wrapper or handler that does this, then everything later will be easier.
+
+
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
