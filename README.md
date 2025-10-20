@@ -892,7 +892,7 @@ It can be fun if we, as a team, begin to write and probably learn from each othe
 
 Earlier I made a macro named Void. It was static void. When we talk about C89 and a void function, and we do not send a parameter, we must include one parameter. This parameter tells the compiler that we promise this function takes no parameters. In C99 it is allowed not to do this, but as we work in C89, we must make that promise.
 
-So basically, if we write the end a function, it will look like this:
+So basically, if we write the "end" function, it will look like this:
 
 ```c
 Void End(void) {
@@ -917,6 +917,12 @@ How many addresses can exist depends on the architecture. For a 32-bit CPU, the 
 The kernel object itself isn’t strictly x86, but the reason people often talk about x86 or x86_64 in Linux kernel contexts is because of the CPU architecture the kernel is compiled for. Linux kernels are architecture-specific. When you compile a kernel, it targets a specific CPU architecture such as x86, x86_64, ARM, etc. This determines the pointer size, which is 32 bits on x86 and 64 bits on x86_64, the CPU instructions the kernel can use, how virtual and physical memory is addressed, and how system calls, registers, and stack frames are structured.
 
 So when we say a kernel object is x86 or x86_64, we mean it is compiled for that CPU architecture, which affects the pointer size, alignment, and how the kernel accesses memory. On x86_64 Linux, kernel objects are 64-bit, and pointers are 64-bit, giving access to much larger memory. The logic of kernel objects is the same across architectures, but the memory addresses and sizes depend on the CPU type.
+
+When we talk about task and that’s what we mainly going to do now it’s good to have some kind of system a wrapper that wrap around the task. Many tasks can have steps like 1 2 3 4 and so on. If we make a new task on top of another task we need to stop or replace or change a step on the go. This is a benefit if we already know where the CPU is it will go fast. Maybe we can’t stop all but we can cancel and save a lot of cycles in the CPU if we get a new task. What I mean by this is data is still in memory and we are changing data but some data we already know is going to change so why change it with the old data. This can be stopped. If we have full control it’s important to keep in mind when we make functions.  
+
+Many developers don’t think like this but it’s a big problem and can make software slower. The minus side of this is we make a lot of pointers to different functions and a lot of functions, but the good side is we save a lot of CPU cycles. What we need to respect is the CPU not the code.
+
+
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
