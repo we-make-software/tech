@@ -936,6 +936,17 @@ We cannot control how much RAM a user uses. They may have many other programs ru
 
 We can prepare and register a function, record how long it takes, and then choose another way to handle other tasks. We can decide if something is important or if it can run later. There are many aspects that need to be handled when designing a function.
 
+If you remember the text RX 20,833 and TX 20,833, well it would be a big dream if we could do that. But this is the real number. Now we know the CPU and Linux work in a work_struct system. How does this make this a fake number? Okay, let me explain. WQ_DFL_MAX_ACTIVE just limits how many can run simultaneously. It can be 512, less, or more, depending on cores.
+
+The calculation is like this: cores * WQ_DFL_MAX_ACTIVE. For example, 16 cores * 512 = 8,192. That means we can run 8,192 work_structs right now in the moment, in the split second. But again, we can’t see other programs.
+
+We keep that number and make the judgment of when to run what. As fast as possible, we end a function and let others come in. We need to look at the maximum delay, what we humans can see with our eyes, when the packet will come to the client. We need to focus on what to send first and have a better view about eyes and brain.
+
+Okay, for example, how long does it take for you to read a text? 20 nanoseconds(ns) or more?
+
+humans notice delay above roughly 100 to 200 milliseconds that means 100.000.000 ns to 200.000.000 ns i find this info in human factor research and hci studies like the book the humane interface by jef raskin and papers about human perceptual thresholds.
+
+
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
