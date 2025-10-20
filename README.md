@@ -949,7 +949,13 @@ humans notice delay above roughly 100 to 200 milliseconds that means 100.000.000
 So basically if we can make a function that stays within 150.000.000 ns it basically means streaming, but other tasks can have a delay that is not streaming. This does not include the in and out of network. Depending on where we are doing it, we can offload a few tasks to another server. But we need to add something extra: disk storage reading. If we use an NVMe disk, reading 4096 bytes will take about 820 ns. Ohh, we are still inside what humans can perceive. As you see, the CPU today is faster than humans, but we cannot overload it. We need to make sure we have multiple brains and a gateway to provide the best view for the client. The client does not even know how many servers it is connected to. Behind the scenes, we can control everything by sending commands in the background. The client will not notice this. This is a view of a real developer in networking.
 
 Remember, we are not responsible for the connection between the client and their ISP.
+
 But we can notice if they have a bad internet connection between them and their ISP.
+
+In this development process I need to make NetworkHandler at the same time I make TaskHandler. When we work with a Linux system we must allow, handle, or reject actions and do small system tasks. Think of it like a firewall. A firewall detects attack patterns and prepares responses. It is good to have a firewall on the server, but it is not enough. If the server detects an attack it should send a block command to the firewall or upstream via an API so the CPU can focus on the tasks that need to run instead of processing attack traffic.
+
+
+
 
 
 
