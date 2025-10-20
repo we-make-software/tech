@@ -930,6 +930,13 @@ It is like a step can say what the next step is. In Linux, I don’t see any kin
 
 
 
+We cannot be 100% certain, but we can say it is almost okay. We can use the Linux workqueue header file because a task is based in RAM and the CPU is just looping. We can detect when it is pending or not pending, or set a time limit. The CPU loops fast in RAM, but it is important to know when a task is pending or not. This is also an important note when making choices about what to do and preparing other tasks or a self-test system.
+
+We cannot control how much RAM a user uses. They may have many other programs running like an email server or something else, and we do not need to care about that. We just need to make rules on the go for what each job needs to do. We can base our calculations and decisions on the information we have to prepare other possible tasks and create a self-test system with rules.
+
+We can prepare and register a function, record how long it takes, and then choose another way to handle other tasks. We can decide if something is important or if it can run later. There are many aspects that need to be handled when designing a function.
+
+
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
