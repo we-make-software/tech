@@ -958,6 +958,7 @@ But we can notice if they have a bad internet connection between them and their 
 In this development process I need to make NetworkHandler at the same time I make TaskHandler. When we work with a Linux system we must allow, handle, or reject actions and do small system tasks. Think of it like a firewall. A firewall detects attack patterns and prepares responses. It is good to have a firewall on the server, but it is not enough. If the server detects an attack it should send a block command to the firewall or upstream via an API so the CPU can focus on the tasks that need to run instead of processing attack traffic.
 
 
+The reason I write like this, jumping between ideas, is that it helps in learning and shows my upgrades at the same time. I write step by step so you can see the actions I take. The code itself will change, but the README does not need to change every time. I can simply note where I updated or improved something, making it easier for others to get ideas. Every day brings new ideas and new ways to improve. The best way is always getting better.
 
 
 
