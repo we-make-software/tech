@@ -910,6 +910,15 @@ WMSR(TaskHandler, &End, FUNCTIONS COMING LATER) {
 ```
 We use & because we need to get the pointer to that function, and to get the pointer we use &.
 
+A pointer is an area in memory that stores the address of some data. If we say NULL, we declare that it has no pointer. When we create a pointer, the CPU and the system, in this case Linux, will provide a unique address for it.
+
+How many addresses can exist depends on the architecture. For a 32-bit CPU, the maximum address is the maximum value of a 32-bit unsigned integer. For a 64-bit CPU, the maximum address is the maximum value of a 64-bit unsigned integer.
+
+For x86, which is a 32-bit architecture, the maximum addressable memory is limited by 32-bit addressing, so it can address up to 4 gigabytes of memory.
+
+The kernel object itself isn’t strictly x86, but the reason people often talk about x86 or x86_64 in Linux kernel contexts is because of the CPU architecture the kernel is compiled for. Linux kernels are architecture-specific. When you compile a kernel, it targets a specific CPU architecture such as x86, x86_64, ARM, etc. This determines the pointer size, which is 32 bits on x86 and 64 bits on x86_64, the CPU instructions the kernel can use, how virtual and physical memory is addressed, and how system calls, registers, and stack frames are structured.
+
+So when we say a kernel object is x86 or x86_64, we mean it is compiled for that CPU architecture, which affects the pointer size, alignment, and how the kernel accesses memory. On x86_64 Linux, kernel objects are 64-bit, and pointers are 64-bit, giving access to much larger memory. The logic of kernel objects is the same across architectures, but the memory addresses and sizes depend on the CPU type.
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
