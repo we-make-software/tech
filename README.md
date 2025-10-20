@@ -944,9 +944,12 @@ We keep that number and make the judgment of when to run what. As fast as possib
 
 Okay, for example, how long does it take for you to read a text? 20 nanoseconds(ns) or more?
 
-humans notice delay above roughly 100 to 200 milliseconds that means 100.000.000 ns to 200.000.000 ns i found this info in human factor research and hci studies like the book The Humane Interface by Jef Raskin and papers about human perceptual thresholds
+Humans notice delays above roughly 100 to 200 milliseconds, which is 100,000,000 ns to 200,000,000 ns. I found this information in human factor research and HCI studies, such as *The Humane Interface* by Jef Raskin and papers about human perceptual thresholds.
 
-So basically if we can make a function that stays within 150.000.000 ns it basically means streaming, but other tasks can have a delay that is not streaming. This does not include the in and out of network. Depending on where we are doing it, we can offload a few tasks to another server. But we need to add something extra: disk storage reading. If we use an NVMe disk, reading 4096 bytes will take about 820 ns. Ohh, we are still inside what humans can perceive. As you see, the CPU today is faster than humans, but we cannot overload it. We need to make sure we have multiple brains and a gateway to provide the best view for the client. The client does not even know how many servers it is connected to. Behind the scenes, we can control everything by sending commands in the background. The client will not notice this. This is a view of a real developer in networking.
+So basically, if we can make a function that stays within 150,000,000 ns, it basically means streaming. Other tasks can have a delay that is not streaming. The CPU is fast enough to handle this, but we cannot overload it. We need multiple servers and gateways to provide the best view for the client. The client may not even know how many servers they are connected to, but we can control that in the background.
+
+Do you want me to do that next?
+
 
 Remember, we are not responsible for the connection between the client and their ISP.
 
