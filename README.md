@@ -890,6 +890,25 @@ It can be fun if we, as a team, begin to write and probably learn from each othe
 “Use if statements during setup; rely on optimized structures during runtime (I will explain later what I mean by this).”
 
 
+Earlier I made a macro named Void. It was static void. When we talk about C89 and a void function, and we do not send a parameter, we must include one parameter. This parameter tells the compiler that we promise this function takes no parameters. In C99 it is allowed not to do this, but as we work in C89, we must make that promise.
+
+So basically, if we write or end a function, it will look like this:
+
+```c
+Void End(void) {
+  
+}
+```
+So as you can see, we have this (void) in C89. Now you know what it means.
+
+Now we can change the WMSR and add End. It will look like this:
+
+```c
+WMSR(TaskHandler, &End, FUNCTIONS COMING LATER) {
+// Start
+}
+```
+We use & because we need to get the pointer to that function, and to get the pointer we use &.
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
