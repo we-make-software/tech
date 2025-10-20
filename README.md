@@ -892,7 +892,7 @@ It can be fun if we, as a team, begin to write and probably learn from each othe
 
 Earlier I made a macro named Void. It was static void. When we talk about C89 and a void function, and we do not send a parameter, we must include one parameter. This parameter tells the compiler that we promise this function takes no parameters. In C99 it is allowed not to do this, but as we work in C89, we must make that promise.
 
-So basically, if we write or end a function, it will look like this:
+So basically, if we write the end a function, it will look like this:
 
 ```c
 Void End(void) {
