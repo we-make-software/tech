@@ -961,6 +961,14 @@ In this development process I need to make NetworkHandler at the same time I mak
 The reason I write like this, jumping between ideas, is that it helps in learning and shows my upgrades at the same time. I write step by step so you can see the actions I take. The code itself will change, but the README does not need to change every time. I can simply note where I updated or improved something, making it easier for others to get ideas. Every day brings new ideas and new ways to improve. The best way is always getting better.
 
 
+After all we’ve talked about and all these ideas, have we actually installed the server yet? Let’s do that so we can turn things around and get into the mindset of what we can build or come up with.
+
+If we go to [https://www.kernel.org/](https://www.kernel.org/), it’s the same as [https://github.com/torvalds/linux](https://github.com/torvalds/linux). There are updates almost every day, though not all of them are necessary for everyone.
+
+We can basically build everything ourselves, which gives us more control. But for now, let’s make sure we’re working with the newest Linux version.
+
+The next step will be a guide on how to upgrade your hosting provider’s Linux version to the latest Linux kernel, along with a better understanding of how Linux works.
+
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
