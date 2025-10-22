@@ -970,6 +970,11 @@ We can basically build everything ourselves, which gives us more control. But fo
 The next step will be a guide on how to upgrade your hosting provider’s Linux version to the latest Linux kernel, along with a better understanding of how Linux works.
 
 
+Layer by layer. What I mean by this is that a server or hardware is built layer by layer. I’m trying to make this documentation, tutorial, or story fun. Just like everything has layers, this README also has layers.
+
+Don’t get confused. It’s okay to keep reading or start over from the top. Maybe a lightbulb will go off now or later, but understanding comes slowly, and relearning is perfectly fine. If you get confused, just read from the top again.
+
+
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 
