@@ -1010,6 +1010,32 @@ ssh username@server_ip
 
 The username is usually `root`. The host should provide both the username and password. The first time you connect, it will ask you to verify the server's fingerprint. Follow the prompt, and then you will enter the remote system, which will look like you are logged in directly on the server.
 
+Here’s a clear overview of the **standard Linux filesystem hierarchy**:
+
+* **`/`** – Root directory. Everything starts here.
+* **`/bin`** – Essential binaries (commands needed for booting and repairing).
+* **`/sbin`** – Essential system binaries (for system administration, usually root-only).
+* **`/etc`** – Configuration files for system and services.
+* **`/dev`** – Device files (hardware devices like disks, terminals).
+* **`/proc`** – Virtual filesystem with process and kernel info.
+* **`/sys`** – Virtual filesystem for kernel and device info.
+* **`/usr`** – Secondary hierarchy for user programs and data:
+
+  * `/usr/bin` – Most user commands.
+  * `/usr/sbin` – Non-essential system binaries.
+  * `/usr/lib` – Libraries for binaries.
+  * `/usr/share` – Architecture-independent data.
+* **`/var`** – Variable data like logs, mail, databases.
+* **`/tmp`** – Temporary files.
+* **`/home`** – User home directories.
+* **`/boot`** – Bootloader and kernel images.
+* **`/opt`** – Optional software packages.
+* **`/lib`** – Essential shared libraries for binaries in `/bin` and `/sbin`.
+
+This is the **core standard layout**, used by almost all Linux distributions.
+
+
+
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely. problem its i can provide a link but micrsoft change link all the time..
 
