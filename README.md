@@ -1034,6 +1034,8 @@ Here’s a clear overview of the **standard Linux filesystem hierarchy**:
 
 This is the **core standard layout**, used by almost all Linux distributions.
 
+`/tmp` is a folder that is usually cleared on boot or every 10 days. Placing files in `/tmp` is useful for deleting source code once it has been built, as it is no longer needed. Therefore, `/tmp` is a good place to temporarily store GCC and kernel sources if you forget to delete them later.
+
 
 
 
