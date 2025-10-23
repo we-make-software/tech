@@ -993,8 +993,7 @@ For the Linux kernel, using the newest GCC doesn’t change the language feature
 
 But for userspace programs and learning, it is recommended to use the newest GCC. For the kernel, however, it does not matter.
 
-if wee going to understand GCC its a compiler its just compile code to diffren cpu arktture... 
-its old and working well there many as clang or other. but gcc have be in the market so long. and they have done a great job. but not everything can be done in gcc. we will come back to that later. but in this server and alot user stuff wee going to use gcc. or c89 and build alot DSL and functions that can make alot stuff posibel. 
+If we are going to understand GCC, it is a compiler; it simply compiles code to different CPU architectures. It is old and works well. There are many alternatives, like Clang, but GCC has been on the market for a long time and they have done a great job. Not everything can be done in GCC, but we will come back to that later. On this server, with many user tasks, we are going to use GCC, specifically C89, and build a lot of DSLs and functions that can make many things possible.
 
 
 Before we install GCC on Debian, we need to know where to place it and how to remember to place it there. We also need to know how to download it. This will be the next few steps before installing the newest kernel.
@@ -1002,6 +1001,14 @@ Before we install GCC on Debian, we need to know where to place it and how to re
 First, we need to log in via SSH. You are probably using Windows, so we need to use an SSH terminal. We can use PowerShell, which Windows provides. I don’t know if you have an old version of PowerShell, but if you do, you can download the latest version. I will search for PowerShell on Microsoft; you will probably get a link like this: [https://learn.microsoft.com/en-us/powershell/](https://learn.microsoft.com/en-us/powershell/).
 
 If not, try searching for or typing “download newest PowerShell for Windows.” You will probably get a link. Follow the guide on that page to install it.
+
+To use SSH in PowerShell, you need to type:
+
+```powershell
+ssh username@server_ip
+```
+
+The username is usually `root`. The host should provide both the username and password. The first time you connect, it will ask you to verify the server's fingerprint. Follow the prompt, and then you will enter the remote system, which will look like you are logged in directly on the server.
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely. problem its i can provide a link but micrsoft change link all the time..
