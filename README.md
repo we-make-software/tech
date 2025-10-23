@@ -974,6 +974,16 @@ Layer by layer. What I mean by this is that a server or hardware is built layer 
 
 Don’t get confused. It’s okay to keep reading or start over from the top. Maybe a lightbulb will go off now or later, but understanding comes slowly, and relearning is perfectly fine. If you get confused, just read from the top again.
 
+Im not sure if you need to install a fresh Linux system or need to upgrade.
+But if you plan to install a fresh new system, that is not possible because kernel.org does not provide a full operating system.
+It only provides the Linux kernel part, not the user space or the installer.
+That means it does not include any package manager, tools, or other components that make it possible to install like an ISO system.
+To make it installable, you would need to build your own image, add a bootloader, add user space programs, and then create a bootable ISO.
+So kernel.org is only used to build or upgrade an existing kernel, not to install a full system.
+I am going to do it over SSH.
+SSH means Secure Shell, it is a network protocol that allows you to connect to another machine remotely, and it uses port 22 by default.
+This way you can upgrade or control the kernel directly without reinstalling the full system.
+Remember port 22, we are not going to block it or work with it in this system for now. Maybe later we can build a system that can block and open it on demand, but for now this port will stay open. It is a port, not everyone needs access to it.
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
