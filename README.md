@@ -985,6 +985,13 @@ SSH means Secure Shell, it is a network protocol that allows you to connect to a
 This way you can upgrade or control the kernel directly without reinstalling the full system.
 Remember port 22, we are not going to block it or work with it in this system for now. Maybe later we can build a system that can block and open it on demand, but for now this port will stay open. It is a port, not everyone needs access to it.
 
+Basically, I use Debian. I don’t care about the version because we are going to upgrade it to the newest kernel release candidate. I’m not sure why it’s called a release candidate, but we are going to focus on what’s inside Linux itself and maybe use something from it or improve it.
+
+Before installing the kernel, we need to install the newest GCC. There will always be a new version, but we are going to use GCC for C89. We never know who will manage the user space, so for now, we will just use the latest GCC.
+
+For the Linux kernel, using the newest GCC doesn’t change the language features used in the kernel because it still sticks to C89. So in that sense, it doesn’t make a difference for writing kernel code.
+
+But for userspace programs and learning, it is recommended to use the newest GCC. For the kernel, however, it does not matter.
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
 ---
