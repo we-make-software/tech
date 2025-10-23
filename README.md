@@ -993,7 +993,21 @@ For the Linux kernel, using the newest GCC doesn’t change the language feature
 
 But for userspace programs and learning, it is recommended to use the newest GCC. For the kernel, however, it does not matter.
 
-**⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely.
+if wee going to understand GCC its a compiler its just compile code to diffren cpu arktture... 
+its old and working well there many as clang or other. but gcc have be in the market so long. and they have done a great job. but not everything can be done in gcc. we will come back to that later. but in this server and alot user stuff wee going to use gcc. or c89 and build alot DSL and functions that can make alot stuff posibel. 
+
+
+Before we install GCC on Debian, we need to know where to place it and how to remember to place it there. We also need to know how to download it. This will be the next few steps before installing the newest kernel.
+
+First, we need to log in via SSH. You are probably using Windows, so we need to use an SSH terminal. We can use PowerShell, which Windows provides. I don’t know if you have an old version of PowerShell, but if you do, you can download the latest version. I will search for PowerShell on Microsoft; you will probably get a link like this: [https://learn.microsoft.com/en-us/powershell/](https://learn.microsoft.com/en-us/powershell/).
+
+If not, try searching for or typing “download newest PowerShell for Windows.” You will probably get a link. Follow the guide on that page to install it.
+
+
+**⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely. problem its i can provide a link but micrsoft change link all the time..
+
+
+
 ---
 
 💫 Building in progress, check back for updates
