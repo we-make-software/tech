@@ -1034,7 +1034,7 @@ Here’s a clear overview of the **standard Linux filesystem hierarchy**:
 
 This is the **core standard layout**, used by almost all Linux distributions.
 
-Don’t worry, we will go through many of these folders, and you will understand each or almost each one. Some folders I basically ignore, like `/boot`, which is where Linux lives. Then we have `/opt` and `/home` — yes, you got the point. I will only talk about the folders that I feel are important.
+Don’t worry, we will go through many of these folders, and you will understand each or almost each one. Some folders I basically ignore, like `/boot`, which is where Linux lives. Then we have `/opt` and `/home` ( yes ), you got the point. I will only talk about the folders that I feel are important.
 
 `/tmp` is a folder that is usually cleared on boot or every 10 days. Placing files in `/tmp` is useful for deleting source code once it has been built, as it is no longer needed. Therefore, `/tmp` is a good place to temporarily store GCC and kernel sources if you forget to delete them later.
 
