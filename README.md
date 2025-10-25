@@ -1046,17 +1046,13 @@ Before installing GCC and the libraries it requires, it is always good to make s
 apt update
 apt upgrade -y
 apt install git -y
-```
-
-To access the temporary folder, type `cd /tmp`.
-
-
-Now we can use this:
-```bash
+git config --global http.postBuffer 524288000
+git config --global http.maxRequests 10
+cd /tmp
 git clone https://gcc.gnu.org/git/gcc.git
 ```
 
-This will download the latest GCC.
+
 
 
 
