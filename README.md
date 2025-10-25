@@ -1054,7 +1054,7 @@ cd /usr/local/src
 mkdir gcc-build
 cd gcc-build
 ../gcc-x.x.x/configure --enable-languages=c,c++ --disable-multilib --prefix=/usr/local/gcc-x.x
-make -j1
+nohup make -j1 > build.log 2>&1 &
 
 ```
 
@@ -1074,6 +1074,20 @@ GitHub has a date system that allows us to check when a release was published, a
 
 The key is to make sure the **headers we use don’t become incompatible**. Basically, we follow what Linux does. In practice, big changes rarely happen; they usually just make some things easier.
 
+If you accidentally log off SSH or lose connection, you can recover and see where you left off by running:
+
+```bash
+cd /usr/local/src/gcc-build
+tail -f build.log
+```
+When it's finished, you can do the same:
+```bash
+nohup make install > install.log 2>&1 &
+```
+
+
+
+Would you like me to make it sound a bit more technical or keep this simple style?
 
 
 
