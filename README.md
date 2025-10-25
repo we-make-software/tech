@@ -1092,7 +1092,7 @@ Examples:
 ```
 1.0.0 → 1.1.0   # added a library, bugfix reset
 1.1.0 → 1.1.1   # fixed a bug
-1.2.0 → 2.0.0   # new release, bugfix hidden, added another library
+1.2.0 → 2.0.0   # new release, bugfix hidden, added another library hidden
 2.1.0 → 2.1.0   # added another library
 2.1.0 → 2.1.1   # fixed a bug
 2.1.1 → 3.0.0   # new release including a fixed bug and a new library
