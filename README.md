@@ -1075,7 +1075,7 @@ GitHub has a date system that allows us to check when a release was published, a
 The key is to make sure the **headers we use don’t become incompatible**. Basically, we follow what Linux does. In practice, big changes rarely happen; they usually just make some things easier.
 
 
-when i say client server this is where the client data will be not the opration system. we can build it so it basic loading the opration system from a vps after it have loadet then it can download the vmlinuz and basic run the manifest as we command it to. becasue we working in the loweset level...
+
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely. problem its i can provide a link but micrsoft change link all the time..
 
