@@ -1100,6 +1100,10 @@ Examples:
 
 ```
 
+I have an idea. Before adding a library or fixing a bug, I write a short description of the change in a prepared text file. There can be separate files for each type of change: `prepare-library.txt` for new libraries or features, `prepare-bugfix.txt` for bug fixes or small changes, and `prepare-release.txt` for release-specific notes. The Makefile reads the version file `[u64][u64][u64][u8]` and updates the numbers automatically: release increases for a new release, addlibrary increases when adding a library or feature (resetting bugfix), and bugfix increases when fixing a bug (release and addlibrary stay the same). Then the Makefile inserts the prepared text and the new version into `README.md` at the marker `we-make-software-going-to-upgrade-soon-be-passion`. After insertion, the prepared text files are emptied so they are ready for the next change. Commit messages just reference the version, for example: `Update version to 2.1.2.wms — check README.md for details`. Everyone can see what happened directly in `README.md`.
+
+
+
 
 [we-make-software-going-to-upgrade-soon-be-passion]
 
