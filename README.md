@@ -1043,8 +1043,8 @@ Don’t worry, we will go through many of these folders, and you will understand
 Before installing GCC and the libraries it requires, it is always good to make sure your system is up to date. You can do this by running:
 
 ```bash
-apt update
-apt upgrade -y
+apt-get update
+apt-get install build-essential wget tar libgmp-dev libmpfr-dev libmpc-dev
 cd /tmp
 wget https://ftp.gnu.org/gnu/gcc/gcc-x.x.x/gcc-x.x.x.tar.xz
 tar -xf gcc-x.x.x.tar.xz
