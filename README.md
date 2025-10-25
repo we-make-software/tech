@@ -1,5 +1,7 @@
 # C - WeMakeSoftware 
- 
+
+This repo isn’t a tutorial or a finished product. It’s a living lab. Reading it feels like stepping inside someone’s mind as they experiment with system-level programming: messy, jumpy, and full of ideas in motion. It doesn’t hand you answers; it makes you think, stumble, and explore, exactly the way real low-level development works. The chaos isn’t a flaw; it’s the experience.
+
 Well, C is a pretty flexible language, but nobody controls how we write and use it. 
 But if others need to read the code, there must be a standard, right? 
 Hmm, I’m not sure. If we are pros, then why make a strict design on how to write it? 
@@ -1045,7 +1047,6 @@ sudo apt update
 sudo apt install build-essential
 ```
 
-This repo isn’t a tutorial or a finished product. It’s a living lab. Reading it feels like stepping inside someone’s mind as they experiment with system-level programming: messy, jumpy, and full of ideas in motion. It doesn’t hand you answers; it makes you think, stumble, and explore, exactly the way real low-level development works. The chaos isn’t a flaw; it’s the experience.
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely. problem its i can provide a link but micrsoft change link all the time..
