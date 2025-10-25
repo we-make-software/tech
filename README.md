@@ -1047,6 +1047,9 @@ apt update
 apt upgrade -y
 cd /tmp
 wget https://ftp.gnu.org/gnu/gcc/gcc-x.x.x/gcc-x.x.x.tar.xz
+tar -xf gcc-x.x.x.tar.xz
+cd gcc-x.x.x
+
 ```
 
 Remember that "x.x.x" refers to the version number.  
