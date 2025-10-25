@@ -1045,14 +1045,15 @@ Before installing GCC and the libraries it requires, it is always good to make s
 ```bash
 apt update
 apt upgrade -y
-apt install git -y
-git config --global http.postBuffer 524288000
-git config --global http.maxRequests 10
 cd /tmp
-git clone https://gcc.gnu.org/git/gcc.git
+wget https://ftp.gnu.org/gnu/gcc/gcc-x.x.x/gcc-x.x.x.tar.xz
 ```
 
 
+remeber t the x.x.x its the version you can find the real newst version by open this link
+
+Remember that "x.x.x" refers to the version number. To find the newest available GCC release, open:
+(https://gcc.gnu.org/pub/gcc/releases/)[GCC releases]
 
 
 
