@@ -1043,8 +1043,8 @@ Don’t worry, we will go through many of these folders, and you will understand
 Before installing GCC and the libraries it requires, it is always good to make sure your system is up to date. You can do this by running:
 
 ```bash
-sudo apt update
-sudo apt install build-essential
+apt update
+apt upgrade -y
 ```
 
 
