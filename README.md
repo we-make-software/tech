@@ -1050,7 +1050,6 @@ apt install git -y
 
 To access the temporary folder, type `cd /tmp`.
 
-Here’s a corrected version of your text while keeping your code block style:
 
 Now we can use this:
 ```bash
