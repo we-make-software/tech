@@ -1045,8 +1045,21 @@ Before installing GCC and the libraries it requires, it is always good to make s
 ```bash
 apt update
 apt upgrade -y
+apt install git -y
 ```
 
+To access the temporary folder, type `cd /tmp`.
+
+Here’s a corrected version of your text while keeping your code block style:
+
+Now we can use this:
+```bash
+git clone https://gcc.gnu.org/git/gcc.git
+````
+
+This will download the latest GCC.
+
+```
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely. problem its i can provide a link but micrsoft change link all the time..
