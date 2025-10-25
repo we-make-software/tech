@@ -1082,7 +1082,22 @@ tail -f build.log
 ```
 When it's finished, you can do the same:
 ```bash
+cd /usr/local/src/gcc-build
 nohup make install > install.log 2>&1 &
+```
+
+Version numbers use the format release.addlibrary.bugfix. The first number (release) increments for a new release. If the release includes new libraries or features, the addlibrary number increments and the bugfix number resets to 0. The addlibrary number also increments whenever you add a new library or feature outside of a release, resetting the bugfix number to 0. The second number (bugfix) increments when you fix a bug or make a small change; the release and addlibrary numbers stay the same. If a release happens without adding new libraries, the bugfix number carries over. What do you think about this idea?
+
+Examples:
+```
+1.0.0 → 1.1.0   # added a library, bugfix reset
+1.1.0 → 1.1.1   # fixed a bug
+1.2.0 → 2.0.0   # new release, bugfix hidden, added another library
+2.1.0 → 2.1.0   # added another library
+2.1.0 → 2.1.1   # fixed a bug
+2.1.1 → 3.0.0   # new release including a fixed bug and a new library
+2.1.1 → 2.0.1   # if new release but no new library, bugfix continues
+
 ```
 
 
