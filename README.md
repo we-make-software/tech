@@ -1087,8 +1087,6 @@ nohup make install > install.log 2>&1 &
 
 
 
-Would you like me to make it sound a bit more technical or keep this simple style?
-
 
 
 **⚠️ WARNING ⚠️**: You just upgraded your knowledge a lot! Handle it wisely. problem its i can provide a link but micrsoft change link all the time..
