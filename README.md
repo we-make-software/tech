@@ -1061,13 +1061,16 @@ make -j1
 Remember that "x.x.x" refers to the version number.  
 You can find the latest GCC release here: [GCC releases](https://gcc.gnu.org/pub/gcc/releases/)
 
-
-
 It can take a long time to install GCC, but once it’s installed, we won’t need to do it again. GCC is very capable and can compile for many CPU architectures. This installation of the compiler only needs to be done on **one server**, the **builder server** or **developer server**.
 
 Remember, we need to **split the environment** between the client and developer servers. As developers, we should only access the client server when we need to make updates; otherwise, we don’t touch it.
 
+
+But again, the easy part is that we can upload the kernel (`vmlinuz`) to GitHub, and then we can feed the server with the new iPXE. **iPXE** is an open-source network boot firmware that allows computers to boot over the network instead of relying on local storage. By using iPXE, the server can fetch the latest kernel and necessary boot files directly from our GitHub release, load them into RAM, and start running without needing a full OS installation on disk. This makes updates fast, centralized, and easy to manage across multiple servers.
+
+
 How often will updates be needed? Well, we need an **automated system** to handle this. Sometimes, when running kernel objects, parts of Linux may be outdated, but if we minimize Linux dependencies, we save effort.
+GitHub has a date system that allows us to check when a release was published, and it also provides an API and webhooks. We will explore these options in more detail later.
 
 The key is to make sure the **headers we use don’t become incompatible**. Basically, we follow what Linux does. In practice, big changes rarely happen; they usually just make some things easier.
 
