@@ -1049,8 +1049,8 @@ cd /tmp
 wget https://ftp.gnu.org/gnu/gcc/gcc-x.x.x/gcc-x.x.x.tar.xz
 ```
 
-Remember that "x.x.x" refers to the version number. To find the newest available GCC release, open: [GCC releases](https://gcc.gnu.org/pub/gcc/releases/)
-
+Remember that "x.x.x" refers to the version number.  
+You can find the latest GCC release here: [GCC releases](https://gcc.gnu.org/pub/gcc/releases/)
 
 
 
